@@ -1,0 +1,9 @@
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\bin\Debug\VETERINARIA.REGLAS.dll
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\bin\Debug\VETERINARIA.REGLAS.pdb
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\bin\Debug\VETERINARIA.MODELO.dll
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\bin\Debug\VETERINARIA.MODELO.pdb
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\obj\Debug\VETERINARIA.REGLAS.csprojAssemblyReference.cache
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\obj\Debug\VETERINARIA.REGLAS.csproj.CoreCompileInputs.cache
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\obj\Debug\VETERINARIA.REGLAS.csproj.CopyComplete
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\obj\Debug\VETERINARIA.REGLAS.dll
+C:\Users\EXO003\source\repos\VETERINARIA.REGLAS\obj\Debug\VETERINARIA.REGLAS.pdb

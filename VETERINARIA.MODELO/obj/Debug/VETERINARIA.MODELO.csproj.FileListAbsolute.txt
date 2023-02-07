@@ -1,0 +1,5 @@
+C:\Users\EXO003\source\repos\VETERINARIA.MODELO\bin\Debug\VETERINARIA.MODELO.dll
+C:\Users\EXO003\source\repos\VETERINARIA.MODELO\bin\Debug\VETERINARIA.MODELO.pdb
+C:\Users\EXO003\source\repos\VETERINARIA.MODELO\obj\Debug\VETERINARIA.MODELO.csproj.CoreCompileInputs.cache
+C:\Users\EXO003\source\repos\VETERINARIA.MODELO\obj\Debug\VETERINARIA.MODELO.dll
+C:\Users\EXO003\source\repos\VETERINARIA.MODELO\obj\Debug\VETERINARIA.MODELO.pdb
