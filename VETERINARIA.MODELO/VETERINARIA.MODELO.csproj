@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BASEDEDATOS\Class1.cs" />
+    <Compile Include="BASEDEDATOS\EjemploDAO.cs" />
     <Compile Include="ENTIDADES\Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
