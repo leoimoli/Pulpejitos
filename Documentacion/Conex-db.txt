@@ -1,0 +1,9 @@
+Host: bksi9gvlsu8lbmkjd1p7-mysql.services.clever-cloud.com
+
+Database Name: bksi9gvlsu8lbmkjd1p7
+
+User: uqv4i9vwt1msz5bm
+
+Clave: Dq7qM0MEqOVWwvfNBhyc
+
+Port: 3306
