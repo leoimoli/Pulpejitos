@@ -46,10 +46,6 @@
   <ItemGroup>
     <Compile Include="NEGOCIO\CategoriasNeg.cs" />
     <Compile Include="NEGOCIO\Formulario_Ejemplo.cs" />
-    <Compile Include="NEGOCIO\MarcasNeg.cs" />
-    <Compile Include="NEGOCIO\ProductoNeg.cs" />
-    <Compile Include="NEGOCIO\StockNeg.cs" />
-    <Compile Include="NEGOCIO\UnidadMedicionNeg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
