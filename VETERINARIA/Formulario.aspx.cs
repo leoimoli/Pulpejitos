@@ -12,7 +12,7 @@ public partial class _Formulario : Page
     {
         try
         {
-            Formulario_Ejemplo.InsertarFormulario(Email_Texto.Value);
+            //Formulario_Ejemplo.InsertarFormulario(Email_Texto.Value);
         }
         catch (Exception ex)
         {
