@@ -70,7 +70,7 @@
         <aside class="left-sidebar bg-sidebar">
             <div id="sidebar" class="sidebar sidebar-with-footer">
                 <!-- Aplication Brand -->
-                <div class="app-brand">
+                <div class="app-brand" style="color:blueviolet">
                     <a href="/index.html" title="Sleek Dashboard">
                         <svg
                             class="brand-icon"
@@ -85,7 +85,7 @@
                             </g>
                         </svg>
 
-                        <span class="brand-name text-truncate">Sleek Dashboard</span>
+                        <span class="brand-name text-truncate">Pulpejitos</span>
                     </a>
                 </div>
 

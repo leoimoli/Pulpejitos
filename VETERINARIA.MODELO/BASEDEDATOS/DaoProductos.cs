@@ -93,7 +93,6 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 { throw ex; }
             }
         }
-
         public List<Productos> ListarProductos()
         {
             List<Productos> _lista = new List<Productos>();
