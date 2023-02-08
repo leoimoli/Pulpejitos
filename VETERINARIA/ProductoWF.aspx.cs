@@ -12,15 +12,19 @@ public partial class _ProductoWF : Page
     {
         try
         {
-            CargarCombos();
-            FuncionListarProductos();
+            if (!IsPostBack)
+            {
+                DivAltaProducto.Visible = false;
+                CargarCombos();
+                FuncionListarProductos();
+            }
         }
         catch (Exception ex)
         {
             throw ex;
         }
     }
-
+    #region Botones
     protected void btnAceptar_Click(object sender, EventArgs e)
     {
         try
@@ -42,6 +46,55 @@ public partial class _ProductoWF : Page
     {
         try
         {
+            DivGrillaProductos.Visible = true;
+            DivAltaProducto.Visible = false;
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void btnNuevoProducto_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            DivGrillaProductos.Visible = false;
+            DivAltaProducto.Visible = true;
+            divAltaStock.Visible = false;
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void btnRegistrarStock_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            DivGrillaProductos.Visible = false;
+            DivAltaProducto.Visible = false;
+            divAltaStock.Visible = true;
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void btnCargar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+          
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void btnGuardarStock_Click(object sender, EventArgs e)
+    {
+        try
+        {
 
         }
         catch (Exception ex)
@@ -49,16 +102,27 @@ public partial class _ProductoWF : Page
 
         }
     }
+    protected void btnCancelarStock_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    #endregion
     #region Metodos
     private Productos CargarEntidad()
     {
-        ///// Harcodear idUsuarios
         Productos _producto = new Productos();
         _producto.CodigoProducto = txtCodigo.Value;
-        _producto.idCategoriaProducto = 1;
+        _producto.idCategoriaProducto = Convert.ToInt32(cmbMarca.SelectedItem.Value);
         _producto.Descripcion = txtDescripción.Value;
-        _producto.idMarca = 1;
-        _producto.idUnidadDeMedicion = 1;
+        _producto.idMarca = Convert.ToInt32(cmbMarca.SelectedItem.Value);
+        _producto.idUnidadDeMedicion = Convert.ToInt32(cmbMarca.SelectedItem.Value);
         DateTime fechaActual = DateTime.Now;
         _producto.FechaDeAlta = fechaActual;
         _producto.idUsuario = 1;
@@ -68,58 +132,39 @@ public partial class _ProductoWF : Page
     {
         txtCodigo.Value = String.Empty;
         txtDescripción.Value = String.Empty;
-        //CargarCombo();
-        //progressBar1.Value = Convert.ToInt32(null);
-        //progressBar1.Visible = false;
-        //chcProductoEspecial.Checked = false;
+        DivMensajeExito.Visible = true;
+        lblMensajeExito.Text = "RESPUESTA EXITOSA.";
     }
     private void FuncionListarProductos()
     {
-        //FuncionBuscartexto();
-        //dgvProductos.Rows.Clear();
         List<Productos> ListaProductos = ProductoNeg.ListarProductosDisponibles();
-        if (ListaProductos.Count > 0)
-        {
-            foreach (var item in ListaProductos)
-            {
-                //dgvProductos.Rows.Add(item.idProducto, item.CodigoProducto, item.Descripcion, item.MarcaProducto);
-            }
-        }
-        //dgvProductos.ReadOnly = true;
+        RepeaterProductos.DataSource = ListaProductos;
+        RepeaterProductos.DataBind();
     }
     private void CargarCombos()
     {
-        List<string> Marcas = new List<string>();
-        Marcas = MarcasNeg.CargarComboMarcas();
-        foreach (string item in Marcas)
+        List<Marcas> MarcasSeleccionada = new List<Marcas>();
+        MarcasSeleccionada = MarcasNeg.CargarComboMarcas();
+        cmbMarca.Items.Add(new ListItem { Text = "Seleccione", Value = "0", Selected = true });
+        foreach (Marcas item in MarcasSeleccionada)
         {
-            if (cmbMarca.Items.Count == 0)
-            {
-                cmbMarca.Items.Add("Seleccione");
-            }
-            cmbMarca.Items.Add(item);
+            cmbMarca.Items.Add(new ListItem { Text = item.Nombre, Value = item.idMarca.ToString() });
         }
 
-        List<string> Categorias = new List<string>();
-        Categorias = CategoriasNeg.CargarComboCategoria();
-        foreach (string item in Categorias)
+        List<Categorias> CategoriasSeleccionada = new List<Categorias>();
+        CategoriasSeleccionada = CategoriasNeg.CargarComboCategoria();
+        cmbCategoria.Items.Add(new ListItem { Text = "Seleccione", Value = "0", Selected = true });
+        foreach (Categorias item in CategoriasSeleccionada)
         {
-            if (cmbCategoria.Items.Count == 0)
-            {
-                cmbCategoria.Items.Add("Seleccione");
-            }
-            cmbCategoria.Items.Add(item);
+            cmbCategoria.Items.Add(new ListItem { Text = item.Nombre, Value = item.idCategoria.ToString() });
         }
 
-        List<string> UnidadesMedicion = new List<string>();
-        UnidadesMedicion = UnidadMedicionNeg.CargarComboUnidadDeMedicion();
-        foreach (string item in UnidadesMedicion)
+        List<UnidadDeMedicion> UnidadesMedicionSeleccionada = new List<UnidadDeMedicion>();
+        UnidadesMedicionSeleccionada = UnidadMedicionNeg.CargarComboUnidadDeMedicion();
+        cmbUnidadesMedicion.Items.Add(new ListItem { Text = "Seleccione", Value = "0", Selected = true });
+        foreach (UnidadDeMedicion item in UnidadesMedicionSeleccionada)
         {
-            if (cmbUnidadesMedicion.Items.Count == 0)
-            {
-                cmbUnidadesMedicion.Items.Add("Seleccione");
-            }
-            cmbUnidadesMedicion.Items.Add(item);
+            cmbUnidadesMedicion.Items.Add(new ListItem { Text = item.Nombre, Value = item.idUnidadDeMedicion.ToString() });
         }
     }
     #endregion

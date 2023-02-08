@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VETERINARIA.MODELO.ENTIDADES;
 
 namespace VETERINARIA.MODELO.BASEDEDATOS
 {
@@ -21,16 +22,16 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
-        public List<string> CargarCombomMarcas()
+        public List<Marcas> CargarCombomMarcas()
         {
-            List<string> _listaMarcas = new List<string>();
+            List<Marcas> _listaMarcas = new List<Marcas>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 try
                 {
                     connection.Close();
                     connection.Open();
-                  
+
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = connection;
                     DataTable Tabla = new DataTable();
@@ -46,11 +47,14 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     {
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
-                            _listaMarcas.Add(item["Nombre"].ToString());
+                            Marcas marcas = new Marcas();
+                            marcas.idMarca = Convert.ToInt32(item["idMarca"].ToString());
+                            marcas.Nombre = item["Nombre"].ToString();
+                            _listaMarcas.Add(marcas);
                         }
                     }
                     connection.Close();
-                  
+
                 }
                 catch (Exception ex)
                 { }

@@ -54,6 +54,7 @@
     <Compile Include="BASEDEDATOS\DaoStock.cs" />
     <Compile Include="BASEDEDATOS\DaoUnidadMedicion.cs" />
     <Compile Include="BASEDEDATOS\EjemploDAO.cs" />
+    <Compile Include="ENTIDADES\Categorias.cs" />
     <Compile Include="ENTIDADES\Class1.cs" />
     <Compile Include="ENTIDADES\Marcas.cs" />
     <Compile Include="ENTIDADES\Perfiles.cs" />

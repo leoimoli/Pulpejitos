@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VETERINARIA.MODELO.ENTIDADES;
 
 namespace VETERINARIA.MODELO.BASEDEDATOS
 {
@@ -21,9 +22,9 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
-        public List<string> CargarComboCategoria()
+        public List<Categorias> CargarComboCategoria()
         {
-            List<string> _listaCategorias = new List<string>();
+            List<Categorias> _listaCategorias = new List<Categorias>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 try
@@ -46,7 +47,10 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     {
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
-                            _listaCategorias.Add(item["Nombre"].ToString());
+                            Categorias categoria = new Categorias();
+                            categoria.idCategoria = Convert.ToInt32(item["idCategoriaProducto"].ToString());
+                            categoria.Nombre = item["Nombre"].ToString();
+                            _listaCategorias.Add(categoria);
                         }
                     }
                     connection.Close();
