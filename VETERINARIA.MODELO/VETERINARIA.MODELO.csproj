@@ -31,8 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySqlConnector">
+      <HintPath>..\..\alliqr\SITIO\AllInQR\Bin\MySqlConnector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\VETERINARIA\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,9 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BASEDEDATOS\DaoCategorias.cs" />
+    <Compile Include="BASEDEDATOS\DaoMarcas.cs" />
+    <Compile Include="BASEDEDATOS\DaoProductos.cs" />
+    <Compile Include="BASEDEDATOS\DaoStock.cs" />
+    <Compile Include="BASEDEDATOS\DaoUnidadMedicion.cs" />
     <Compile Include="BASEDEDATOS\EjemploDAO.cs" />
     <Compile Include="ENTIDADES\Class1.cs" />
+    <Compile Include="ENTIDADES\Marcas.cs" />
+    <Compile Include="ENTIDADES\Perfiles.cs" />
+    <Compile Include="ENTIDADES\Productos.cs" />
+    <Compile Include="ENTIDADES\Stock.cs" />
+    <Compile Include="ENTIDADES\UnidadDeMedicion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

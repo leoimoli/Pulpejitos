@@ -93,7 +93,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 { throw ex; }
             }
         }
-        public List<Productos> ListarProductos()
+        public List<Productos> ListarProductosDisponibles()
         {
             List<Productos> _lista = new List<Productos>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))

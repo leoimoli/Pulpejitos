@@ -37,6 +37,21 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             return exito;
         }
+
+        public static List<Productos> ListarProductosDisponibles()
+        {
+            DaoProductos _dao = new DaoProductos();
+            List<Productos> _listaProductos = new List<Productos>();
+            try
+            {
+                _listaProductos = _dao.ListarProductosDisponibles();
+            }
+            catch (Exception ex)
+            {
+            }
+            return _listaProductos;
+        }
+
         private static bool ValidarProductoExistente(string codigoProducto)
         {
             DaoProductos _dao = new DaoProductos();

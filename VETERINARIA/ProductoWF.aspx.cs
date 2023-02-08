@@ -13,6 +13,7 @@ public partial class _ProductoWF : Page
         try
         {
             CargarCombos();
+            FuncionListarProductos();
         }
         catch (Exception ex)
         {
@@ -76,14 +77,14 @@ public partial class _ProductoWF : Page
     {
         //FuncionBuscartexto();
         //dgvProductos.Rows.Clear();
-        //List<Entidades.Productos> ListaProductos = Negocio.Consultar.ListaDeProductos();
-        //if (ListaProductos.Count > 0)
-        //{
-        //    foreach (var item in ListaProductos)
-        //    {
-        //        dgvProductos.Rows.Add(item.idProducto, item.CodigoProducto, item.Descripcion, item.MarcaProducto);
-        //    }
-        //}
+        List<Productos> ListaProductos = ProductoNeg.ListarProductosDisponibles();
+        if (ListaProductos.Count > 0)
+        {
+            foreach (var item in ListaProductos)
+            {
+                //dgvProductos.Rows.Add(item.idProducto, item.CodigoProducto, item.Descripcion, item.MarcaProducto);
+            }
+        }
         //dgvProductos.ReadOnly = true;
     }
     private void CargarCombos()

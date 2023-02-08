@@ -38,19 +38,19 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             return exito;
         }
-        public static List<Productos> ListadoDeProductos()
-        {
-            List<Productos> _listaProductos = new List<Productos>();
-            try
-            {
-                DaoProductos _dao = new DaoProductos();
-                _listaProductos = _dao.ListarProductos();
-            }
-            catch (Exception ex)
-            {
-            }
-            return _listaProductos;
-        }
+        //public static List<Productos> ListadoDeProductos()
+        //{
+        //    List<Productos> _listaProductos = new List<Productos>();
+        //    try
+        //    {
+        //        DaoProductos _dao = new DaoProductos();
+        //        _listaProductos = _dao.ListarProductos();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //    return _listaProductos;
+        //}
 
     }
 }
