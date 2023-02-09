@@ -158,5 +158,39 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return Existe;
         }
+
+        public List<Stock> BuscarProductoPorCodigo(string descripcion)
+        {
+            List<Stock> _listaStocks = new List<Stock>();
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Close();
+                connection.Open();               
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = connection;
+                DataTable Tabla = new DataTable();
+                MySqlParameter[] oParam = { new MySqlParameter("descripcion_in", descripcion) };
+                string proceso = "SP_Consultar_BuscarProductoPorCodigo";
+                MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                dt.SelectCommand.Parameters.AddRange(oParam);
+                dt.Fill(Tabla);
+                if (Tabla.Rows.Count > 0)
+                {
+                    foreach (DataRow item in Tabla.Rows)
+                    {
+                        Stock listaStock = new Stock();
+                        listaStock.idProducto = Convert.ToInt32(item["idProducto"].ToString());
+                        listaStock.CodigoProducto = item["CodigoProducto"].ToString();
+                        listaStock.NombreMarca = item["NombreMarca"].ToString();
+                        //listaStock.Cantidad = String.IsNullOrEmpty(item["Cantidad"].ToString()) ? 0 : Convert.ToInt32(item["txCantidad"].ToString());
+                        listaStock.Descripcion = item["Descripcion"].ToString();
+                        _listaStocks.Add(listaStock);
+                    }
+                }
+                connection.Close();
+                return _listaStocks;
+            }
+        }
     }
 }

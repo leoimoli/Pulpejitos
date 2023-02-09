@@ -10,6 +10,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
 {
     public class ProductoNeg
     {
+        public static List<Stock> BuscarProductoPorCodigo(string descripcion)
+        {
+            List<Stock> _listaProducto = new List<Stock>();
+            try
+            {
+                DaoProductos _dao = new DaoProductos();
+                _listaProducto = _dao.BuscarProductoPorCodigo(descripcion);
+            }
+            catch (Exception ex)
+            {
+            }
+            return _listaProducto;
+        }
+
         public static bool InsertarProducto(Productos _producto)
         {
             bool exito = false;

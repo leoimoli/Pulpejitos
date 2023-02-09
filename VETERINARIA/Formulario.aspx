@@ -9,162 +9,123 @@
     <!-- FORMULARIO. -->
     <!-- ========================================================================= -->
     
-    <div class="row">
-	<div class="col-12">
-		
-                  <!-- Recent Order Table -->
-                  <div class="card card-table-border-none recent-orders" id="recent-orders">
-                    <div class="card-header justify-content-between">
-                      <h2>Recent Orders</h2>
-                    </div>
-                    <div class="card-body pt-0 pb-5">
-                      <table class="table card-table table-responsive table-responsive-large" style="width:100%">
-                        <thead>
-                          <tr>
-                            <th>Order ID</th>
-                            <th>Product Name</th>
-                            <th class="d-none d-lg-table-cell">Units</th>
-                            <th class="d-none d-lg-table-cell">Order Date</th>
-                            <th class="d-none d-lg-table-cell">Order Cost</th>
-                            <th>Status</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td >24541</td>
-                            <td >
-                              <a class="text-dark" href=""> Coach Swagger</a>
-                            </td>
-                            <td class="d-none d-lg-table-cell">1 Unit</td>
-                            <td class="d-none d-lg-table-cell">Oct 20, 2018</td>
-                            <td class="d-none d-lg-table-cell">$230</td>
-                            <td >
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                            <td class="text-right">
-                              <div class="dropdown show d-inline-block widget-dropdown">
-                                <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
-                                  <li class="dropdown-item">
-                                    <a href="#">View</a>
-                                  </li>
-                                  <li class="dropdown-item">
-                                    <a href="#">Remove</a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td >24541</td>
-                            <td >
-                              <a class="text-dark" href=""> Toddler Shoes, Gucci Watch</a>
-                            </td>
-                            <td class="d-none d-lg-table-cell">2 Units</td>
-                            <td class="d-none d-lg-table-cell">Nov 15, 2018</td>
-                            <td class="d-none d-lg-table-cell">$550</td>
-                            <td >
-                              <span class="badge badge-warning">Delayed</span>
-                            </td>
-                            <td class="text-right">
-                              <div class="dropdown show d-inline-block widget-dropdown">
-                                <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdown-recent-order2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order2">
-                                  <li class="dropdown-item">
-                                    <a href="#">View</a>
-                                  </li>
-                                  <li class="dropdown-item">
-                                    <a href="#">Remove</a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td >24541</td>
-                            <td >
-                              <a class="text-dark" href=""> Hat Black Suits</a>
-                            </td>
-                            <td class="d-none d-lg-table-cell">1 Unit</td>
-                            <td class="d-none d-lg-table-cell">Nov 18, 2018</td>
-                            <td class="d-none d-lg-table-cell">$325</td>
-                            <td >
-                              <span class="badge badge-warning">On Hold</span>
-                            </td>
-                            <td class="text-right">
-                              <div class="dropdown show d-inline-block widget-dropdown">
-                                <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdown-recent-order3" data-toggle="dropdown" aria-haspopup="true"
-                                  aria-expanded="false" data-display="static"></a>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order3">
-                                  <li class="dropdown-item">
-                                    <a href="#">View</a>
-                                  </li>
-                                  <li class="dropdown-item">
-                                    <a href="#">Remove</a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td >24541</td>
-                            <td >
-                              <a class="text-dark" href=""> Backpack Gents, Swimming Cap Slin</a>
-                            </td>
-                            <td class="d-none d-lg-table-cell">5 Units</td>
-                            <td class="d-none d-lg-table-cell">Dec 13, 2018</td>
-                            <td class="d-none d-lg-table-cell">$200</td>
-                            <td >
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                            <td class="text-right">
-                              <div class="dropdown show d-inline-block widget-dropdown">
-                                <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdown-recent-order4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order4">
-                                  <li class="dropdown-item">
-                                    <a href="#">View</a>
-                                  </li>
-                                  <li class="dropdown-item">
-                                    <a href="#">Remove</a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td >24541</td>
-                            <td >
-                              <a class="text-dark" href=""> Speed 500 Ignite</a>
-                            </td>
-                            <td class="d-none d-lg-table-cell">1 Unit</td>
-                            <td class="d-none d-lg-table-cell">Dec 23, 2018</td>
-                            <td class="d-none d-lg-table-cell">$150</td>
-                            <td >
-                              <span class="badge badge-danger">Cancelled</span>
-                            </td>
-                            <td class="text-right">
-                              <div class="dropdown show d-inline-block widget-dropdown">
-                                <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdown-recent-order5" data-toggle="dropdown" aria-haspopup="true"
-                                  aria-expanded="false" data-display="static"></a>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order5">
-                                  <li class="dropdown-item">
-                                    <a href="#">View</a>
-                                  </li>
-                                  <li class="dropdown-item">
-                                    <a href="#">Remove</a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+ <div class="row">
+	<div class="col-lg-6">
+		<div class="card card-default">
+			<div class="card-header card-header-border-bottom">
+				<h2>Masked Input</h2>
+			</div>
 
+			<div class="card-body">
+				<label class="text-dark font-weight-medium" for="">Date input</label>
+
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="mdi mdi-calendar-range"></i>
+						</span>
+					</div>
+
+					<input type="text" class="form-control" data-mask="00/00/0000" placeholder="" aria-label="">
+				</div>
+
+				<p style="font-size: 90%">ex. 99/99/9999</p>
+
+				<label class="text-dark mt-4 font-weight-medium" for="">Phone input</label>
+
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="mdi mdi-phone"></i>
+						</span>
+					</div>
+
+					<input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="" aria-label="">
+				</div>
+
+				<p style="font-size: 90%">ex. (999) 999-9999</p>
+
+				<label class="text-dark mt-4 font-weight-medium" for="">Taxpayer Identification Numbers</label>
+
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="mdi mdi-currency-usd"></i>
+						</span>
+					</div>
+
+					<input type="text" class="form-control" data-mask="99-9999999" placeholder="" aria-label="">
+				</div>
+
+				<p style="font-size: 90%">ex. 99-9999999</p>
+
+				<label class="text-dark mt-4 font-weight-medium" for="">Social Security Number</label>
+
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="mdi mdi-lock"></i>
+						</span>
+					</div>
+
+					<input type="text" class="form-control" data-mask="999-99-9999" placeholder="" aria-label="">
+				</div>
+
+				<p style="font-size: 90%">ex. 999-99-9999</p>
+
+				<label class="text-dark mt-4 font-weight-medium" for="">Eye Script</label>
+
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="mdi mdi-eye"></i>
+						</span>
+					</div>
+
+					<input type="text" class="form-control" data-mask="~9.99 ~9.99 999" placeholder="" aria-label="">
+				</div>
+
+				<p style="font-size: 90%">ex. ~9.99 ~9.99 999</p>
+
+				<label class="text-dark mt-4 font-weight-medium" for="">Credit Card Number</label>
+
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="mdi mdi-credit-card"></i>
+						</span>
+					</div>
+
+					<input type="text" class="form-control" data-mask="9999 9999 9999 9999" placeholder="" aria-label="">
+				</div>
+
+				<p style="font-size: 90%">ex. 9999 9999 9999 9999</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6">
+		<div class="card card-default">
+			<div class="card-header card-header-border-bottom">
+				<h2>Multiple Select </h2>
+			</div>
+
+			<div class="card-body">
+				<div class="form-group">
+					<select class="js-example-basic-multiple form-control" name="states[]" multiple="multiple">
+						<option value="AL">Alabana</option>
+						<option value="NY">New York</option>
+						<option value="VR">Virginia</option>
+						<option value="WA">Washington</option>
+						<option value="CA">California</option>
+						<option value="WY">Wyoming</option>
+					</select>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+
 
     <!-- ========================================================================= -->
 
