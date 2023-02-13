@@ -17,7 +17,7 @@
     <div class="row" id="DivMensajeError" runat="server" visible="false">
         <div class="col-lg-12">
             <div class="alert alert-dismissible fade show alert-primary" role="alert">
-                <asp:Label ID="Label1" runat="server" Text="Error"></asp:Label>
+                <asp:Label ID="lblMensajeError" runat="server" Text="Error"></asp:Label>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -38,11 +38,11 @@
                     <table class="table card-table table-responsive table-responsive-large" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>id Producto</th>
-                                <th>Descripción</th>
-                                <th class="d-none d-lg-table-cell">Código Producto</th>
-                                <th class="d-none d-lg-table-cell">Nombre Marca</th>
-                                <th>Stock</th>
+                                <th><b>id Producto</b></th>
+                                <th><b>Descripción</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Código Producto</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Nombre Marca</b></th>
+                                <th><b>Stock</b></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -99,33 +99,34 @@
 
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Código Producto</label>
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Código Producto(*)</label>
                         <input type="text" runat="server" id="txtCodigo" class="form-control" placeholder="Código Producto">
                         <%--<span class="mt-2 d-block">We'll never share your email with anyone else.</span>--%>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect12" style="color: blueviolet">Categoria del Producto</label>
+                        <label for="exampleFormControlSelect12" style="color: blueviolet">Categoria del Producto(*)</label>
                         <asp:DropDownList class="form-control" ID="cmbCategoria" runat="server">
                         </asp:DropDownList>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Descripción</label>
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Descripción(*)</label>
                         <input type="text" runat="server" id="txtDescripción" class="form-control" placeholder="Descripción Producto">
                         <%--<span class="mt-2 d-block">We'll never share your email with anyone else.</span>--%>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect12" style="color: blueviolet">Marcas del Producto</label>
+                        <label for="exampleFormControlSelect12" style="color: blueviolet">Marcas del Producto(*)</label>
                         <asp:DropDownList class="form-control" ID="cmbMarca" runat="server">
                         </asp:DropDownList>
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect12" style="color: blueviolet">Unidades de Medición</label>
+                        <label for="exampleFormControlSelect12" style="color: blueviolet">Unidades de Medición(*)</label>
                         <asp:DropDownList class="form-control" ID="cmbUnidadesMedicion" runat="server">
                         </asp:DropDownList>
                     </div>
                     <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                        <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                        <asp:Button Text="Generar Código" runat="server" OnClick="btnGenerarCodigo_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
                         <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
+                        <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
                     </div>
 
                 </div>
@@ -143,22 +144,28 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Código Producto</label>
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Código Producto(*)</label>
                         <input type="text" runat="server" id="AltaStock_txtCodigoProducto" class="form-control" placeholder="Código Producto">
                         <asp:Button Text="Buscar" runat="server" OnClick="btnBuscarProducto_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet; opacity: 0; line-height: 0px; border: none;" />
                     </div>
 
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Producto</label>
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Producto(*)</label>
                         <input type="text" runat="server" id="AltaStock_txtDescripcion" class="form-control" placeholder="Producto">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Marca</label>
-                        <input type="text" runat="server" id="AltaStock_txtMarca" class="form-control" placeholder="Marca" enableviewstate="false">
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Marca(*)</label>
+                        <input type="text" runat="server" id="AltaStock_txtMarca" class="form-control" placeholder="Marca">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Proveedor</label>
-                        <input type="text" runat="server" id="AltaStock_txtProveedor" class="form-control" placeholder="Proveedor" enableviewstate="false">
+                        <label for="exampleFormControlSelect12" style="color: blueviolet">Sucursal(*)</label>
+                        <asp:DropDownList class="form-control" ID="AltaStock_cmbSucursal" runat="server">
+                        </asp:DropDownList>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect12" style="color: blueviolet">Proveedor</label>
+                        <asp:DropDownList class="form-control" ID="AltaStock_cmbProveedor" runat="server">
+                        </asp:DropDownList>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1" style="color: blueviolet">Fecha de Factura</label>
@@ -168,25 +175,25 @@
                                     <i class="mdi mdi-calendar-range"></i>
                                 </span>
                             </div>
-                            <input type="date" class="form-control" runat="server" id="AltaStock_FechaFactura" data-mask="00/00/0000" placeholder="" enableviewstate="false">
+                            <input type="date" class="form-control" runat="server" id="AltaStock_FechaFactura" data-mask="00/00/0000" placeholder="">
                         </div>
                         <p style="font-size: 90%">ex. 99/99/9999</p>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1" style="color: blueviolet">Nro.Factura o Remito</label>
-                        <input type="text" runat="server" id="AltaStock_Remito" class="form-control" placeholder="Nro.Factura o Remito" enableviewstate="false">
+                        <input type="text" runat="server" id="AltaStock_Remito" class="form-control" placeholder="Nro.Factura o Remito">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Cantidad</label>
-                        <input type="text" runat="server" id="AltaStock_Cantidad" class="form-control" placeholder="Cantidad" enableviewstate="false">
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Cantidad(*)</label>
+                        <input type="text" runat="server" id="AltaStock_Cantidad" class="form-control" placeholder="Cantidad">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" style="color: blueviolet">Valor Unitario</label>
-                        <input type="text" runat="server" id="AltaStock_ValorUnitario" class="form-control" placeholder="Valor Unitario" enableviewstate="false">
+                        <label for="exampleFormControlInput1" style="color: blueviolet">Valor Unitario(*)</label>
+                        <input type="text" runat="server" id="AltaStock_ValorUnitario" class="form-control" placeholder="Valor Unitario">
                     </div>
                     <div class="form-footer pt-4 pt-5 mt-4 border-top">
                         <asp:Button Text="Cargar" runat="server" OnClick="btnCargar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                        <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
+                        <asp:Button Text="Volver" runat="server" OnClick="btnVolver_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
                     </div>
 
                 </div>

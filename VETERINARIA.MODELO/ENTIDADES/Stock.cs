@@ -11,6 +11,7 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public int idProducto { get; set; }
         public string CodigoProducto { get; set; }
         public int idProveedor { get; set; }
+        public int idSucursal { get; set; }
         public DateTime FechaFactura { get; set; }
         public string Remito { get; set; }
         public decimal ValorUnitario { get; set; }

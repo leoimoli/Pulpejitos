@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using VETERINARIA.MODELO.ENTIDADES;
 
 namespace VETERINARIA.MODELO.BASEDEDATOS
@@ -20,24 +21,25 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
-        public int InsertarMovimientoAltaStock(Stock stock)
+        public int InsertarMovimientoAltaStock(List<Stock> stock, decimal MontoTotalFactura)
         {
             int idMovimietoAltaStock = 0;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 try
                 {
+                    var PrimerElemento = stock.First();
                     connection.Close();
                     connection.Open();
                     string proceso = "SP_Insertar_MovimientoAltaStock";
                     MySqlCommand cmd = new MySqlCommand(proceso, connection);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("idProveedor_in", stock.idProveedor);
-                    cmd.Parameters.AddWithValue("FechaFactura_in", stock.FechaFactura);
-                    cmd.Parameters.AddWithValue("Remito_in", stock.Remito);
-                    cmd.Parameters.AddWithValue("MontoTotal_in", stock.MontoTotal);
-                    cmd.Parameters.AddWithValue("FechaRegistro_in", stock.FechaRegistro);
-                    cmd.Parameters.AddWithValue("idUsuario_in", stock.idUsuario);
+                    cmd.Parameters.AddWithValue("idProveedor_in", PrimerElemento.idProveedor);
+                    cmd.Parameters.AddWithValue("FechaFactura_in", PrimerElemento.FechaFactura);
+                    cmd.Parameters.AddWithValue("Remito_in", PrimerElemento.Remito);
+                    cmd.Parameters.AddWithValue("MontoTotal_in", MontoTotalFactura);
+                    cmd.Parameters.AddWithValue("FechaRegistro_in", PrimerElemento.FechaRegistro);
+                    cmd.Parameters.AddWithValue("idUsuario_in", PrimerElemento.idUsuario);
                     MySqlDataReader r = cmd.ExecuteReader();
                     while (r.Read())
                     {
@@ -56,14 +58,14 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return idMovimietoAltaStock;
         }
-        private bool InsertarHistorialIngresoDeStock(Stock stock, int idMovimietoAltaStock)
+        private bool InsertarHistorialIngresoDeStock(List<Stock> stock, int idMovimietoAltaStock)
         {
             bool RespuestaExitosa = false;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 try
                 {
-                    foreach (var item in stock.ListaIngresoStock)
+                    foreach (var item in stock)
                     {
                         connection.Close();
                         connection.Open();
@@ -71,10 +73,11 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                         MySqlCommand cmd = new MySqlCommand(proceso, connection);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("idProducto_in", item.idProducto);
-                        cmd.Parameters.AddWithValue("CantidadStockDeCompra_in", item.CantidadStockDeCompra);
-                        cmd.Parameters.AddWithValue("ValorUnitarioDeCompra_in", item.ValorUnitarioDeCompra);
-                        cmd.Parameters.AddWithValue("ValorTotalDeCompra_in", item.ValorTotalDeCompra);
+                        cmd.Parameters.AddWithValue("CantidadStockDeCompra_in", item.Cantidad);
+                        cmd.Parameters.AddWithValue("ValorUnitarioDeCompra_in", item.ValorUnitario);
+                        cmd.Parameters.AddWithValue("ValorTotalDeCompra_in", item.MontoTotalPorProducto);
                         cmd.Parameters.AddWithValue("idMovimietoAltaStock_in", idMovimietoAltaStock);
+                        cmd.Parameters.AddWithValue("idSucursal_in", item.idSucursal);
                         cmd.ExecuteNonQuery();
                         RespuestaExitosa = true;
                         if (RespuestaExitosa == true)
@@ -82,7 +85,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             try
                             {
                                 ///// Actualizo el stock para cada producto.
-                                ActualizarStock(item.idProducto, item.CantidadStockDeCompra);
+                                ActualizarStock(item.idProducto, item.Cantidad);
                             }
                             catch (Exception ex)
                             {
@@ -130,7 +133,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     connection.Close();
                     connection.Open();
                     DataTable Tabla = new DataTable();
-                    MySqlParameter[] oParam = { };
+                    MySqlParameter[] oParam = { new MySqlParameter("idProducto_in", idProducto) };
                     string proceso = "SP_Consultar_Stock";
                     MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
                     dt.SelectCommand.CommandType = CommandType.StoredProcedure;
@@ -177,6 +180,35 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 }
             }
             return RespuestaExito;
+        }
+
+        public bool ValidarCodigoExistente(string codigoArmado)
+        {
+            bool Existe = false;
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Close();
+                connection.Open();
+                List<Productos> lista = new List<Productos>();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = connection;
+                DataTable Tabla = new DataTable();
+                MySqlParameter[] oParam = {
+                                      new MySqlParameter("CodigoProducto_in", codigoArmado) };
+                string proceso = "SP_Consulta_ValidarCodigoExistente";
+                MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                dt.SelectCommand.Parameters.AddRange(oParam);
+                dt.Fill(Tabla);
+                DataSet ds = new DataSet();
+                dt.Fill(ds, "productos");
+                if (Tabla.Rows.Count > 0)
+                {
+                    Existe = true;
+                }
+                connection.Close();
+            }
+            return Existe;
         }
     }
 }

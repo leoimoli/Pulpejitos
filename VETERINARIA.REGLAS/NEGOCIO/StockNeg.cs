@@ -10,14 +10,14 @@ namespace VETERINARIA.REGLAS.NEGOCIO
 {
     public class StockNeg
     {
-        public static int RegistrarStock(Stock _stock)
+        public static int RegistrarStock(List<Stock> _stock, decimal MontoTotalFactura)
         {
             int exito = 0;
             try
             {
                 DaoStock _dao = new DaoStock();
                 //ValidarDatos(_stock);
-                exito = _dao.InsertarMovimientoAltaStock(_stock);
+                exito = _dao.InsertarMovimientoAltaStock(_stock, MontoTotalFactura);
             }
             catch (Exception ex)
             { }
@@ -37,6 +37,12 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                 throw ex;
             }
             return exito;
+        }
+        public static bool ValidarCodigoExistente(string codigoArmado)
+        {
+            DaoStock _dao = new DaoStock();
+            bool existe = _dao.ValidarCodigoExistente(codigoArmado);
+            return existe;
         }
         //public static List<Productos> ListadoDeProductos()
         //{
