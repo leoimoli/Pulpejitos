@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NEGOCIO\CategoriasNeg.cs" />
+    <Compile Include="NEGOCIO\ClientesNeg.cs" />
     <Compile Include="NEGOCIO\Formulario_Ejemplo.cs" />
     <Compile Include="NEGOCIO\MarcasNeg.cs" />
     <Compile Include="NEGOCIO\ProductoNeg.cs" />

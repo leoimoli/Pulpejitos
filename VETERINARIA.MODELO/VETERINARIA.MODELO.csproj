@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BASEDEDATOS\DaoCategorias.cs" />
+    <Compile Include="BASEDEDATOS\DaoClientes.cs" />
     <Compile Include="BASEDEDATOS\DaoMarcas.cs" />
     <Compile Include="BASEDEDATOS\DaoProductos.cs" />
     <Compile Include="BASEDEDATOS\DaoProveedores.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="BASEDEDATOS\EjemploDAO.cs" />
     <Compile Include="ENTIDADES\Categorias.cs" />
     <Compile Include="ENTIDADES\Class1.cs" />
+    <Compile Include="ENTIDADES\Clientes.cs" />
     <Compile Include="ENTIDADES\Marcas.cs" />
     <Compile Include="ENTIDADES\Perfiles.cs" />
     <Compile Include="ENTIDADES\Productos.cs" />

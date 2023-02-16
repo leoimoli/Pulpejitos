@@ -19,5 +19,6 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public byte[] Foto { get; set; }
         public DateTime FechaDeAlta { get; set; }
         public int idUsuario { get; set; }
+        public string Domicilio { get; set; }
     }
 }

@@ -56,6 +56,7 @@ public partial class _StockWF : Page
             DivGrillaProductos.Visible = true;
             DivAltaProducto.Visible = false;
             idProductoStatic = 0;
+            CargarCombos();
         }
         catch (Exception ex)
         {
@@ -255,33 +256,74 @@ public partial class _StockWF : Page
     }
     private List<Stock> CargarEntidadRegistroStock()
     {
-        ValidarCamposObligatorios();
-        Stock _producto = new Stock();
-        _producto.idProducto = idProductoStatic;
-        _producto.idUsuario = 1;
-        _producto.CodigoProducto = AltaStock_txtCodigoProducto.Value;
-        _producto.Descripcion = AltaStock_txtDescripcion.Value;
-        _producto.idProveedor = Convert.ToInt32(AltaStock_cmbProveedor.SelectedItem.Value);
-        _producto.idSucursal = Convert.ToInt32(AltaStock_cmbSucursal.SelectedItem.Value);
-        _producto.Remito = AltaStock_Remito.Value;
-        _producto.FechaFactura = Convert.ToDateTime(AltaStock_FechaFactura.Value);
-        string Valor = AltaStock_ValorUnitario.Value;
-        var temp = Valor.Replace(".", "<TEMP>");
-        var temp2 = temp.Replace(",", ",");
-        var replaced = temp2.Replace("<TEMP>", ",");
-        _producto.ValorUnitario = Convert.ToDecimal(replaced);
-        _producto.Cantidad = Convert.ToInt32(AltaStock_Cantidad.Value);
-        _producto.MontoTotalPorProducto = _producto.ValorUnitario * _producto.Cantidad;
-        _producto.FechaRegistro = DateTime.Now;
-        StaticListProducto.Add(_producto);
+        try
+        {
+            ValidarCamposObligatorios();
+            Stock _producto = new Stock();
+            _producto.idProducto = idProductoStatic;
+            _producto.idUsuario = 1;
+            _producto.CodigoProducto = AltaStock_txtCodigoProducto.Value;
+            _producto.Descripcion = AltaStock_txtDescripcion.Value;
+            _producto.idProveedor = Convert.ToInt32(AltaStock_cmbProveedor.SelectedItem.Value);
+            _producto.idSucursal = Convert.ToInt32(AltaStock_cmbSucursal.SelectedItem.Value);
+            _producto.Remito = AltaStock_Remito.Value;
+            _producto.FechaFactura = Convert.ToDateTime(AltaStock_FechaFactura.Value);
+            string Valor = AltaStock_ValorUnitario.Value;
+            var temp = Valor.Replace(".", "<TEMP>");
+            var temp2 = temp.Replace(",", ",");
+            var replaced = temp2.Replace("<TEMP>", ",");
+            _producto.ValorUnitario = Convert.ToDecimal(replaced);
+            _producto.Cantidad = Convert.ToInt32(AltaStock_Cantidad.Value);
+            _producto.MontoTotalPorProducto = _producto.ValorUnitario * _producto.Cantidad;
+            _producto.FechaRegistro = DateTime.Now;
+            StaticListProducto.Add(_producto);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
         return StaticListProducto;
     }
     private void ValidarCamposObligatorios()
     {
-        if (AltaStock_txtCodigoProducto.Value == String.Empty || AltaStock_Cantidad.Value == String.Empty || AltaStock_ValorUnitario.Value == String.Empty)
+        try
         {
-            DivMensajeError.Visible = true;
-            lblMensajeError.Text = "Atención: Faltan completar campos obligatorios.";
+            if (AltaStock_txtCodigoProducto.Value == String.Empty)
+            {
+                DivMensajeError.Visible = true;
+                lblMensajeError.Text = "Atención: El campo Código Producto obligatorios.";
+                throw new Exception();
+            }
+            if (AltaStock_Cantidad.Value == String.Empty)
+            {
+                DivMensajeError.Visible = true;
+                lblMensajeError.Text = "Atención: El campo Cantidad obligatorios.";
+                throw new Exception();
+            }
+            if (AltaStock_ValorUnitario.Value == String.Empty)
+            {
+                DivMensajeError.Visible = true;
+                lblMensajeError.Text = "Atención: El campo Valor Unitario obligatorios.";
+                throw new Exception();
+            }
+            if (AltaStock_cmbSucursal.SelectedItem.Value == "0")
+            {
+                DivMensajeError.Visible = true;
+                lblMensajeError.Text = "Atención: El campo Sucursal Unitario obligatorios.";
+                throw new Exception();
+            }
+            if (AltaStock_cmbProveedor.SelectedItem.Value == "0")
+            {
+                DivMensajeError.Visible = true;
+                lblMensajeError.Text = "Atención: El campo Proveedor Unitario obligatorios.";
+                throw new Exception();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
         }
     }
     private void HabilitarCampos(bool value)
@@ -389,22 +431,25 @@ public partial class _StockWF : Page
             if (cmbCategoria.SelectedValue == "0")
             {
                 DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Para generar un código de barra de seleccionar un items del campo Categoria.";
+                lblMensajeError.Text = "Atención: Para generar un código de barra debe seleccionar un items del campo Categoria.";
+                throw new Exception();
             }
             if (cmbMarca.SelectedValue == "0")
             {
                 DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Para generar un código de barra de seleccionar un items del campo Marca.";
+                lblMensajeError.Text = "Atención: Para generar un código de barra debe seleccionar un items del campo Marca.";
+                throw new Exception();
             }
             if (cmbUnidadesMedicion.SelectedValue == "0")
             {
                 DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Para generar un código de barra de seleccionar un items del campo Unidad de Medición.";
+                lblMensajeError.Text = "Atención: Para generar un código de barra debe seleccionar un items del campo Unidad de Medición.";
+                throw new Exception();
             }
         }
         catch (Exception ex)
         {
-
+            throw ex;
         }
     }
     private void GenerarCodigoDeBarra()

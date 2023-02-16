@@ -17,5 +17,43 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             lista = _dao.CargarComboProveedores();
             return lista;
         }
+
+        public static bool InsertarProveedor(Proveedores _proveedor)
+        {
+            DaoProveedores _dao = new DaoProveedores();
+            bool exito = false;
+            try
+            {
+                bool ProveedorExistente = _dao.ValidarProveedorExistente(_proveedor.NombreEmpresa);
+                if (ProveedorExistente == true)
+                {
+                    const string message = "Atención:Ya existe un proveedor registrado con el nombre ingresado.";
+                    throw new Exception(message);
+                }
+                else
+                {
+                    exito = _dao.InsertarProveedor(_proveedor);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return exito;
+        }
+
+        public static List<Proveedores> ListaDeProveedores()
+        {
+            DaoProveedores _dao = new DaoProveedores();
+            List<Proveedores> _listaProveedores = new List<Proveedores>();
+            try
+            {
+                _listaProveedores = _dao.ListarProveedores();
+            }
+            catch (Exception ex)
+            {
+            }
+            return _listaProveedores;
+        }
     }
 }
