@@ -61,15 +61,15 @@
                                                 <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
                                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                                     <li class="dropdown-item">
-<%--                                                        <a href="#vi">Editar</a>--%>
+                                                        <%--                                                        <a href="#vi">Editar</a>--%>
 
                                                         <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
                                                             CommandArgument='<%# Eval("IdCliente") %>' ID="btnEditarCliente" OnCommand="btnEditarCliente_Command" />
 
                                                     </li>
-                                                    <li class="dropdown-item">
+                                                    <%-- <li class="dropdown-item">
                                                         <a href="#">Eliminar</a>
-                                                    </li>
+                                                    </li>--%>
                                                 </ul>
                                             </div>
                                         </td>
@@ -120,8 +120,9 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Teléfono</label>
-                                <input type="text" runat="server" id="txtTeléfono" class="form-control" placeholder="Teléfono">
-                            </div>
+                                <input type="text" runat="server" id="txtTeléfono" class="form-control" placeholder="Teléfono" maxlength="10">
+                             <%--<span class="mt-2 d-block">Ingrese el código de area sin "0" + el número sin el "15".</span>--%>
+                                </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">

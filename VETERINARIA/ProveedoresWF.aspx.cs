@@ -41,21 +41,41 @@ public partial class ProveedoresWF : System.Web.UI.Page
     {
         try
         {
-            Proveedores _proveedor = CargarEntidad();
-            bool RespuestaExitosa = ProveedoresNeg.InsertarProveedor(_proveedor);
-            if (RespuestaExitosa == true)
+            if (FuncionVariable == "NUEVO")
             {
-                LimpiarCampos_ExitoInsert();
+                Proveedores _proveedor = CargarEntidad();
+                bool RespuestaExitosa = ProveedoresNeg.InsertarProveedor(_proveedor);
+                if (RespuestaExitosa == true)
+                {
+                    LimpiarCampos_ExitoInsert();
+                }
+                else
+                {
+                    int MensajesVisible = 2;
+                    MostrarMensajes(MensajesVisible);
+                    lblMensajeError.Text = "Atención: Falló el registro del proveedor.";
+                }
             }
-            else
+            if (FuncionVariable == "EDITAR")
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Falló el registro del proveedor.";
+                Proveedores _proveedor = CargarEntidad();
+                bool RespuestaExitosa = ProveedoresNeg.EditarProveedor(_proveedor, idProveedorSeleccionado);
+                if (RespuestaExitosa == true)
+                {
+                    LimpiarCampos_ExitoEditar();
+                }
+                else
+                {
+                    int MensajesVisible = 2;
+                    MostrarMensajes(MensajesVisible);
+                    lblMensajeError.Text = "Atención: Falló la edición del proveedor.";
+                }
             }
         }
         catch (Exception ex)
         {
-            DivMensajeError.Visible = true;
+            int MensajesVisible = 2;
+            MostrarMensajes(MensajesVisible);
             lblMensajeError.Text = ex.Message;
         }
     }
@@ -70,35 +90,19 @@ public partial class ProveedoresWF : System.Web.UI.Page
             throw ex;
         }
     }
+    public static int idProveedorSeleccionado = 0;
+    protected void btnEditarProveedor_Command(object sender, CommandEventArgs e)
+    {
+        FuncionVariable = "EDITAR";
+        Proveedores _proveedorSeleccionado = new Proveedores();
+        idProveedorSeleccionado = Convert.ToInt32(e.CommandArgument);
+        _proveedorSeleccionado = ProveedoresNeg.ListarPorveedorPorId(idProveedorSeleccionado);
+        FuncionEditar_HabilitarCampos(_proveedorSeleccionado);
+    }
     #endregion
     #region Metodos
     public static string FuncionVariable = "";
-    private void LimpiarCampos_ExitoInsert()
-    {
-        txtRazonSocial.Value = String.Empty;
-        txtContacto.Value = String.Empty;
-        txtCodTelefono.Value = String.Empty;
-        txtTelefono.Value = String.Empty;
-        txtEmail.Value = String.Empty;
-        txtCalle.Value = String.Empty;
-        txtAltura.Value = String.Empty;
-        DivMensajeExito.Visible = true;
-        lblMensajeExito.Text = "Atención: Se registro el proveedor exitosamente.";
-    }
-    private void LimpiarCampos_Cancelar()
-    {
-        txtRazonSocial.Value = String.Empty;
-        txtContacto.Value = String.Empty;
-        txtCodTelefono.Value = String.Empty;
-        txtTelefono.Value = String.Empty;
-        txtEmail.Value = String.Empty;
-        txtCalle.Value = String.Empty;
-        txtAltura.Value = String.Empty;
-        DivAltaProveedor.Visible = false;
-        DivGrillaProveedores.Visible = true;
-        DivMensajeError.Visible = false;
-        DivMensajeExito.Visible = false;
-    }
+
     private Proveedores CargarEntidad()
     {
         try
@@ -110,7 +114,7 @@ public partial class ProveedoresWF : System.Web.UI.Page
             _proveedor.Email = txtEmail.Value;
             _proveedor.Calle = txtCalle.Value;
             _proveedor.Altura = txtAltura.Value;
-            string telefono = txtCodTelefono.Value + "-" + txtTelefono.Value;
+            string telefono = txtTelefono.Value;
             _proveedor.Telefono = telefono;
             DateTime fechaActual = DateTime.Now;
             _proveedor.FechaDeAlta = fechaActual;
@@ -126,9 +130,10 @@ public partial class ProveedoresWF : System.Web.UI.Page
         {
             if (String.IsNullOrEmpty(txtRazonSocial.Value))
             {
-                DivMensajeError.Visible = true;
+                int MensajesVisible = 2;
+                MostrarMensajes(MensajesVisible);
                 lblMensajeError.Text = "Atención: El campo Razón Social es un dato obligatorio.";
-                throw new Exception();
+                throw new Exception(lblMensajeError.Text);
             }
         }
         catch (Exception ex)
@@ -136,14 +141,98 @@ public partial class ProveedoresWF : System.Web.UI.Page
     }
     private void Funcion_AltaProveedor()
     {
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
+
+        FuncionVariable = "NUEVO";
         DivGrillaProveedores.Visible = false;
         DivAltaProveedor.Visible = true;
     }
     private void FuncionListarProveedores()
     {
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
         List<Proveedores> ListaProveedores = ProveedoresNeg.ListaDeProveedores();
         RepeaterProveedores.DataSource = ListaProveedores;
         RepeaterProveedores.DataBind();
+    }
+    private void MostrarMensajes(int mensajesVisible)
+    {
+        ///// NADA
+        if (mensajesVisible == 0)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = false;
+        }
+        ///// Hay EXITO
+        if (mensajesVisible == 1)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = true;
+        }
+        ///// Hay ERROR
+        if (mensajesVisible == 2)
+        {
+            DivMensajeError.Visible = true;
+            DivMensajeExito.Visible = false;
+        }
+    }
+    private void FuncionEditar_HabilitarCampos(Proveedores proveedorSeleccionado)
+    {
+        DivGrillaProveedores.Visible = false;
+        DivAltaProveedor.Visible = true;
+        txtRazonSocial.Value = proveedorSeleccionado.NombreEmpresa;
+        txtContacto.Value = proveedorSeleccionado.Contacto;
+        txtTelefono.Value = proveedorSeleccionado.Telefono;
+        txtEmail.Value = proveedorSeleccionado.Email;
+        txtCalle.Value = proveedorSeleccionado.Calle;
+        txtAltura.Value = proveedorSeleccionado.Altura;
+        txtRazonSocial.Disabled = true;
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
+    }
+    private void LimpiarCampos_ExitoEditar()
+    {
+        idProveedorSeleccionado = 0;
+        txtRazonSocial.Disabled = false;
+        txtRazonSocial.Value = String.Empty;
+        txtContacto.Value = String.Empty;
+        txtTelefono.Value = String.Empty;
+        txtEmail.Value = String.Empty;
+        txtCalle.Value = String.Empty;
+        txtAltura.Value = String.Empty;
+        int MensajesVisible = 1;
+        MostrarMensajes(MensajesVisible);
+        lblMensajeExito.Text = "Atención: Se Edito el proveedor exitosamente.";
+        FuncionVariable = "NUEVO";
+    }
+    private void LimpiarCampos_ExitoInsert()
+    {
+        txtRazonSocial.Value = String.Empty;
+        txtContacto.Value = String.Empty;
+        txtTelefono.Value = String.Empty;
+        txtEmail.Value = String.Empty;
+        txtCalle.Value = String.Empty;
+        txtAltura.Value = String.Empty;
+        int MensajesVisible = 1;
+        MostrarMensajes(MensajesVisible);
+        lblMensajeExito.Text = "Atención: Se registro el proveedor exitosamente.";
+    }
+    private void LimpiarCampos_Cancelar()
+    {
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
+        txtRazonSocial.Value = String.Empty;
+        txtContacto.Value = String.Empty;
+        txtTelefono.Value = String.Empty;
+        txtEmail.Value = String.Empty;
+        txtCalle.Value = String.Empty;
+        txtAltura.Value = String.Empty;
+        DivAltaProveedor.Visible = false;
+        DivGrillaProveedores.Visible = true;
+        DivMensajeError.Visible = false;
+        DivMensajeExito.Visible = false;
+        FuncionListarProveedores();
     }
     #endregion
 }

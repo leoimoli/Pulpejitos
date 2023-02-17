@@ -33,6 +33,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             return exito;
         }
+        public static bool EditarCliente(Clientes cliente, int idClienteSeleccionado)
+        {
+            bool exito = false;
+            DaoClientes _dao = new DaoClientes();
+            try
+            {
+                exito = _dao.EditarCliente(cliente, idClienteSeleccionado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return exito;
+        }
         public static List<Clientes> ListaDeClientes()
         {
             DaoClientes _dao = new DaoClientes();
@@ -46,6 +60,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                 throw ex;
             }
             return _listaClientes;
+        }
+        public static Clientes ListarClientePorId(int idCliente)
+        {
+            DaoClientes _dao = new DaoClientes();
+            Clientes _Clientes = new Clientes();
+            try
+            {
+                _Clientes = _dao.ListarClientePorId(idCliente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _Clientes;
         }
     }
 }

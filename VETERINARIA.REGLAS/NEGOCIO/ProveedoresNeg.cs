@@ -17,7 +17,7 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             lista = _dao.CargarComboProveedores();
             return lista;
         }
-
+      
         public static bool InsertarProveedor(Proveedores _proveedor)
         {
             DaoProveedores _dao = new DaoProveedores();
@@ -41,7 +41,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             return exito;
         }
-
+        public static bool EditarProveedor(Proveedores proveedor, int idProveedorSeleccionado)
+        {
+            bool exito = false;
+            DaoProveedores _dao = new DaoProveedores();
+            try
+            {
+                exito = _dao.EditarProveedor(proveedor, idProveedorSeleccionado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return exito;
+        }
         public static List<Proveedores> ListaDeProveedores()
         {
             DaoProveedores _dao = new DaoProveedores();
@@ -54,6 +67,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             {
             }
             return _listaProveedores;
+        }
+        public static Proveedores ListarPorveedorPorId(int idProveedorSeleccionado)
+        {
+            Proveedores _proveedor = new Proveedores();
+            DaoProveedores _dao = new DaoProveedores();
+            try
+            {
+                _proveedor = _dao.ListarPorveedorPorId(idProveedorSeleccionado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _proveedor;
         }
     }
 }

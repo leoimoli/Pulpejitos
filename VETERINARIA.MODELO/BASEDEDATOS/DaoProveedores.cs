@@ -178,5 +178,81 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return exito;
         }
+        public Proveedores ListarPorveedorPorId(int idProveedorSeleccionado)
+        {
+            Proveedores listaProveedor = new Proveedores();
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = connection;
+                    DataTable Tabla = new DataTable();
+                    MySqlParameter[] oParam = {
+                                      new MySqlParameter("IdProveedor_in", idProveedorSeleccionado)};
+                    string proceso = "SP_Consultar_BuscarProveedorPorID";
+                    MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                    dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    dt.SelectCommand.Parameters.AddRange(oParam);
+                    dt.Fill(Tabla);
+                    if (Tabla.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in Tabla.Rows)
+                        {
+
+                            listaProveedor.idProveedor = Convert.ToInt32(item["idProveedor"].ToString());
+                            listaProveedor.NombreEmpresa = item["NombreEmpresa"].ToString();
+                            listaProveedor.Contacto = item["NombreContacto"].ToString();
+                            listaProveedor.Email = item["Email"].ToString();
+                            listaProveedor.Calle = item["Calle"].ToString();
+                            listaProveedor.Altura = item["Altura"].ToString();
+                            listaProveedor.Telefono = item["Telefono"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return listaProveedor;
+        }
+        public bool EditarProveedor(Proveedores _proveedor, int idProveedorSeleccionado)
+        {
+            bool exito = false;
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+                    string Actualizar = "SP_Editar_EditarProveedor";
+                    MySqlCommand cmd = new MySqlCommand(Actualizar, connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("idProveedor_in", idProveedorSeleccionado);
+                    cmd.Parameters.AddWithValue("NombreEmpresa_in", _proveedor.NombreEmpresa);
+                    cmd.Parameters.AddWithValue("Contacto_in", _proveedor.Contacto);
+                    cmd.Parameters.AddWithValue("Email_in", _proveedor.Email);
+                    cmd.Parameters.AddWithValue("SitioWeb_in", _proveedor.SitioWeb);
+                    cmd.Parameters.AddWithValue("Calle_in", _proveedor.Calle);
+                    cmd.Parameters.AddWithValue("Altura_in", _proveedor.Altura);
+                    cmd.Parameters.AddWithValue("Telefono_in", _proveedor.Telefono);
+                    cmd.Parameters.AddWithValue("FechaDeAlta_in", _proveedor.FechaDeAlta);
+                    cmd.Parameters.AddWithValue("idUsuario_in", _proveedor.idUsuario);
+                    cmd.ExecuteNonQuery();
+                    exito = true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                connection.Close();
+                return exito;
+            }
+        }
     }
 }

@@ -53,18 +53,19 @@
                                         <td>
                                             <%# Eval("NombreEmpresa") %>
                                         </td>
-                                        <td class="d-none d-lg-table-cell"><%# Eval("Domicilio") %></td>                                      
+                                        <td class="d-none d-lg-table-cell"><%# Eval("Domicilio") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("Telefono") %></td>
                                         <td class="text-right">
                                             <div class="dropdown show d-inline-block widget-dropdown">
                                                 <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
                                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                                     <li class="dropdown-item">
-                                                        <a href="#">Editar</a>
+                                                        <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                            CommandArgument='<%# Eval("idProveedor") %>' ID="btnEditarProveedor" OnCommand="btnEditarProveedor_Command" />
                                                     </li>
-                                                    <li class="dropdown-item">
+                                                    <%--   <li class="dropdown-item">
                                                         <a href="#">Eliminar</a>
-                                                    </li>
+                                                    </li>--%>
                                                 </ul>
                                             </div>
                                         </td>
@@ -105,16 +106,10 @@
                                 <input type="text" runat="server" id="txtContacto" class="form-control" placeholder="Persona de Contacto">
                             </div>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1" style="color: blueviolet">Código de Área</label>
-                                <input type="text" runat="server" id="txtCodTelefono" class="form-control" placeholder="Código Teléfono">
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Nro.Teléfono </label>
-                                <input type="text" runat="server" id="txtTelefono" class="form-control" placeholder="Teléfono">
+                                <input type="text" runat="server" id="txtTelefono" class="form-control" placeholder="Teléfono" maxlength="10">
                             </div>
                         </div>
                     </div>

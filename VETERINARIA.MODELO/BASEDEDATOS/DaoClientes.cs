@@ -20,7 +20,36 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
-
+        public bool EditarCliente(Clientes _cliente, int idClienteSeleccionado)
+        {
+            bool exito = false;
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {                  
+                    connection.Close();
+                    connection.Open();
+                    string Actualizar = "SP_Editar_EditarCliente";
+                    MySqlCommand cmd = new MySqlCommand(Actualizar, connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("idCliente_in", idClienteSeleccionado);
+                    cmd.Parameters.AddWithValue("Apellido_in", _cliente.Apellido);
+                    cmd.Parameters.AddWithValue("Nombre_in", _cliente.Nombre);
+                    cmd.Parameters.AddWithValue("Email_in", _cliente.Email);
+                    cmd.Parameters.AddWithValue("Telefono_in", _cliente.Telefono);                 
+                    cmd.Parameters.AddWithValue("idUsuario_in", _cliente.idUsuario);
+                    cmd.ExecuteNonQuery();
+                    exito = true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                connection.Close();
+                return exito;
+            }
+        }
         public bool InsertCliente(Clientes _cliente)
         {
             bool exito = false;
@@ -51,6 +80,47 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 }
             }
             return exito;
+        }
+
+        public Clientes ListarClientePorId(int idCliente)
+        {
+            Clientes _cliente = new Clientes();
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = connection;
+                    DataTable Tabla = new DataTable();
+                    MySqlParameter[] oParam = {
+                                      new MySqlParameter("idCliente_in", idCliente)};
+                    string proceso = "SP_Consultar_ListarClientePorId";
+                    MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                    dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    dt.SelectCommand.Parameters.AddRange(oParam);
+                    dt.Fill(Tabla);
+                    if (Tabla.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in Tabla.Rows)
+                        {
+                            _cliente.IdCliente = Convert.ToInt32(item["idCliente"].ToString());
+                            _cliente.Dni = item["Dni"].ToString();
+                            _cliente.Apellido = item["Apellido"].ToString();
+                            _cliente.Nombre = item["Nombre"].ToString();
+                            _cliente.FechaDeAlta = Convert.ToDateTime(item["FechaAlta"].ToString());
+                            _cliente.Email = item["Email"].ToString();
+                            _cliente.Telefono = item["Telefono"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return _cliente;
         }
 
         public List<Clientes> ListarClientes()
@@ -94,7 +164,6 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return _listaClientes;
         }
-
         public bool ValidarClienteExistente(string dni)
         {
             bool Existe = false;

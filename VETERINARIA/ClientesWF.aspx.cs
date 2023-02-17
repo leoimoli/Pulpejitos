@@ -51,21 +51,27 @@ public partial class ClientesWF : System.Web.UI.Page
                 }
                 else
                 {
-                    DivMensajeError.Visible = true;
+                    int MensajesVisible = 2;
+                    MostrarMensajes(MensajesVisible);
                     lblMensajeError.Text = "Atención: Falló el registro del Cliente.";
+                    throw new Exception(lblMensajeError.Text);
                 }
             }
             if (FuncionVariable == "EDITAR")
             {
-                //Clientes _cliente = CargarEntidadEdicion();
-                //bool Exito = ClientesNeg.EditarCliente(_cliente, idClienteSeleccionado);
-                //if (Exito == true)
-                //{
-                //    LimpiarCampos_ExitoInsert();
-                //}
-
-                //if (FuncionVariable == "ELIMINAR")
-                //{ }
+                Clientes _cliente = CargarEntidad();
+                bool RespuestaExitosa = ClientesNeg.EditarCliente(_cliente, idClienteSeleccionado);
+                if (RespuestaExitosa == true)
+                {
+                    LimpiarCampos_ExitoEditar();
+                }
+                else
+                {
+                    int MensajesVisible = 2;
+                    MostrarMensajes(MensajesVisible);
+                    lblMensajeError.Text = "Atención: Falló la edición del Cliente.";
+                    throw new Exception(lblMensajeError.Text);
+                }
             }
         }
         catch (Exception ex)
@@ -74,12 +80,14 @@ public partial class ClientesWF : System.Web.UI.Page
             lblMensajeError.Text = ex.Message;
         }
     }
-
-
+    public static int idClienteSeleccionado = 0;
     protected void btnEditarCliente_Command(object sender, CommandEventArgs e)
     {
-        int id = Convert.ToInt32(e.CommandArgument);
-
+        FuncionVariable = "EDITAR";
+        Clientes _clienteSeleccionado = new Clientes();
+        idClienteSeleccionado = Convert.ToInt32(e.CommandArgument);
+        _clienteSeleccionado = ClientesNeg.ListarClientePorId(idClienteSeleccionado);
+        FuncionEditar_HabilitarCampos(_clienteSeleccionado);
     }
     protected void btnCancelar_Click(object sender, EventArgs e)
     {
@@ -101,12 +109,16 @@ public partial class ClientesWF : System.Web.UI.Page
         List<Clientes> ListaClientes = ClientesNeg.ListaDeClientes();
         RepeaterClientes.DataSource = ListaClientes;
         RepeaterClientes.DataBind();
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
     }
     private void Funcion_AltaCliente()
     {
         DivGrillaClientes.Visible = false;
         DivAltaCliente.Visible = true;
         FuncionVariable = "NUEVO";
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
     }
     private Clientes CargarEntidad()
     {
@@ -133,21 +145,24 @@ public partial class ClientesWF : System.Web.UI.Page
         {
             if (String.IsNullOrEmpty(txtDni.Value))
             {
-                DivMensajeError.Visible = true;
+                int MensajesVisible = 2;
+                MostrarMensajes(MensajesVisible);
                 lblMensajeError.Text = "Atención: El campo Dni es un dato obligatorio.";
-                throw new Exception();
+                throw new Exception(lblMensajeError.Text);
             }
             if (String.IsNullOrEmpty(txtApellido.Value))
             {
-                DivMensajeError.Visible = true;
+                int MensajesVisible = 2;
+                MostrarMensajes(MensajesVisible);
                 lblMensajeError.Text = "Atención: El campo Apellido es un dato obligatorio.";
-                throw new Exception();
+                throw new Exception(lblMensajeError.Text);
             }
             if (String.IsNullOrEmpty(txtNombre.Value))
             {
-                DivMensajeError.Visible = true;
+                int MensajesVisible = 2;
+                MostrarMensajes(MensajesVisible);
                 lblMensajeError.Text = "Atención: El campo Nombre es un dato obligatorio.";
-                throw new Exception();
+                throw new Exception(lblMensajeError.Text);
             }
         }
         catch (Exception ex)
@@ -162,6 +177,43 @@ public partial class ClientesWF : System.Web.UI.Page
         txtEmail.Value = String.Empty;
         DivMensajeExito.Visible = true;
         lblMensajeExito.Text = "Atención: Se registro el cliente exitosamente.";
+        int MensajesVisible = 1;
+        MostrarMensajes(MensajesVisible);
+    }
+    private void LimpiarCampos_ExitoEditar()
+    {
+        txtDni.Disabled = false;
+        txtDni.Value = String.Empty;
+        txtApellido.Value = String.Empty;
+        txtNombre.Value = String.Empty;
+        txtTeléfono.Value = String.Empty;
+        txtEmail.Value = String.Empty;
+        int MensajesVisible = 1;
+        MostrarMensajes(MensajesVisible);
+        lblMensajeExito.Text = "Atención: Se registro la edición del cliente exitosamente.";
+        idClienteSeleccionado = 0;
+        FuncionVariable = "NUEVO";
+    }
+    private void MostrarMensajes(int mensajesVisible)
+    {
+        ///// NADA
+        if (mensajesVisible == 0)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = false;
+        }
+        ///// Hay EXITO
+        if (mensajesVisible == 1)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = true;
+        }
+        ///// Hay ERROR
+        if (mensajesVisible == 2)
+        {
+            DivMensajeError.Visible = true;
+            DivMensajeExito.Visible = false;
+        }
     }
     private void LimpiarCampos_Cancelar()
     {
@@ -174,6 +226,22 @@ public partial class ClientesWF : System.Web.UI.Page
         DivGrillaClientes.Visible = true;
         DivMensajeError.Visible = false;
         DivMensajeExito.Visible = false;
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
+        FuncionListarClientes();
+    }
+    private void FuncionEditar_HabilitarCampos(Clientes clienteSeleccionado)
+    {
+        DivGrillaClientes.Visible = false;
+        DivAltaCliente.Visible = true;
+        txtDni.Value = clienteSeleccionado.Dni;
+        txtApellido.Value = clienteSeleccionado.Apellido;
+        txtNombre.Value = clienteSeleccionado.Nombre;
+        txtTeléfono.Value = clienteSeleccionado.Telefono;
+        txtEmail.Value = clienteSeleccionado.Email;
+        txtDni.Disabled = true;
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
     }
     #endregion
 }
