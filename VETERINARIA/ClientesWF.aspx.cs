@@ -100,7 +100,6 @@ public partial class ClientesWF : System.Web.UI.Page
             throw ex;
         }
     }
-
     #endregion
     #region Metodos
     public static string FuncionVariable = "";

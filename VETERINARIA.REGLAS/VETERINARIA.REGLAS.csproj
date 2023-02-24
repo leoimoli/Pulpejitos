@@ -46,11 +46,14 @@
   <ItemGroup>
     <Compile Include="NEGOCIO\CategoriasNeg.cs" />
     <Compile Include="NEGOCIO\ClientesNeg.cs" />
+    <Compile Include="NEGOCIO\EspecieNeg.cs" />
     <Compile Include="NEGOCIO\Formulario_Ejemplo.cs" />
     <Compile Include="NEGOCIO\MarcasNeg.cs" />
+    <Compile Include="NEGOCIO\MascotasNeg.cs" />
     <Compile Include="NEGOCIO\ProductoNeg.cs" />
     <Compile Include="NEGOCIO\ProveedoresNeg.cs" />
     <Compile Include="NEGOCIO\Prueba.cs" />
+    <Compile Include="NEGOCIO\RazaNeg.cs" />
     <Compile Include="NEGOCIO\StockNeg.cs" />
     <Compile Include="NEGOCIO\SucursalesNeg.cs" />
     <Compile Include="NEGOCIO\UnidadMedicionNeg.cs" />

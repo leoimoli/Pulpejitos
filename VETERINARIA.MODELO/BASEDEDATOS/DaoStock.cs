@@ -181,7 +181,6 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return RespuestaExito;
         }
-
         public bool ValidarCodigoExistente(string codigoArmado)
         {
             bool Existe = false;
