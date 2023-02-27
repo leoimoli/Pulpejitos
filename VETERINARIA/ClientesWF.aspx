@@ -106,13 +106,13 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Apellido(*)</label>
-                                <input type="text" runat="server" id="txtApellido" class="form-control" placeholder="Apellido">
+                                <input type="text" runat="server" id="txtApellido" class="form-control" placeholder="Apellido" style='text-transform:uppercase'>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Nombre(*)</label>
-                                <input type="text" runat="server" id="txtNombre" class="form-control" placeholder="Nombre">
+                                <input type="text" runat="server" id="txtNombre" class="form-control" placeholder="Nombre" style='text-transform:uppercase'>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Email</label>
-                                <input type="text" runat="server" id="txtEmail" class="form-control" placeholder="Email">
+                                <input type="text" runat="server" id="txtEmail" class="form-control" placeholder="Email" style='text-transform:uppercase'>
                             </div>
                         </div>
                     </div>

@@ -114,15 +114,9 @@
                                                             <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
                                                             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                                                 <li class="dropdown-item">
-                                                                    <%--                                                        <a href="#vi">Editar</a>--%>
-
-                                                                    <%-- <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
-                                                            CommandArgument='<%# Eval("IdCliente") %>' ID="btnEditarCliente" OnCommand="btnEditarCliente_Command" />--%>
-
+                                                                    <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                                        CommandArgument='<%# Eval("idMascota") %>' ID="btnEditarMascota" OnCommand="btnEditarMascota_Command" />
                                                                 </li>
-                                                                <%-- <li class="dropdown-item">
-                                                        <a href="#">Eliminar</a>
-                                                    </li>--%>
                                                             </ul>
                                                         </div>
                                                     </td>
@@ -168,6 +162,7 @@
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Dni titular(*)</label>
                                 <input type="text" runat="server" id="txtDni" class="form-control" placeholder="Dni">
+                                <asp:Button Text="BuscarCliente" runat="server" OnClick="btnBuscarCliente_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet; opacity: 0; line-height: 0px; border: none;" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -187,7 +182,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Nombre de la Mascota(*)</label>
-                                <input type="text" runat="server" id="txtNombreMascota" class="form-control" placeholder="Nombre de la Mascota" maxlength="10">
+                                <input type="text" runat="server" id="txtNombreMascota" class="form-control" placeholder="Nombre de la Mascota" style='text-transform: uppercase'>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -215,7 +210,7 @@
                                             <i class="mdi mdi-calendar-range"></i>
                                         </span>
                                     </div>
-                                    <input type="date" class="form-control" runat="server" id="FechaNacimiento" data-mask="00/00/0000" placeholder="">
+                                    <input type="date" class="form-control" runat="server" id="FechaNacimiento" placeholder="">
                                 </div>
                                 <p style="font-size: 90%">ex. 99/99/9999</p>
                             </div>

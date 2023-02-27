@@ -15,9 +15,13 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public string NombreEspecie { get; set; }
         public int idRaza { get; set; }
         public string NombreRaza { get; set; }
-        public int idCliente { get; set; }
-        public DateTime FechaDeAlta { get; set; }        
+        public DateTime FechaDeAlta { get; set; }
         public int idUsuario { get; set; }
         public int EdadMascota { get; set; }
+        /////Datos Clientes
+        public int idCliente { get; set; }
+        public string DniCliente { get; set; }
+        public string NombreCliente { get; set; }
+        public string ApellidoCliente { get; set; }
     }
 }

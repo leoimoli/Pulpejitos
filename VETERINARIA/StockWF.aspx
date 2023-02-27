@@ -116,7 +116,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Descripción(*)</label>
-                                <input type="text" runat="server" id="txtDescripción" class="form-control" placeholder="Descripción Producto">
+                                <input type="text" runat="server" id="txtDescripción" class="form-control" placeholder="Descripción Producto" style='text-transform:uppercase'>
                                 <%--<span class="mt-2 d-block">We'll never share your email with anyone else.</span>--%>
                             </div>
                         </div>

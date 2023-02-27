@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 using VETERINARIA.MODELO.ENTIDADES;
 
 namespace VETERINARIA.MODELO.BASEDEDATOS
@@ -20,13 +21,56 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
+
+        public List<Clientes> BuscarClientePorDni(string nroDni)
+        {
+            List<Clientes> _listaClientes = new List<Clientes>();
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = connection;
+                    DataTable Tabla = new DataTable();
+                    MySqlParameter[] oParam = {
+                                      new MySqlParameter("NroDni_in", nroDni)};
+                    string proceso = "SP_Consultar_BuscarClientePorDni";
+                    MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                    dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    dt.SelectCommand.Parameters.AddRange(oParam);
+                    dt.Fill(Tabla);
+                    if (Tabla.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in Tabla.Rows)
+                        {
+                            Clientes listaCliente = new Clientes();
+                            listaCliente.IdCliente = Convert.ToInt32(item["idCliente"].ToString());
+                            listaCliente.Apellido = item["Apellido"].ToString();
+                            listaCliente.Nombre = item["Nombre"].ToString();
+                            listaCliente.ApellidoNombre = listaCliente.Apellido + " " + listaCliente.Nombre;
+                            listaCliente.Dni = item["Dni"].ToString();
+                            listaCliente.Email = item["Email"].ToString();
+                            listaCliente.Telefono = item["Telefono"].ToString();
+                            _listaClientes.Add(listaCliente);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return _listaClientes;
+        }
         public bool EditarCliente(Clientes _cliente, int idClienteSeleccionado)
         {
             bool exito = false;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 try
-                {                  
+                {
                     connection.Close();
                     connection.Open();
                     string Actualizar = "SP_Editar_EditarCliente";
@@ -37,7 +81,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     cmd.Parameters.AddWithValue("Apellido_in", _cliente.Apellido);
                     cmd.Parameters.AddWithValue("Nombre_in", _cliente.Nombre);
                     cmd.Parameters.AddWithValue("Email_in", _cliente.Email);
-                    cmd.Parameters.AddWithValue("Telefono_in", _cliente.Telefono);                 
+                    cmd.Parameters.AddWithValue("Telefono_in", _cliente.Telefono);
                     cmd.Parameters.AddWithValue("idUsuario_in", _cliente.idUsuario);
                     cmd.ExecuteNonQuery();
                     exito = true;

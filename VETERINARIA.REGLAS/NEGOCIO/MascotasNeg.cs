@@ -20,19 +20,54 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                 lista = _dao.BuscarMascotasPorFiltros(dni, nombreMascota, especie, raza);
             }
             catch (Exception ex)
-            { }
+            { throw ex; }
             return lista;
         }
 
         public static bool EditarMascota(Mascotas mascotas, int idMascotaSeleccionada)
         {
-            throw new NotImplementedException();
+            bool exito = false;
+            DaoMascotas _dao = new DaoMascotas();
+            try
+            {
+                exito = _dao.EditarMascota(mascotas, idMascotaSeleccionada);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return exito;
         }
 
         public static bool InsertarMascota(Mascotas mascotas)
         {
-            throw new NotImplementedException();
+            bool exito = false;
+            try
+            {
+                DaoMascotas _dao = new DaoMascotas();
+                exito = _dao.InsertarMascota(mascotas);
+
+            }
+            catch (Exception ex)
+            { throw ex; }
+            return exito;
         }
+
+        public static Mascotas ListarMascotaPorId(int idMascotaSeleccionada)
+        {
+            DaoMascotas _dao = new DaoMascotas();
+            Mascotas _listaMascotas = new Mascotas();
+            try
+            {
+                _listaMascotas = _dao.ListarMascotaPorId(idMascotaSeleccionada);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _listaMascotas;
+        }
+
         public static List<Mascotas> ListarMascotas()
         {
             DaoMascotas _dao = new DaoMascotas();

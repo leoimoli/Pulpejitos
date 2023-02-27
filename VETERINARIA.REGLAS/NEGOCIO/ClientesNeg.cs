@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using VETERINARIA.MODELO.BASEDEDATOS;
@@ -74,6 +75,21 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                 throw ex;
             }
             return _Clientes;
+        }
+
+        public static List<Clientes> BuscarClientePorDni(string nroDni)
+        {
+            DaoClientes _dao = new DaoClientes();
+            List<Clientes> _lista = new List<Clientes>();
+            try
+            {
+                _lista = _dao.BuscarClientePorDni(nroDni);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _lista;
         }
     }
 }

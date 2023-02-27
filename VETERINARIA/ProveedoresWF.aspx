@@ -97,13 +97,13 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Razón Social(*)</label>
-                                <input type="text" runat="server" id="txtRazonSocial" class="form-control" placeholder="Razón Social">
+                                <input type="text" runat="server" id="txtRazonSocial" class="form-control" placeholder="Razón Social" style='text-transform:uppercase'>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Persona de Contacto</label>
-                                <input type="text" runat="server" id="txtContacto" class="form-control" placeholder="Persona de Contacto">
+                                <input type="text" runat="server" id="txtContacto" class="form-control" placeholder="Persona de Contacto" style='text-transform:uppercase'>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -117,13 +117,13 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Email</label>
-                                <input type="text" runat="server" id="txtEmail" class="form-control" placeholder="Email">
+                                <input type="text" runat="server" id="txtEmail" class="form-control" placeholder="Email" style='text-transform:uppercase'>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Calle</label>
-                                <input type="text" runat="server" id="txtCalle" class="form-control" placeholder="Calle">
+                                <input type="text" runat="server" id="txtCalle" class="form-control" placeholder="Calle" style='text-transform:uppercase'>
                             </div>
                         </div>
                         <div class="col-lg-4">
