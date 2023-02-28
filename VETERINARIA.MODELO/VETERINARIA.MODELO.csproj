@@ -59,10 +59,12 @@
     <Compile Include="BASEDEDATOS\DaoStock.cs" />
     <Compile Include="BASEDEDATOS\DaoSucursal.cs" />
     <Compile Include="BASEDEDATOS\DaoUnidadMedicion.cs" />
+    <Compile Include="BASEDEDATOS\DaoVentas.cs" />
     <Compile Include="BASEDEDATOS\EjemploDAO.cs" />
     <Compile Include="ENTIDADES\Categorias.cs" />
     <Compile Include="ENTIDADES\Class1.cs" />
     <Compile Include="ENTIDADES\Clientes.cs" />
+    <Compile Include="ENTIDADES\DetalleOferta.cs" />
     <Compile Include="ENTIDADES\Especies.cs" />
     <Compile Include="ENTIDADES\Marcas.cs" />
     <Compile Include="ENTIDADES\Mascotas.cs" />
@@ -73,6 +75,8 @@
     <Compile Include="ENTIDADES\Stock.cs" />
     <Compile Include="ENTIDADES\Sucursal.cs" />
     <Compile Include="ENTIDADES\UnidadDeMedicion.cs" />
+    <Compile Include="ENTIDADES\Ventas.cs" />
+    <Compile Include="ENTIDADES\VentasEspejo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

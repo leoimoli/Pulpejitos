@@ -44,6 +44,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             bool existe = _dao.ValidarCodigoExistente(codigoArmado);
             return existe;
         }
+        public static List<Ventas> BuscarProductoParaVenta(string codigoProducto)
+        {
+            DaoVentas _dao = new DaoVentas();
+            List<Ventas> _lista = new List<Ventas>();
+            try
+            {
+                _lista = _dao.BuscarProductoParaVenta(codigoProducto);
+            }
+            catch (Exception ex)
+            {
+                throw ex;   
+            }
+            return _lista;
+        }
         //public static List<Productos> ListadoDeProductos()
         //{
         //    List<Productos> _listaProductos = new List<Productos>();

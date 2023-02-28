@@ -138,22 +138,7 @@ public partial class MascotasWF : System.Web.UI.Page
             DivMensajeError.Visible = true;
             lblMensajeError.Text = ex.Message;
         }
-    }
-    private void LimpiarCampos_ExitoEditar()
-    {
-        idClienteTitularMascota = 0;
-        txtDni.Value = String.Empty;
-        txtApellido.Value = String.Empty;
-        txtNombre.Value = String.Empty;
-        txtNombreMascota.Value = String.Empty;
-        FechaNacimiento.Value = String.Empty;
-        cmbAlta_Especie.ClearSelection();
-        cmbAlta_Raza.ClearSelection();
-        int MensajesVisible = 1;
-        MostrarMensajes(MensajesVisible);
-        lblMensajeExito.Text = "Atención: se registro la edición de la mascota exitosamente.";
-        txtDni.Focus();
-    }
+    }   
     protected void btnCancelar_Click(object sender, EventArgs e)
     {
         try
@@ -200,7 +185,7 @@ public partial class MascotasWF : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            throw ex;
         }
     }
     protected void btnEditarMascota_Command(object sender, CommandEventArgs e)
@@ -385,6 +370,21 @@ public partial class MascotasWF : System.Web.UI.Page
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
         FuncionListarMascotas();
+    }
+    private void LimpiarCampos_ExitoEditar()
+    {
+        idClienteTitularMascota = 0;
+        txtDni.Value = String.Empty;
+        txtApellido.Value = String.Empty;
+        txtNombre.Value = String.Empty;
+        txtNombreMascota.Value = String.Empty;
+        FechaNacimiento.Value = String.Empty;
+        cmbAlta_Especie.ClearSelection();
+        cmbAlta_Raza.ClearSelection();
+        int MensajesVisible = 1;
+        MostrarMensajes(MensajesVisible);
+        lblMensajeExito.Text = "Atención: se registro la edición de la mascota exitosamente.";
+        txtDni.Focus();
     }
     private void FuncionListarMascotas()
     {

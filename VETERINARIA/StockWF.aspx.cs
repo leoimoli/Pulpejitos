@@ -115,6 +115,8 @@ public partial class _StockWF : Page
             List<Stock> Producto = ProductoNeg.BuscarProductoPorCodigo(Descripcion);
             if (Producto.Count > 0)
             {
+                int MensajesVisible = 0;
+                MostrarMensajes(MensajesVisible);
                 foreach (Stock item in Producto)
                 {
                     AltaStock_txtCodigoProducto.Value = Descripcion;
@@ -135,6 +137,12 @@ public partial class _StockWF : Page
                     { HabilitarCampos(value); }
 
                 }
+            }
+            else
+            {
+                int MensajesVisible = 2;
+                MostrarMensajes(MensajesVisible);
+                lblMensajeError.Text = "Atención: No se encontro ningun producto para el código producto ingresado.";
             }
         }
         catch (Exception ex)
@@ -180,6 +188,7 @@ public partial class _StockWF : Page
             bool value = false;
             CamposEnableFalse(value);
             LimpiarCamposCargaStockCancelar();
+            FuncionListarProductos();
             DivGrillaProductos.Visible = true;
             DivAltaProducto.Visible = false;
             divAltaStock.Visible = false;
@@ -364,7 +373,8 @@ public partial class _StockWF : Page
         AltaStock_txtDescripcion.Value = String.Empty;
         AltaStock_ValorUnitario.Value = String.Empty;
         AltaStock_Cantidad.Value = String.Empty;
-        CargarComboProveedores();
+        //CargarComboProveedores();
+        AltaStock_cmbProveedor.ClearSelection();
         AltaStock_FechaFactura.Value = String.Empty;
         AltaStock_Remito.Value = String.Empty;
         DivGrillaCargaStock.Visible = false;
@@ -386,8 +396,10 @@ public partial class _StockWF : Page
         AltaStock_FechaFactura.Disabled = false;
         AltaStock_Remito.Disabled = false;
         DivGrillaCargaStock.Visible = false;
-        CargarComboProveedores();
-        CargarComboSucursal();
+        //CargarComboProveedores();
+        //CargarComboSucursal();
+        AltaStock_cmbSucursal.ClearSelection();
+        AltaStock_cmbProveedor.ClearSelection();
         RepeaterCargaStock.DataSource = null;
         RepeaterCargaStock.DataBind();
         lblTotalFactura.Text = "0";
@@ -401,7 +413,10 @@ public partial class _StockWF : Page
         txtCodigo.Value = String.Empty;
         txtDescripción.Value = String.Empty;
         DivMensajeExito.Visible = true;
-        CargarCombos();
+        //CargarCombos();
+        cmbMarca.ClearSelection();
+        cmbCategoria.ClearSelection();
+        cmbUnidadesMedicion.ClearSelection();
         lblMensajeExito.Text = "Atención: Se género un nuevo producto exitosamente.";
     }
     private void CargarComboProveedores()
@@ -493,6 +508,27 @@ public partial class _StockWF : Page
             DivMensajeExito.Visible = true;
             lblMensajeExito.Text = "Atención: Se género un nuevo código de barra exitosamente";
             txtCodigo.Value = CodigoArmado;
+        }
+    }
+    private void MostrarMensajes(int mensajesVisible)
+    {
+        ///// NADA
+        if (mensajesVisible == 0)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = false;
+        }
+        ///// Hay EXITO
+        if (mensajesVisible == 1)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = true;
+        }
+        ///// Hay ERROR
+        if (mensajesVisible == 2)
+        {
+            DivMensajeError.Visible = true;
+            DivMensajeExito.Visible = false;
         }
     }
     #endregion
