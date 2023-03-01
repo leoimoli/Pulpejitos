@@ -123,13 +123,18 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
 
                     for (int i = 0; i < listaProductos.Count; i++)
                     {
+                        listaProductos[i].StockNuevoCalculado = listaProductos[i].StockActual - listaProductos[i].CantidadVenta;
+                        if (listaProductos[i].StockNuevoCalculado < 0)
+                        {
+                            listaProductos[i].StockNuevoCalculado = 0;
+                        }
                         connection.Close();
                         connection.Open();
-                        string proceso = "ActualizarStock";
+                        string proceso = "SP_Actualizar_Stock";
                         MySqlCommand cmd = new MySqlCommand(proceso, connection);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("idProducto_in", listaProductos[i].idProducto);
-                        cmd.Parameters.AddWithValue("Cantidad_in", listaProductos[i].StockNuevoCalculado);
+                        cmd.Parameters.AddWithValue("StockActualizado_in", listaProductos[i].StockNuevoCalculado);
                         cmd.ExecuteNonQuery();
                     }
                 }

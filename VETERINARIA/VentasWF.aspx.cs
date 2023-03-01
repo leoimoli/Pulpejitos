@@ -114,7 +114,7 @@ public partial class VentasWF : System.Web.UI.Page
                 VentaCerrada = true;
                 //int idusuarioLogueado = Sesion.UsuarioLogueado.IdUsuario;
                 int idusuario = 1;
-                listaProductos[0].PrecioVenta = PrecioFinal;
+                //listaProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
                 idVenta = VentasNeg.RegistrarVenta(listaProductos, idusuario);
                 bool AplicaDescuento = true;
                 
@@ -131,7 +131,7 @@ public partial class VentasWF : System.Web.UI.Page
                 VentaCerrada = true;
                 //int idusuarioLogueado = Sesion.UsuarioLogueado.IdUsuario;
                 int idusuario = 1;
-                listadoDeProductos[0].PrecioVenta = PrecioFinal;
+                //listadoDeProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
                 idVenta = VentasNeg.RegistrarVenta(listadoDeProductos, idusuario);
                 bool AplicaDescuento = false;
 
@@ -154,6 +154,7 @@ public partial class VentasWF : System.Web.UI.Page
 
     #region Funciones
     public static List<Ventas> listadoDeProductos = new List<Ventas>();
+    decimal PrecioTotalFinal = 0;
     private void Ventas_FuncionBuscarProducto()
     {
         try
@@ -189,8 +190,7 @@ public partial class VentasWF : System.Web.UI.Page
                 txtCantidad.Value = "1";
                 txtProducto.Focus();
             }
-            ///// Calculo el Valor Total de La Venta
-            decimal PrecioTotalFinal = 0;
+            ///// Calculo el Valor Total de La Venta          
             foreach (var item in listadoDeProductos)
             {
                 PrecioTotalFinal += Convert.ToDecimal(item.MontoTotalPorProducto.ToString());
