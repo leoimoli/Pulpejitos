@@ -23,7 +23,6 @@
                 </button>
             </div>
         </div>
-
     </div>
     <!-- FILTROS DE BUSQUEDA EN CONSULTA -->
     <div class="row" id="DivFiltros" runat="server">

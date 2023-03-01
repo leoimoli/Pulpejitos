@@ -14,6 +14,9 @@ public partial class MascotasWF : System.Web.UI.Page
     {
         try
         {
+            if (HttpContext.Current.Session["USUARIO"] == null) Response.Redirect("IngresoWF.aspx");
+            Usuarios usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
+
             if (!IsPostBack)
             {
                 txtDniTitular.Focus();
