@@ -9,6 +9,8 @@ namespace VETERINARIA.MODELO.ENTIDADES
     public class Ventas
     {
         public int idProducto { get; set; }
+        public int idUsuario { get; set; }
+        public int idSucursal { get; set; }
         public string CodigoProducto { get; set; }
         public decimal ValorUnitario { get; set; }
         public int CantidadVenta{ get; set; }
@@ -18,6 +20,7 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public decimal MontoDescuento { get; set; }
         public decimal MontoTotalPorProducto { get; set; }
         public int StockActual { get; set; }
+        public int StockActualParaSucursal { get; set; }
         public DateTime FechaVenta { get; set; }
         public int StockNuevoCalculado { get; set; }
         public decimal MontoTotalDeLaVenta { get; set; }

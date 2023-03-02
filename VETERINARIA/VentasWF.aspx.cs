@@ -10,9 +10,18 @@ using VETERINARIA.REGLAS.NEGOCIO;
 
 public partial class VentasWF : System.Web.UI.Page
 {
+    private Usuarios _usuarioActual { get; set; }
+    private Sucursal _sucursalActual { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        try
+        {
+            if (HttpContext.Current.Session["USUARIO"] == null) Response.Redirect("IngresoWF.aspx");
+            _usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
+            _sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
+        }
+        catch (Exception ex)
+        { throw ex; }
     }
     #region Botones
     protected void btnBuscarProducto_Click(object sender, EventArgs e)
@@ -37,11 +46,133 @@ public partial class VentasWF : System.Web.UI.Page
             throw ex;
         }
     }
+    protected void btnLimpiar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Ventas_FuncionLimpiarPostExito();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    private List<Ventas> BuscarPromociones(List<Ventas> listadoDeProductos)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
+
+    #region Funciones
     public static List<DetalleOferta> listaOfertas = new List<DetalleOferta>();
     public static List<Ventas> listaProductosConDescuentos = new List<Ventas>();
     public static decimal PrecioFinal = 0;
     bool VentaCerrada = false;
     public static int idVenta = 0;
+    public static List<Ventas> listadoDeProductos = new List<Ventas>();
+    decimal PrecioTotalFinal = 0;
+    private void Ventas_FuncionBuscarProducto()
+    {
+        try
+        {
+            string CodigoProducto = txtProducto.Value;
+            if (!listadoDeProductos.Any(x => x.CodigoProducto == CodigoProducto))
+            {
+                ListaProductoEnGrilla();
+            }
+            else
+            {
+                int cantidadingresada = 1;
+                if (txtCantidad.Value != "")
+                {
+                    cantidadingresada = Convert.ToInt32(txtCantidad.Value);
+                }
+                foreach (var item in listadoDeProductos)
+                {
+                    if (item.CodigoProducto == CodigoProducto)
+                    {
+                        int CantidadOld = Convert.ToInt32(item.CantidadVenta.ToString());
+                        int CantidadNew = Convert.ToInt32(cantidadingresada.ToString());
+                        int cantidad = CantidadOld + CantidadNew;
+                        item.CantidadVenta = cantidad;
+                        decimal ValorVenta = Convert.ToDecimal(item.PrecioVenta.ToString());
+                        decimal PrecioFinal = cantidad * ValorVenta;
+                        item.MontoTotalPorProducto = PrecioFinal;
+                    }
+                }
+                RepeaterVentas.DataSource = listadoDeProductos;
+                RepeaterVentas.DataBind();
+                txtProducto.Value = String.Empty;
+                txtCantidad.Value = "1";
+                txtProducto.Focus();
+            }
+            ///// Calculo el Valor Total de La Venta          
+            foreach (var item in listadoDeProductos)
+            {
+                PrecioTotalFinal += Convert.ToDecimal(item.MontoTotalPorProducto.ToString());
+            }
+            txtProducto.Value = String.Empty;
+            txtCantidad.Value = "1";
+            lblTotalFactura.Text = Convert.ToString(PrecioTotalFinal);
+            listadoDeProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    private void ListaProductoEnGrilla()
+    {
+        string codigoProducto = String.Empty;
+        if (txtProducto.Value != "")
+        { codigoProducto = txtProducto.Value; }
+
+        List<Ventas> _lista = new List<Ventas>();
+        _lista = StockNeg.BuscarProductoParaVenta(codigoProducto);
+
+        if (_lista.Count > 0 && _lista[0].PrecioVenta > 0)
+        {
+            int cantidadingresada = Convert.ToInt32(txtCantidad.Value);
+            _lista[0].CantidadVenta = cantidadingresada;
+            _lista[0].MontoTotalPorProducto = _lista[0].PrecioVenta * cantidadingresada;
+            _lista[0].PrecioVenta = _lista[0].PrecioVenta;
+            var lista = _lista.First();
+            listadoDeProductos.Add(lista);
+            RepeaterVentas.DataSource = listadoDeProductos;
+            RepeaterVentas.DataBind();
+            txtProducto.Value = String.Empty;
+            txtCantidad.Value = "1";
+            txtProducto.Focus();
+        }
+        else
+        {
+            int MensajesVisible = 2;
+            MostrarMensajes(MensajesVisible);
+            lblMensajeError.Text = "Atención: El producto ingresado no existe o no tiene un precio de venta cargado.";
+
+        }
+    }
+    private void MostrarMensajes(int mensajesVisible)
+    {
+        ///// NADA
+        if (mensajesVisible == 0)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = false;
+        }
+        ///// Hay EXITO
+        if (mensajesVisible == 1)
+        {
+            DivMensajeError.Visible = false;
+            DivMensajeExito.Visible = true;
+        }
+        ///// Hay ERROR
+        if (mensajesVisible == 2)
+        {
+            DivMensajeError.Visible = true;
+            DivMensajeExito.Visible = false;
+        }
+    }
     private void Ventas_FacturarVenta()
     {
         List<DetalleOferta> lista = new List<DetalleOferta>();
@@ -107,17 +238,16 @@ public partial class VentasWF : System.Web.UI.Page
                     Productos.ValorUnitario = item.ValorUnitario;
                     Productos.PrecioVenta = item.PrecioVenta;
 
-                    Productos.PrecioVenta = PrecioFinal;                    
+                    Productos.PrecioVenta = PrecioFinal;
                     listaProductos.Add(Productos);
                 }
                 listaOfertas = lista;
                 VentaCerrada = true;
-                //int idusuarioLogueado = Sesion.UsuarioLogueado.IdUsuario;
-                int idusuario = 1;
-                //listaProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
-                idVenta = VentasNeg.RegistrarVenta(listaProductos, idusuario);
+                int idusuario = _usuarioActual.IdUsuario;
+                int idSucursal = _sucursalActual.idSucursal;
+                idVenta = VentasNeg.RegistrarVenta(listaProductos, idusuario, idSucursal);
                 bool AplicaDescuento = true;
-                
+
                 //BloquearPantalla();
                 //VueltoNuevoWF _vuelto = new VueltoNuevoWF(listaProductos[0].PrecioVentaFinal, AplicaDescuento, idVenta, listaProductos, listaOfertas);
                 //_vuelto.Show();
@@ -130,9 +260,10 @@ public partial class VentasWF : System.Web.UI.Page
                 listaOfertas = lista;
                 VentaCerrada = true;
                 //int idusuarioLogueado = Sesion.UsuarioLogueado.IdUsuario;
-                int idusuario = 1;
+                int idusuario = _usuarioActual.IdUsuario;
+                int idSucursal = _sucursalActual.idSucursal;
                 //listadoDeProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
-                idVenta = VentasNeg.RegistrarVenta(listadoDeProductos, idusuario);
+                idVenta = VentasNeg.RegistrarVenta(listadoDeProductos, idusuario, idSucursal);
                 bool AplicaDescuento = false;
 
                 //BloquearPantalla();
@@ -142,121 +273,27 @@ public partial class VentasWF : System.Web.UI.Page
                 //DesbloquearPantalla();
                 //lblBack.Visible = true;               
             }
-        }
-    }
-    private List<Ventas> BuscarPromociones(List<Ventas> listadoDeProductos)
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion
-
-
-    #region Funciones
-    public static List<Ventas> listadoDeProductos = new List<Ventas>();
-    decimal PrecioTotalFinal = 0;
-    private void Ventas_FuncionBuscarProducto()
-    {
-        try
-        {
-            string CodigoProducto = txtProducto.Value;
-            if (!listadoDeProductos.Any(x => x.CodigoProducto == CodigoProducto))
+            if (idVenta > 0)
             {
-                ListaProductoEnGrilla();
+                int MensajesVisible = 1;
+                MostrarMensajes(MensajesVisible);
+                lblMensajeError.Text = "Atención: Se registro la venta exitosamente.";
+                btnLimpiar.Visible = true;
+                btnCobrar.Visible = false;
             }
-            else
-            {
-                int cantidadingresada = 1;
-                if (txtCantidad.Value != "")
-                {
-                    cantidadingresada = Convert.ToInt32(txtCantidad.Value);
-                }
-                foreach (var item in listadoDeProductos)
-                {
-                    if (item.CodigoProducto == CodigoProducto)
-                    {
-                        int CantidadOld = Convert.ToInt32(item.CantidadVenta.ToString());
-                        int CantidadNew = Convert.ToInt32(cantidadingresada.ToString());
-                        int cantidad = CantidadOld + CantidadNew;
-                        item.CantidadVenta = cantidad;
-                        decimal ValorVenta = Convert.ToDecimal(item.PrecioVenta.ToString());
-                        decimal PrecioFinal = cantidad * ValorVenta;
-                        item.MontoTotalPorProducto = PrecioFinal;
-                    }
-                }
-                RepeaterVentas.DataSource = listadoDeProductos;
-                RepeaterVentas.DataBind();
-                txtProducto.Value = String.Empty;
-                txtCantidad.Value = "1";
-                txtProducto.Focus();
-            }
-            ///// Calculo el Valor Total de La Venta          
-            foreach (var item in listadoDeProductos)
-            {
-                PrecioTotalFinal += Convert.ToDecimal(item.MontoTotalPorProducto.ToString());
-            }
-            txtProducto.Value = String.Empty;
-            txtCantidad.Value = "1";
-            lblTotalFactura.Text = Convert.ToString(PrecioTotalFinal);
-            listadoDeProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
         }
     }
-
-    private void ListaProductoEnGrilla()
+    private void Ventas_FuncionLimpiarPostExito()
     {
-        string codigoProducto = String.Empty;
-        if (txtProducto.Value != "")
-        { codigoProducto = txtProducto.Value; }
-
-        List<Ventas> _lista = new List<Ventas>();
-        _lista = StockNeg.BuscarProductoParaVenta(codigoProducto);
-
-        if (_lista.Count > 0 && _lista[0].PrecioVenta > 0)
-        {
-            int cantidadingresada = Convert.ToInt32(txtCantidad.Value);
-            _lista[0].CantidadVenta = cantidadingresada;
-            _lista[0].MontoTotalPorProducto = _lista[0].PrecioVenta * cantidadingresada;
-            _lista[0].PrecioVenta = _lista[0].PrecioVenta;
-            var lista = _lista.First();
-            listadoDeProductos.Add(lista);
-            RepeaterVentas.DataSource = listadoDeProductos;
-            RepeaterVentas.DataBind();
-            txtProducto.Value = String.Empty;
-            txtCantidad.Value = "1";
-            txtProducto.Focus();
-        }
-        else
-        {
-            int MensajesVisible = 2;
-            MostrarMensajes(MensajesVisible);
-            lblMensajeError.Text = "Atención: El producto ingresado no existe o no tiene un precio de venta cargado.";
-
-        }
-    }
-    private void MostrarMensajes(int mensajesVisible)
-    {
-        ///// NADA
-        if (mensajesVisible == 0)
-        {
-            DivMensajeError.Visible = false;
-            DivMensajeExito.Visible = false;
-        }
-        ///// Hay EXITO
-        if (mensajesVisible == 1)
-        {
-            DivMensajeError.Visible = false;
-            DivMensajeExito.Visible = true;
-        }
-        ///// Hay ERROR
-        if (mensajesVisible == 2)
-        {
-            DivMensajeError.Visible = true;
-            DivMensajeExito.Visible = false;
-        }
+        RepeaterVentas.DataSource = null;
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
+        listadoDeProductos = null;
+        listaOfertas = null;
+        listaProductosConDescuentos = null;
+        txtProducto.Focus();
+        btnLimpiar.Visible = false;
+        btnCobrar.Visible = true;
     }
     #endregion
 }
