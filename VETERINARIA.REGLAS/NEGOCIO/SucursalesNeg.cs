@@ -17,5 +17,21 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             lista = _dao.CargarComboSucursal();
             return lista;
         }
+
+        public static Sucursal ValidarSucursal(string idSucursal)
+        {
+            try
+            {
+                DaoSucursal _dao = new DaoSucursal();
+                var sucursalDB = _dao.ObtenerSucursal(idSucursal);
+                if (sucursalDB != null)
+                    return sucursalDB;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }
     }
 }

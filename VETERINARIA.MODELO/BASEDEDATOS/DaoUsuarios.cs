@@ -32,7 +32,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = connection;
                     DataTable Tabla = new DataTable();
-                    MySqlParameter[] oParam = { new MySqlParameter("usuario_in", usuario) };
+                    MySqlParameter[] oParam = { new MySqlParameter("Dni_in", usuario)};
                     string proceso = "SP_Consultar_BuscarUsuarioParaLogin";
                     MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
                     dt.SelectCommand.CommandType = CommandType.StoredProcedure;
@@ -42,13 +42,18 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     {
                         foreach (DataRow item in Tabla.Rows)
                         {
-                            usuarioDB.idUsuario = Convert.ToInt32(item["idUsuario"].ToString());
-                            usuarioDB.Usuario = item["Usuario"].ToString();
-                            usuarioDB.Password = item["Password"].ToString();
+                            usuarioDB.IdUsuario = Convert.ToInt32(item["idUsuario"].ToString());
+                            usuarioDB.Apellido = item["Apellido"].ToString();
+                            usuarioDB.Nombre = item["Nombre"].ToString();
+                            usuarioDB.Dni = item["Dni"].ToString();                            
+                            usuarioDB.FechaDeAlta = Convert.ToDateTime(item["FechaAlta"].ToString());
+                            usuarioDB.FechaUltimaConexion = Convert.ToDateTime(item["FechaUltimaConexion"].ToString());
+                            usuarioDB.Contraseña = item["Contrasenia"].ToString();
+                            usuarioDB.Estado = item["Estado"].ToString();
+                            usuarioDB.idPerfil = Convert.ToInt32(item["idPerfil"].ToString());                            
                         }
                     }
                     connection.Close();
-
                 }
                 catch (Exception ex)
                 {

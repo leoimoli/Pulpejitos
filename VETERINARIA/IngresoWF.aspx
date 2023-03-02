@@ -67,6 +67,13 @@
                                     <input type="password" runat="server" id="txtPassword" class="form-control input-lg" placeholder="Contraseña">
                                 </div>
 
+                                <div class="col-md-12 mb-4">
+                                    <div class="form-group">                                      
+                                        <asp:DropDownList class="form-control" ID="cmbSucursal" runat="server">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12">
                                     <div class="d-flex my-2 justify-content-between">
                                         <div class="d-inline-block mr-3">

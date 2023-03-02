@@ -15,6 +15,7 @@ public partial class IngresoWF : System.Web.UI.Page
         {
             HttpContext.Current.Session["USUARIO"] = null;
             MostrarError(string.Empty, false);
+            CargarComboSucursal();
         }
     }
 
@@ -27,8 +28,14 @@ public partial class IngresoWF : System.Web.UI.Page
             string usuario = txtUsuario.Value;
             string password = txtPassword.Value;
             Usuarios usuarioDB = UsuariosNeg.ValidarUsuario(usuario, password);
-            if (usuarioDB == null)
+            if (usuarioDB != null)
+            {
                 HttpContext.Current.Session["USUARIO"] = usuarioDB;
+
+                Sucursal SucursalDB = SucursalesNeg.ValidarSucursal(cmbSucursal.SelectedItem.Value);
+                HttpContext.Current.Session["SUCURSAL"] = SucursalDB;
+                Response.Redirect("InicioWF.aspx");
+            }
             else
                 MostrarError("Nombre de usuario o contraseña inválidos.", true);
         }
@@ -42,5 +49,14 @@ public partial class IngresoWF : System.Web.UI.Page
     {
         lblMensajeError.Text = mensaje;
         DivMensajeError.Visible = mostrar;
+    }
+    private void CargarComboSucursal()
+    {
+        List<Sucursal> SucursalesSeleccionada = new List<Sucursal>();
+        SucursalesSeleccionada = SucursalesNeg.CargarComboSucursal();
+        foreach (Sucursal item in SucursalesSeleccionada)
+        {
+            cmbSucursal.Items.Add(new ListItem { Text = item.Nombre, Value = item.idSucursal.ToString() });
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             {
                 DaoUsuarios _dao = new DaoUsuarios();
                 var usuarioDB = _dao.BuscarUsuarioLogin(usuario);
-                if (usuarioDB != null && usuarioDB.Password == passwoord)
+                if (usuarioDB != null && usuarioDB.Contraseña == passwoord)
                     return usuarioDB;
             }
             catch (Exception ex)
