@@ -251,9 +251,9 @@ public partial class _StockWF : Page
         cmbMarca.ClearSelection();
         cmbCategoria.ClearSelection();
         cmbUnidadesMedicion.ClearSelection();
-        cmbMarca.SelectedValue = productoSeleccionado.idMarca.ToString();
-        cmbCategoria.SelectedValue = productoSeleccionado.idCategoriaProducto.ToString();
-        cmbUnidadesMedicion.SelectedValue = productoSeleccionado.idUnidadDeMedicion.ToString();
+        cmbMarca.Items.FindByValue(productoSeleccionado.idMarca.ToString()).Selected = true;
+        cmbCategoria.Items.FindByValue(productoSeleccionado.idCategoriaProducto.ToString()).Selected = true;
+        cmbUnidadesMedicion.Items.FindByValue(productoSeleccionado.idUnidadDeMedicion.ToString()).Selected = true;
         txtDescripción.Value = productoSeleccionado.Descripcion;
         txtPrecio.Value = productoSeleccionado.PrecioDeVenta.ToString();
         int MensajesVisible = 0;

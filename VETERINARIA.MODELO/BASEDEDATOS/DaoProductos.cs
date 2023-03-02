@@ -118,7 +118,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             producto.idProducto = Convert.ToInt32(item["idProducto"].ToString());
                             producto.CodigoProducto = item["CodigoProducto"].ToString();
                             producto.Descripcion = item["Descripcion"].ToString();
-                            producto.NombreMarca = item["MarcaProducto"].ToString();
+                            producto.NombreMarca = item["NombreMarca"].ToString();
                             producto.StockTotal = Convert.ToInt32(item["StockTotal"].ToString());
                             producto.PrecioDeVenta = decimal.Parse(item["PrecioDeVenta"].ToString());
                         }
