@@ -59,6 +59,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                                 listaProducto.PrecioVenta = Convert.ToDecimal("0.00");
                             }
                             listaProducto.StockActual = Convert.ToInt32(item["Stock"].ToString());
+                            listaProducto.StockActualParaSucursal = Convert.ToInt32(item["StockParaSucursal"].ToString());
                             _lista.Add(listaProducto);
                         }
                     }
@@ -74,7 +75,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             return _lista;
         }
 
-        public int InsertarVenta(List<Ventas> listaProductos, int idusuario)
+        public int InsertarVenta(List<Ventas> listaProductos, int idusuario, int idSucursal)
         {
             int idUltimaVenta = 0;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -91,6 +92,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("PrecioVentaFinal_in", producto.MontoTotalDeLaVenta);
                     cmd.Parameters.AddWithValue("idUsuario_in", idusuario);
+                    cmd.Parameters.AddWithValue("idSucursal_in", idSucursal);
                     cmd.Parameters.AddWithValue("Fecha_in", producto.FechaVenta);
                     MySqlDataReader r = cmd.ExecuteReader();
                     while (r.Read())
@@ -103,7 +105,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     }
                     if (idUltimaVenta > 0)
                     {
-                        ActualizarStockPorProductosVendidos(listaProductos);
+                        ActualizarStockPorProductosVendidos(listaProductos, idSucursal);
                     }
                     connection.Close();
                 }
@@ -113,7 +115,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
         }
 
-        private bool ActualizarStockPorProductosVendidos(List<Ventas> listaProductos)
+        private bool ActualizarStockPorProductosVendidos(List<Ventas> listaProductos, int idSucursal)
         {
             bool exito = false;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -136,6 +138,29 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                         cmd.Parameters.AddWithValue("idProducto_in", listaProductos[i].idProducto);
                         cmd.Parameters.AddWithValue("StockActualizado_in", listaProductos[i].StockNuevoCalculado);
                         cmd.ExecuteNonQuery();
+                        exito = true;
+                    }
+
+                    if (exito == true)
+                    {
+                        for (int i = 0; i < listaProductos.Count; i++)
+                        {
+                            listaProductos[i].StockNuevoCalculado = listaProductos[i].StockActualParaSucursal - listaProductos[i].CantidadVenta;
+                            if (listaProductos[i].StockNuevoCalculado < 0)
+                            {
+                                listaProductos[i].StockNuevoCalculado = 0;
+                            }
+                            connection.Close();
+                            connection.Open();
+                            string proceso = "SP_Actualizar_StockParaSucursal";
+                            MySqlCommand cmd = new MySqlCommand(proceso, connection);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("idProducto_in", listaProductos[i].idProducto);
+                            cmd.Parameters.AddWithValue("StockActualizado_in", listaProductos[i].StockNuevoCalculado);
+                            cmd.Parameters.AddWithValue("idSucursal_in", idSucursal);
+                            cmd.ExecuteNonQuery();
+                            exito = true;
+                        }
                     }
                 }
                 catch (Exception ex)
