@@ -51,9 +51,7 @@
                                 <ItemTemplate>
                                     <tr>
                                         <td><%# Eval("idProducto") %></td>
-                                        <td>
-                                            <%# Eval("Descripcion") %>
-                                        </td>
+                                        <td><%# Eval("Descripcion") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("CodigoProducto") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("NombreMarca") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("StockTotal") %></td>
@@ -65,10 +63,11 @@
                                                 <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
                                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                                     <li class="dropdown-item">
-                                                        <a href="#">Editar</a>
+                                                        <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                            CommandArgument='<%# Eval("idProducto") %>' ID="btnEditarProducto" OnCommand="btnEditarProducto_Command" />
                                                     </li>
                                                     <li class="dropdown-item">
-                                                        <a href="#">Eliminar</a>
+                                                        <a href="#">ELIMINAR</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -137,11 +136,15 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <asp:Button Text="Generar Código" runat="server" OnClick="btnGenerarCodigo_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1" style="color: blueviolet">Precio de Venta(*)</label>
+                                <input type="text" runat="server" id="txtPrecio" class="form-control" placeholder="Precio de venta" style='text-transform:uppercase'>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4">
+                            <asp:Button Text="Generar Código" runat="server" OnClick="btnGenerarCodigo_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
@@ -158,7 +161,7 @@
         </div>
     </div>
     <!-- FORMULARIO DE ALTA STOCK -->
-    <div class="row" id="divAltaStock" runat="server" visible="false">
+    <div class="row" id="DivAltaStock" runat="server" visible="false">
         <div class="col-lg-12">
 
             <div class="card card-default">

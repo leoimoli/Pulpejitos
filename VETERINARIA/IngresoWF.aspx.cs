@@ -31,7 +31,6 @@ public partial class IngresoWF : System.Web.UI.Page
             if (usuarioDB != null)
             {
                 HttpContext.Current.Session["USUARIO"] = usuarioDB;
-
                 Sucursal SucursalDB = SucursalesNeg.ValidarSucursal(cmbSucursal.SelectedItem.Value);
                 HttpContext.Current.Session["SUCURSAL"] = SucursalDB;
                 Response.Redirect("InicioWF.aspx");

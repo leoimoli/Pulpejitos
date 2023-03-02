@@ -52,6 +52,20 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             return exito;
         }
 
+        public static bool EditarProducto(Productos _producto, int idProductoSeleccionado)
+        {
+            bool exito = false;
+            DaoProductos _dao = new DaoProductos();
+            try
+            {
+                exito = _dao.EditarProducto(_producto, idProductoSeleccionado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return exito;
+        }
         public static List<Productos> ListarProductosDisponibles()
         {
             DaoProductos _dao = new DaoProductos();
@@ -64,6 +78,19 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             {
             }
             return _listaProductos;
+        }
+        public static Productos ListarProductosDisponibles(int idProducto)
+        {
+            DaoProductos _dao = new DaoProductos();
+            Productos _producto = new Productos();
+            try
+            {
+                _producto = _dao.BuscarProductosPorId(idProducto);
+            }
+            catch (Exception ex)
+            {
+            }
+            return _producto;
         }
 
         private static bool ValidarProductoExistente(string codigoProducto)

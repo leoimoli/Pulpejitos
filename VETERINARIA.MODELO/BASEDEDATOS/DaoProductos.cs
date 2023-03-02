@@ -93,6 +93,44 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 { throw ex; }
             }
         }
+
+        public Productos BuscarProductosPorId(int idProducto)
+        {
+            Productos producto = new Productos();
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+                    DataTable Tabla = new DataTable();
+                    MySqlParameter[] oParam = { new MySqlParameter("IdProducto_in", idProducto) };
+                    string proceso = "SP_Consultar_ProductoPorId";
+                    MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                    dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    dt.SelectCommand.Parameters.AddRange(oParam);
+                    dt.Fill(Tabla);
+                    if (Tabla.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in Tabla.Rows)
+                        {
+                            producto = new Productos();
+                            producto.idProducto = Convert.ToInt32(item["idProducto"].ToString());
+                            producto.CodigoProducto = item["CodigoProducto"].ToString();
+                            producto.Descripcion = item["Descripcion"].ToString();
+                            producto.NombreMarca = item["MarcaProducto"].ToString();
+                            producto.StockTotal = Convert.ToInt32(item["StockTotal"].ToString());
+                            producto.PrecioDeVenta = decimal.Parse(item["PrecioDeVenta"].ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return producto;
+        }
         public List<Productos> ListarProductosDisponibles()
         {
             List<Productos> _lista = new List<Productos>();

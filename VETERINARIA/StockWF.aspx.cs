@@ -1,27 +1,32 @@
-﻿using Antlr.Runtime.Misc;
-using BarcodeLib;
+﻿using BarcodeLib;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
-using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using VETERINARIA.MODELO.BASEDEDATOS;
 using VETERINARIA.MODELO.ENTIDADES;
 using VETERINARIA.REGLAS.NEGOCIO;
 using Image = System.Drawing.Image;
 
 public partial class _StockWF : Page
 {
+    private Usuarios _usuarioActual { set; get; }
+    private Sucursal _sucursalActual { set; get; }
+    public string FuncionVariable { get; set; }
+    public int idProductoSeleccionado { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
             if (!IsPostBack)
             {
+                _usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
+                _sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
                 DivAltaProducto.Visible = false;
+                FuncionVariable = string.Empty;
                 CargarCombos();
                 FuncionListarProductos();
             }
@@ -36,9 +41,17 @@ public partial class _StockWF : Page
     {
         try
         {
+            bool RespuestaExitosa = false;
             Productos _producto = CargarEntidad();
-            bool RespuestaExitosa = ProductoNeg.InsertarProducto(_producto);
-            if (RespuestaExitosa == true)
+            if (FuncionVariable == "NUEVO")
+            {
+                RespuestaExitosa = ProductoNeg.InsertarProducto(_producto);
+            }
+            else if (FuncionVariable == "EDITAR")
+            {
+                RespuestaExitosa = ProductoNeg.EditarProducto(_producto, idProductoSeleccionado);
+            }
+            if (RespuestaExitosa)
             {
                 LimpiarCampos();
                 FuncionListarProductos();
@@ -67,9 +80,12 @@ public partial class _StockWF : Page
     {
         try
         {
-            DivGrillaProductos.Visible = false;
+
+            FuncionVariable = "NUEVO";
             DivAltaProducto.Visible = true;
-            divAltaStock.Visible = false;
+            DivGrillaProductos.Visible = false;
+            DivGrillaCargaStock.Visible = false;
+            DivAltaStock.Visible = false;
         }
         catch (Exception ex)
         {
@@ -82,7 +98,7 @@ public partial class _StockWF : Page
         {
             DivGrillaProductos.Visible = false;
             DivAltaProducto.Visible = false;
-            divAltaStock.Visible = true;
+            DivAltaStock.Visible = true;
             bool value = false;
             CamposEnableFalse(value);
         }
@@ -171,7 +187,7 @@ public partial class _StockWF : Page
         {
             DivGrillaProductos.Visible = false;
             DivAltaProducto.Visible = false;
-            divAltaStock.Visible = true;
+            DivAltaStock.Visible = true;
             bool value = false;
             CamposEnableFalse(value);
             LimpiarCamposCargaStockCancelar();
@@ -191,7 +207,7 @@ public partial class _StockWF : Page
             FuncionListarProductos();
             DivGrillaProductos.Visible = true;
             DivAltaProducto.Visible = false;
-            divAltaStock.Visible = false;
+            DivAltaStock.Visible = false;
             DivGrillaCargaStock.Visible = false;
             idProductoStatic = 0;
         }
@@ -212,10 +228,37 @@ public partial class _StockWF : Page
 
         }
     }
+    protected void btnEditarProducto_Command(object sender, CommandEventArgs e)
+    {
+        FuncionVariable = "EDITAR";
+        Productos _productoSeleccionado = new Productos();
+        idProductoSeleccionado = Convert.ToInt32(e.CommandArgument);
+        _productoSeleccionado = ProductoNeg.ListarProductosDisponibles(idProductoSeleccionado);
+        FuncionEditar_HabilitarCampos(_productoSeleccionado);
+    }
     #endregion
     #region Metodos
     public static List<Stock> StaticListProducto = new List<Stock>();
     public static int idProductoStatic = 0;
+
+    private void FuncionEditar_HabilitarCampos(Productos productoSeleccionado)
+    {
+        DivAltaProducto.Visible = true;
+        DivAltaStock.Visible = false;
+        DivGrillaProductos.Visible = false;
+        DivGrillaCargaStock.Visible = false;
+        txtCodigo.Value = productoSeleccionado.CodigoProducto;
+        cmbMarca.ClearSelection();
+        cmbCategoria.ClearSelection();
+        cmbUnidadesMedicion.ClearSelection();
+        cmbMarca.SelectedValue = productoSeleccionado.idMarca.ToString();
+        cmbCategoria.SelectedValue = productoSeleccionado.idCategoriaProducto.ToString();
+        cmbUnidadesMedicion.SelectedValue = productoSeleccionado.idUnidadDeMedicion.ToString();
+        txtDescripción.Value = productoSeleccionado.Descripcion;
+        txtPrecio.Value = productoSeleccionado.PrecioDeVenta.ToString();
+        int MensajesVisible = 0;
+        MostrarMensajes(MensajesVisible);
+    }
     private Productos CargarEntidad()
     {
         Productos _producto = new Productos();
@@ -226,7 +269,8 @@ public partial class _StockWF : Page
         _producto.idUnidadDeMedicion = Convert.ToInt32(cmbMarca.SelectedItem.Value);
         DateTime fechaActual = DateTime.Now;
         _producto.FechaDeAlta = fechaActual;
-        _producto.idUsuario = 1;
+        _producto.idUsuario = _usuarioActual.IdUsuario;
+        _producto.PrecioDeVenta = decimal.Parse(txtPrecio.Value);
         return _producto;
     }
     private void FuncionListarProductos()
@@ -253,7 +297,6 @@ public partial class _StockWF : Page
         {
             cmbCategoria.Items.Add(new ListItem { Text = item.Nombre, Value = item.idCategoria.ToString() });
         }
-
         cmbUnidadesMedicion.Items.Clear();
         List<UnidadDeMedicion> UnidadesMedicionSeleccionada = new List<UnidadDeMedicion>();
         UnidadesMedicionSeleccionada = UnidadMedicionNeg.CargarComboUnidadDeMedicion();
@@ -410,10 +453,11 @@ public partial class _StockWF : Page
     }
     private void LimpiarCampos()
     {
-        txtCodigo.Value = String.Empty;
-        txtDescripción.Value = String.Empty;
+        txtCodigo.Value = string.Empty;
+        txtDescripción.Value = string.Empty;
+        txtPrecio.Value = string.Empty;
         DivMensajeExito.Visible = true;
-        //CargarCombos();
+
         cmbMarca.ClearSelection();
         cmbCategoria.ClearSelection();
         cmbUnidadesMedicion.ClearSelection();
