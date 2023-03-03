@@ -105,7 +105,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     connection.Open();
                     DataTable Tabla = new DataTable();
                     MySqlParameter[] oParam = { new MySqlParameter("IdProducto_in", idProducto) };
-                    string proceso = "SP_Consultar_ProductoPorId";
+                    string proceso = "SP_Consultar_ProductoPorID";
                     MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
                     dt.SelectCommand.CommandType = CommandType.StoredProcedure;
                     dt.SelectCommand.Parameters.AddRange(oParam);
@@ -121,6 +121,9 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             producto.NombreMarca = item["NombreMarca"].ToString();
                             producto.StockTotal = Convert.ToInt32(item["StockTotal"].ToString());
                             producto.PrecioDeVenta = decimal.Parse(item["PrecioDeVenta"].ToString());
+                            producto.idMarca = int.Parse(item["idMarca"].ToString());
+                            producto.idUnidadDeMedicion = int.Parse(item["idUnidadDeMedicion"].ToString());
+                            producto.idCategoriaProducto = int.Parse(item["idCategoriaProducto"].ToString());
                         }
                     }
                 }
@@ -157,6 +160,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             listaProducto.Descripcion = item["Descripcion"].ToString();
                             listaProducto.NombreMarca = item["MarcaProducto"].ToString();
                             listaProducto.StockTotal = Convert.ToInt32(item["Stock"].ToString());
+                            listaProducto.PrecioDeVenta = decimal.Parse(item["PrecioDeVenta"].ToString());
                             _lista.Add(listaProducto);
                         }
                     }
