@@ -277,15 +277,24 @@ public partial class VentasWF : System.Web.UI.Page
             {
                 int MensajesVisible = 1;
                 MostrarMensajes(MensajesVisible);
-                lblMensajeError.Text = "Atención: Se registro la venta exitosamente.";
+                lblMensajeExito.Text = "Atención: Se registro la venta exitosamente.";
                 btnLimpiar.Visible = true;
                 btnCobrar.Visible = false;
+            }
+            else
+            {
+                int MensajesVisible = 2;
+                MostrarMensajes(MensajesVisible);
+                lblMensajeError.Text = "Atención: No se pudo registrar la venta.";
+                btnLimpiar.Visible = true;
+                btnCobrar.Visible = true;
             }
         }
     }
     private void Ventas_FuncionLimpiarPostExito()
     {
         RepeaterVentas.DataSource = null;
+        RepeaterVentas.DataBind();
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
         listadoDeProductos = null;
@@ -294,6 +303,7 @@ public partial class VentasWF : System.Web.UI.Page
         txtProducto.Focus();
         btnLimpiar.Visible = false;
         btnCobrar.Visible = true;
+        lblTotalFactura.Text = "0";
     }
     #endregion
 }

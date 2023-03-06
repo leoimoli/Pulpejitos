@@ -126,7 +126,7 @@
         <div class="col-lg-4">
             <div class="form-footer pt-4 pt-5 mt-4">
                 <asp:Button Text="Cobrar" runat="server" id="btnCobrar" OnClick="btnCobrar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                <asp:Button Text="Limpiar" runat="server" ID="btnLimpiar" OnClick="btnLimpiar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                <asp:Button Text="Limpiar" runat="server" ID="btnLimpiar" OnClick="btnLimpiar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" Visible="false"/>
             </div>
         </div>
         <div class="col-lg-4">
