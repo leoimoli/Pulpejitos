@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VETERINARIA.MODELO.BASEDEDATOS;
+using VETERINARIA.MODELO.Clases_Maestras;
 using VETERINARIA.MODELO.ENTIDADES;
 using VETERINARIA.REGLAS.NEGOCIO;
 
@@ -265,13 +267,6 @@ public partial class VentasWF : System.Web.UI.Page
                 //listadoDeProductos[0].MontoTotalDeLaVenta = PrecioTotalFinal;
                 idVenta = VentasNeg.RegistrarVenta(listadoDeProductos, idusuario, idSucursal);
                 bool AplicaDescuento = false;
-
-                //BloquearPantalla();
-                //VueltoNuevoWF _vuelto = new VueltoNuevoWF(listaProductos[0].PrecioVentaFinal, AplicaDescuento, idVenta, listaProductos, listaOfertas);
-                //_vuelto.Show();
-                //Tkt(idVenta, listaProductos);
-                //DesbloquearPantalla();
-                //lblBack.Visible = true;               
             }
             if (idVenta > 0)
             {
@@ -280,6 +275,13 @@ public partial class VentasWF : System.Web.UI.Page
                 lblMensajeExito.Text = "Atención: Se registro la venta exitosamente.";
                 btnLimpiar.Visible = true;
                 btnCobrar.Visible = false;
+
+                //IMPRIMIMOS EL TICKET DE LA VENTA
+                string imprimeTicket = ConfigurationManager.AppSettings["IMPRIME_TICKET"];
+                if (imprimeTicket == "true")
+                {
+                    ImprimirTicket(idVenta, listadoDeProductos);
+                }
             }
             else
             {
@@ -291,6 +293,22 @@ public partial class VentasWF : System.Web.UI.Page
             }
         }
     }
+
+    private void ImprimirTicket(int idVenta, List<Ventas> listadoDeProductos)
+    {
+        CrearTicket ticket = new CrearTicket();
+        if (idVenta > 0)
+        {
+            ticket.Encabezado(Convert.ToString(idVenta), false);
+        }
+        foreach (var item in listadoDeProductos)
+        {
+            double ProductoMontoTotal = Convert.ToDouble(item.CantidadVenta * item.PrecioVenta);
+            ticket.AgregaArticulo(item.Descripcion, item.CantidadVenta, Convert.ToDouble(item.PrecioVenta), ProductoMontoTotal);
+        }
+        ticket.AgregaTotales(Convert.ToDouble(listadoDeProductos[0].MontoTotalDeLaVenta), null, null);
+    }
+
     private void Ventas_FuncionLimpiarPostExito()
     {
         RepeaterVentas.DataSource = null;
