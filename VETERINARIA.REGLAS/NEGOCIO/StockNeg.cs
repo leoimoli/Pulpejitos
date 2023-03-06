@@ -10,14 +10,14 @@ namespace VETERINARIA.REGLAS.NEGOCIO
 {
     public class StockNeg
     {
-        public static int RegistrarStock(List<Stock> _stock, decimal MontoTotalFactura)
+        public static int RegistrarStock(List<Stock> _stock, decimal MontoTotalFactura, int idSucursal)
         {
             int exito = 0;
             try
             {
                 DaoStock _dao = new DaoStock();
                 //ValidarDatos(_stock);
-                exito = _dao.InsertarMovimientoAltaStock(_stock, MontoTotalFactura);
+                exito = _dao.InsertarMovimientoAltaStock(_stock, MontoTotalFactura, idSucursal);
             }
             catch (Exception ex)
             { }

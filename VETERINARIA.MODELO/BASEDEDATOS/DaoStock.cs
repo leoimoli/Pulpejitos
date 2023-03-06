@@ -21,7 +21,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
-        public int InsertarMovimientoAltaStock(List<Stock> stock, decimal MontoTotalFactura)
+        public int InsertarMovimientoAltaStock(List<Stock> stock, decimal MontoTotalFactura, int idSucursal)
         {
             int idMovimietoAltaStock = 0;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -48,7 +48,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     ///// Si registro el movimiento exitosamente, paso a resgitrar el historial para cada producto.
                     if (idMovimietoAltaStock > 0)
                     {
-                        bool RespuestaExitosa = InsertarHistorialIngresoDeStock(stock, idMovimietoAltaStock);
+                        bool RespuestaExitosa = InsertarHistorialIngresoDeStock(stock, idMovimietoAltaStock, idSucursal);
                     }
                 }
                 catch (Exception ex)
@@ -58,7 +58,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return idMovimietoAltaStock;
         }
-        private bool InsertarHistorialIngresoDeStock(List<Stock> stock, int idMovimietoAltaStock)
+        private bool InsertarHistorialIngresoDeStock(List<Stock> stock, int idMovimietoAltaStock, int idSucursal)
         {
             bool RespuestaExitosa = false;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -85,7 +85,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             try
                             {
                                 ///// Actualizo el stock para cada producto.
-                                ActualizarStock(item.idProducto, item.Cantidad);
+                                ActualizarStock(item.idProducto, item.Cantidad, idSucursal);
                             }
                             catch (Exception ex)
                             {
@@ -101,7 +101,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return RespuestaExitosa;
             }
         }
-        private void ActualizarStock(int idProducto, int cantidadStockDeCompra)
+        private void ActualizarStock(int idProducto, int cantidadStockDeCompra, int idSucursal)
         {
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -117,11 +117,67 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     cmd.Parameters.AddWithValue("idProducto_in", idProducto);
                     cmd.Parameters.AddWithValue("StockActualizado_in", StockActualizado);
                     cmd.ExecuteNonQuery();
-
+                    connection.Close();
+                    ActualizarStockPorSucursal(idProducto, cantidadStockDeCompra, idSucursal);
                 }
                 catch (Exception ex)
                 { throw ex; }
             }
+        }
+        private void ActualizarStockPorSucursal(int idProducto, int cantidadStockDeCompra, int idSucursal)
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    int StockActual = ObtenerStockPorSucursalActual(idProducto, idSucursal);
+                    int StockActualizado = StockActual + cantidadStockDeCompra;
+                    connection.Close();
+                    connection.Open();
+                    string proceso = "SP_Actualizar_StockPorSucursal";
+                    MySqlCommand cmd = new MySqlCommand(proceso, connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("idProducto_in", idProducto);
+                    cmd.Parameters.AddWithValue("StockActualizado_in", StockActualizado);
+                    cmd.Parameters.AddWithValue("idSucursal_in", idSucursal);
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                { throw ex; }
+            }
+        }
+        private int ObtenerStockPorSucursalActual(int idProducto, int idSucursal)
+        {
+            int StockActual = 0;
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+                    DataTable Tabla = new DataTable();
+                    MySqlParameter[] oParam = { new MySqlParameter("idProducto_in", idProducto),
+                    new MySqlParameter("idSucursal_in", idSucursal)};
+                    string proceso = "SP_Consultar_StockPorSucursal";
+                    MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                    dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    dt.SelectCommand.Parameters.AddRange(oParam);
+                    dt.Fill(Tabla);
+                    if (Tabla.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in Tabla.Rows)
+                        {
+                            StockActual = Convert.ToInt32(item["StockTotal"].ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return StockActual;
         }
         private int ObtenerStockActual(int idProducto)
         {
@@ -154,7 +210,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return StockActual;
         }
-        public int InsertarStock(int idProducto, int cantidad)
+        public int InsertarStock(int idProducto, int cantidad, int idSucursal)
         {
             int RespuestaExito = 0;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -173,6 +229,10 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     {
                         RespuestaExito = Convert.ToInt32(r["ID"].ToString());
                     }
+                    if (RespuestaExito > 0)
+                    {
+                        InsertarStockPorSucursal(idProducto, cantidad, idSucursal);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -180,6 +240,29 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 }
             }
             return RespuestaExito;
+        }
+        private void InsertarStockPorSucursal(int idProducto, int cantidad, int idSucursal)
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    string storedProcedure = "SP_Insertar_StockPorSucursal";
+                    MySqlCommand cmd = new MySqlCommand(storedProcedure, connection);
+                    connection.Close();
+                    connection.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("idProducto_in", idProducto);
+                    cmd.Parameters.AddWithValue("Cantidad_in", cantidad);
+                    cmd.Parameters.AddWithValue("idSucursal_in", idSucursal);
+                    MySqlDataReader r = cmd.ExecuteReader();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
         public bool ValidarCodigoExistente(string codigoArmado)
         {

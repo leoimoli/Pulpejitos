@@ -25,7 +25,7 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             return _listaProducto;
         }
 
-        public static bool InsertarProducto(Productos _producto)
+        public static bool InsertarProducto(Productos _producto, int idSucursal)
         {
             bool exito = false;
             try
@@ -38,12 +38,12 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                     //var result = MessageBox.Show(message, caption,
                     //                             MessageBoxButtons.OK,
                     //                           MessageBoxIcon.Exclamation);
-                    //throw new Exception();
+                    throw new Exception();
                 }
                 else
                 {
                     DaoProductos _dao = new DaoProductos();
-                    exito = _dao.InsertarProducto(_producto);
+                    exito = _dao.InsertarProducto(_producto, idSucursal);
                 }
             }
             catch (Exception ex)
@@ -93,7 +93,6 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             return _producto;
         }
-
         private static bool ValidarProductoExistente(string codigoProducto)
         {
             DaoProductos _dao = new DaoProductos();

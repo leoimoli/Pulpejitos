@@ -44,7 +44,8 @@ public partial class _StockWF : Page
             Productos _producto = CargarEntidad();
             if (FuncionVariable == "NUEVO")
             {
-                ProductoNeg.InsertarProducto(_producto);
+
+                ProductoNeg.InsertarProducto(_producto, _sucursalActual.idSucursal);
                 MostrarMensajeExito("Se registró un nuevo producto.");
             }
             if (FuncionVariable == "EDITAR")
@@ -169,7 +170,8 @@ public partial class _StockWF : Page
         try
         {
             decimal MontoTotalFactura = Convert.ToDecimal(lblTotalFactura.Text);
-            int Respuesta = StockNeg.RegistrarStock(StaticListProducto, MontoTotalFactura);
+            int idSucursal = _sucursalActual.idSucursal;
+            int Respuesta = StockNeg.RegistrarStock(StaticListProducto, MontoTotalFactura, idSucursal);
             if (Respuesta > 0)
             {
                 LimpiarCamposGuardarStockExito();
@@ -278,7 +280,11 @@ public partial class _StockWF : Page
         _producto.idUnidadDeMedicion = Convert.ToInt32(cmbMarca.SelectedItem.Value);
         _producto.FechaDeAlta = fechaActual;
         _producto.idUsuario = _usuarioActual.IdUsuario;
-        _producto.PrecioDeVenta = decimal.Parse(txtPrecio.Value);
+        if (txtPrecio.Value == string.Empty)
+        { _producto.PrecioDeVenta = 0; }
+        else
+        { _producto.PrecioDeVenta = decimal.Parse(txtPrecio.Value); }
+      
         return _producto;
     }
 

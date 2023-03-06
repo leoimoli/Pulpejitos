@@ -20,7 +20,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 return _connectionString;
             }
         }
-        public bool InsertarProducto(Productos _producto)
+        public bool InsertarProducto(Productos _producto, int idSucursal)
         {
             bool RespuestaExito = false;
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -47,8 +47,10 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                         int idProducto = Convert.ToInt32(r["ID"].ToString());
                         if (idProducto > 0)
                         {
+                            GuardarHistorialPrecioDeVenta(idProducto, _producto);
+
                             DaoStock _dao = new DaoStock();
-                            int idStock = _dao.InsertarStock(idProducto, 0);
+                            int idStock = _dao.InsertarStock(idProducto, 0, idSucursal);
                             if (idStock > 0)
                             {
                                 RespuestaExito = true;
@@ -63,6 +65,32 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return RespuestaExito;
         }
+
+        private void GuardarHistorialPrecioDeVenta(int idProducto, Productos producto)
+        {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                try
+                {
+                    string storedProcedure = "SP_Insertar_PrecioDeVenta";
+                    MySqlCommand cmd = new MySqlCommand(storedProcedure, connection);
+                    connection.Close();
+                    connection.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("idProducto_in", idProducto);
+                    cmd.Parameters.AddWithValue("PrecioDeVenta_in", producto.PrecioDeVenta);
+                    cmd.Parameters.AddWithValue("FechaDeAlta_in", producto.FechaDeAlta);
+                    cmd.Parameters.AddWithValue("idUsuario_in", producto.idUsuario);
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
         public bool EditarProducto(Productos producto, int idProductoGrillaSeleccionado)
         {
             bool exito = false;
@@ -70,6 +98,11 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             {
                 try
                 {
+                    decimal ValorActualDeVenta = ValidarPrecioDeVentaActual(producto, idProductoGrillaSeleccionado);
+                    if (ValorActualDeVenta != producto.PrecioDeVenta)
+                    {
+                        GuardarHistorialPrecioDeVenta(idProductoGrillaSeleccionado, producto);
+                    }
                     connection.Close();
                     connection.Open();
                     string Actualizar = "SP_Actualizar_Producto";
@@ -92,6 +125,38 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                 catch (Exception ex)
                 { throw ex; }
             }
+        }
+
+        private decimal ValidarPrecioDeVentaActual(Productos producto, int idProductoGrillaSeleccionado)
+        {
+            decimal PrecioActualDeVenta = 0;
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Close();
+                connection.Open();
+                List<Productos> lista = new List<Productos>();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = connection;
+                DataTable Tabla = new DataTable();
+                MySqlParameter[] oParam = {
+                                      new MySqlParameter("idProducto_in", idProductoGrillaSeleccionado) };
+                string proceso = "SP_Consultar_ValidarPrecioDeVentaActual";
+                MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
+                dt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                dt.SelectCommand.Parameters.AddRange(oParam);
+                dt.Fill(Tabla);
+                DataSet ds = new DataSet();
+                dt.Fill(ds, "productos");
+                if (Tabla.Rows.Count > 0)
+                {
+                    foreach (DataRow item in Tabla.Rows)
+                    {
+                        PrecioActualDeVenta = Convert.ToDecimal(item["PrecioDeVenta"].ToString());
+                    }
+                }
+                connection.Close();
+            }
+            return PrecioActualDeVenta;
         }
 
         public Productos BuscarProductosPorId(int idProducto)
@@ -159,6 +224,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             listaProducto.CodigoProducto = item["CodigoProducto"].ToString();
                             listaProducto.Descripcion = item["Descripcion"].ToString();
                             listaProducto.NombreMarca = item["MarcaProducto"].ToString();
+                            listaProducto.StockTotalPorSucursal = Convert.ToInt32(item["StockEnSucrusal"].ToString());
                             listaProducto.StockTotal = Convert.ToInt32(item["Stock"].ToString());
                             listaProducto.PrecioDeVenta = decimal.Parse(item["PrecioDeVenta"].ToString());
                             _lista.Add(listaProducto);
@@ -200,14 +266,13 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return Existe;
         }
-
         public List<Stock> BuscarProductoPorCodigo(string descripcion)
         {
             List<Stock> _listaStocks = new List<Stock>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 connection.Close();
-                connection.Open();               
+                connection.Open();
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = connection;
                 DataTable Tabla = new DataTable();

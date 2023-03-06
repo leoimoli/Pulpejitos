@@ -53,7 +53,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Descripción(*)</label>
-                                <input type="text" runat="server" id="txtDescripción" class="form-control" placeholder="Descripción Producto" style='text-transform:uppercase'>
+                                <input type="text" runat="server" id="txtDescripción" class="form-control" placeholder="Descripción Producto" style='text-transform: uppercase'>
                                 <%--<span class="mt-2 d-block">We'll never share your email with anyone else.</span>--%>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" style="color: blueviolet">Precio de Venta(*)</label>
-                                <input type="text" runat="server" id="txtPrecio" class="form-control" placeholder="Precio de venta" style='text-transform:uppercase'>
+                                <input type="text" runat="server" id="txtPrecio" class="form-control" placeholder="Precio de venta" style='text-transform: uppercase'>
                             </div>
                         </div>
                     </div>
@@ -214,8 +214,9 @@
                                 <th><b>Descripción</b></th>
                                 <th class="d-none d-lg-table-cell"><b>Código Producto</b></th>
                                 <th class="d-none d-lg-table-cell"><b>Nombre Marca</b></th>
-                                <th><b>Stock</b></th>
-                                <th><b>Precio</b></th>
+                                <th><b>Stock en Sucursal</b></th>
+                                <th><b>Stock Total</b></th>
+                                <th><b>Precio de Venta</b></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -227,6 +228,7 @@
                                         <td><%# Eval("Descripcion") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("CodigoProducto") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("NombreMarca") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("StockTotalPorSucursal") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("StockTotal") %></td>
                                         <td class="d-none d-lg-table-cell"><%# Eval("PrecioDeVenta") %></td>
 

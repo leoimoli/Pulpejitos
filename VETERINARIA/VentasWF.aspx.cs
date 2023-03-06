@@ -293,7 +293,6 @@ public partial class VentasWF : System.Web.UI.Page
             }
         }
     }
-
     private void ImprimirTicket(int idVenta, List<Ventas> listadoDeProductos)
     {
         CrearTicket ticket = new CrearTicket();
@@ -308,7 +307,6 @@ public partial class VentasWF : System.Web.UI.Page
         }
         ticket.AgregaTotales(Convert.ToDouble(listadoDeProductos[0].MontoTotalDeLaVenta), null, null);
     }
-
     private void Ventas_FuncionLimpiarPostExito()
     {
         RepeaterVentas.DataSource = null;

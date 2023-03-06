@@ -18,11 +18,9 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public decimal PrecioDeVenta { get; set; }
         public int StockTotal { get; set; }
         public int StockTotalPorSucursal { get; set; }
-
         public decimal ValorUnitarioDeCompra { get; set; }
         public decimal ValorTotalDeCompra { get; set; }
         public int CantidadStockDeCompra { get; set; }
-
         public DateTime FechaDeAlta { get; set; }
         public int idUsuario { get; set; }
     }
