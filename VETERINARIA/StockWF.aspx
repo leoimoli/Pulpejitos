@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="VETERINARIA" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="StockWF.aspx.cs" Inherits="_StockWF" %>
 
-
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+
     <!-- MENSAJES DE RESPUESTA -->
     <div class="row" id="DivMensajeExito" runat="server" visible="false">
         <div class="col-lg-12">
@@ -12,8 +12,8 @@
                 </button>
             </div>
         </div>
-
     </div>
+
     <div class="row" id="DivMensajeError" runat="server" visible="false">
         <div class="col-lg-12">
             <div class="alert alert-dismissible fade show alert-danger" role="alert">
@@ -23,77 +23,15 @@
                 </button>
             </div>
         </div>
-
     </div>
-    <!-- GRILLA DE CONSULTA -->
-    <div class="row" id="DivGrillaProductos" runat="server">
-        <div class="col-12">
 
-            <!-- Recent Order Table -->
-            <div class="card card-table-border-none recent-orders" id="recent-orders">
-                <div class="card-header justify-content-between">
-                    <h2 style="color: blueviolet">Lista de Productos</h2>
-                </div>
-                <div class="card-body pt-0 pb-5">
-                    <table class="table card-table table-responsive table-responsive-large" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th><b>id Producto</b></th>
-                                <th><b>Descripción</b></th>
-                                <th class="d-none d-lg-table-cell"><b>Código Producto</b></th>
-                                <th class="d-none d-lg-table-cell"><b>Nombre Marca</b></th>
-                                <th><b>Stock</b></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <asp:Repeater ID="RepeaterProductos" runat="server">
-                                <ItemTemplate>
-                                    <tr>
-                                        <td><%# Eval("idProducto") %></td>
-                                        <td><%# Eval("Descripcion") %></td>
-                                        <td class="d-none d-lg-table-cell"><%# Eval("CodigoProducto") %></td>
-                                        <td class="d-none d-lg-table-cell"><%# Eval("NombreMarca") %></td>
-                                        <td class="d-none d-lg-table-cell"><%# Eval("StockTotal") %></td>
-                                        <%--  <td>
-                                            <span class="badge badge-success">Completed</span>
-                                        </td>--%>
-                                        <td class="text-right">
-                                            <div class="dropdown show d-inline-block widget-dropdown">
-                                                <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
-                                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
-                                                    <li class="dropdown-item">
-                                                        <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
-                                                            CommandArgument='<%# Eval("idProducto") %>' ID="btnEditarProducto" OnCommand="btnEditarProducto_Command" />
-                                                    </li>
-                                                    <li class="dropdown-item">
-                                                        <a href="#">ELIMINAR</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </ItemTemplate>
-                            </asp:Repeater>
-
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-            <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                <asp:Button Text="Nuevo Producto" runat="server" OnClick="btnNuevoProducto_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                <asp:Button Text="Registrar Stock" runat="server" OnClick="btnRegistrarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-            </div>
-        </div>
-    </div>
-    <!-- FORMULARIO DE ALTA PRODUCTO -->
+    <!-- FORMULARIO DE ALTA PRODUCTOS -->
     <div class="row" id="DivAltaProducto" runat="server">
         <div class="col-lg-12">
 
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    <h2 style="color: blueviolet">Stock de Productos</h2>
+                    <h2 style="color: blueviolet">Alta de Producto:</h2>
                 </div>
 
                 <div class="card-body">
@@ -160,7 +98,7 @@
 
         </div>
     </div>
-    <!-- FORMULARIO DE ALTA STOCK -->
+    <!-- FORMULARIO DE ALTA STOCKS -->
     <div class="row" id="DivAltaStock" runat="server" visible="false">
         <div class="col-lg-12">
 
@@ -259,7 +197,69 @@
 
         </div>
     </div>
-    <!-- GRILLA DE ALTA DE STOCK -->
+    <!-- GRILLA DE CONSULTA PRODUCTOS -->
+    <div class="row" id="DivGrillaProductos" runat="server">
+        <div class="col-12">
+
+            <!-- Recent Order Table -->
+            <div class="card card-table-border-none recent-orders" id="recent-orders">
+                <div class="card-header justify-content-between">
+                    <h2 style="color: blueviolet">Lista de Productos</h2>
+                </div>
+                <div class="card-body pt-0 pb-5">
+                    <table class="table card-table table-responsive table-responsive-large" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th><b>id Producto</b></th>
+                                <th><b>Descripción</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Código Producto</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Nombre Marca</b></th>
+                                <th><b>Stock</b></th>
+                                <th><b>Precio</b></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <asp:Repeater ID="RepeaterProductos" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td><%# Eval("idProducto") %></td>
+                                        <td><%# Eval("Descripcion") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("CodigoProducto") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("NombreMarca") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("StockTotal") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("PrecioDeVenta") %></td>
+
+                                        <td class="text-right">
+                                            <div class="dropdown show d-inline-block widget-dropdown">
+                                                <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
+                                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
+                                                    <li class="dropdown-item">
+                                                        <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                            CommandArgument='<%# Eval("idProducto") %>' ID="btnEditarProducto" OnCommand="btnEditarProducto_Command" />
+                                                    </li>
+                                                    <li class="dropdown-item">
+                                                        <a href="#">ELIMINAR</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="form-footer pt-4 pt-5 mt-4 border-top">
+                <asp:Button Text="Nuevo Producto" runat="server" OnClick="btnNuevoProducto_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                <asp:Button Text="Registrar Stock" runat="server" OnClick="btnRegistrarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+            </div>
+        </div>
+    </div>
+    <!-- GRILLA DE ALTA STOCKS -->
     <div class="row" id="DivGrillaCargaStock" runat="server" visible="false">
         <div class="col-12">
 
@@ -325,4 +325,5 @@
             </div>
         </div>
     </div>
+
 </asp:Content>

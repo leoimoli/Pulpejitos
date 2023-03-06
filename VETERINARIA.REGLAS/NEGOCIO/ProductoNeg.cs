@@ -20,6 +20,7 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             catch (Exception ex)
             {
+                throw ex;
             }
             return _listaProducto;
         }

@@ -13,18 +13,18 @@ using Image = System.Drawing.Image;
 
 public partial class _StockWF : Page
 {
-    private Usuarios _usuarioActual { set; get; }
-    private Sucursal _sucursalActual { set; get; }
-    public string FuncionVariable { get; set; }
-    public int idProductoSeleccionado { get; set; }
+    private static Usuarios _usuarioActual { set; get; }
+    private static Sucursal _sucursalActual { set; get; }
+    public static string FuncionVariable { get; set; }
+    public static int idProductoSeleccionado { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
+            _usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
+            _sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
             if (!IsPostBack)
             {
-                _usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
-                _sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
                 DivAltaProducto.Visible = false;
                 FuncionVariable = string.Empty;
                 CargarCombos();
@@ -41,70 +41,71 @@ public partial class _StockWF : Page
     {
         try
         {
-            bool RespuestaExitosa = false;
             Productos _producto = CargarEntidad();
             if (FuncionVariable == "NUEVO")
             {
-                RespuestaExitosa = ProductoNeg.InsertarProducto(_producto);
+                ProductoNeg.InsertarProducto(_producto);
+                MostrarMensajeExito("Se registró un nuevo producto.");
             }
-            else if (FuncionVariable == "EDITAR")
+            if (FuncionVariable == "EDITAR")
             {
-                RespuestaExitosa = ProductoNeg.EditarProducto(_producto, idProductoSeleccionado);
+                ProductoNeg.EditarProducto(_producto, idProductoSeleccionado);
+                MostrarMensajeExito("Se actualizó el producto seleccionado.");
             }
-            if (RespuestaExitosa)
-            {
-                LimpiarCampos();
-                FuncionListarProductos();
-            }
+            LimpiarCampos();
+            FuncionListarProductos();
         }
         catch (Exception ex)
         {
-            throw ex;
+            MostrarMensajeError("Ha ocurrido un error intentando guardar el producto: " + ex.Message);
         }
     }
     protected void btnCancelar_Click(object sender, EventArgs e)
     {
         try
         {
-            DivGrillaProductos.Visible = true;
-            DivAltaProducto.Visible = false;
-            idProductoStatic = 0;
             CargarCombos();
+            OcultarMensajes();
+            OcultarGrillas();
+            OcultarFormularios();
+            idProductoStatic = 0;
+            DivGrillaProductos.Visible = true;
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError(ex.Message);
         }
     }
     protected void btnNuevoProducto_Click(object sender, EventArgs e)
     {
         try
         {
-
+            OcultarMensajes();
+            OcultarGrillas();
+            OcultarFormularios();
+            LimpiarCampos();
             FuncionVariable = "NUEVO";
             DivAltaProducto.Visible = true;
-            DivGrillaProductos.Visible = false;
-            DivGrillaCargaStock.Visible = false;
-            DivAltaStock.Visible = false;
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError(ex.Message);
         }
     }
     protected void btnRegistrarStock_Click(object sender, EventArgs e)
     {
         try
         {
-            DivGrillaProductos.Visible = false;
-            DivAltaProducto.Visible = false;
+            OcultarMensajes();
+            OcultarGrillas();
+            OcultarFormularios();
             DivAltaStock.Visible = true;
             bool value = false;
             CamposEnableFalse(value);
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError(ex.Message);
         }
     }
     protected void btnCargar_Click(object sender, EventArgs e)
@@ -120,7 +121,7 @@ public partial class _StockWF : Page
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError("Error en la carga de Stock: " + ex.Message);
         }
     }
     protected void btnBuscarProducto_Click(object sender, EventArgs e)
@@ -131,41 +132,38 @@ public partial class _StockWF : Page
             List<Stock> Producto = ProductoNeg.BuscarProductoPorCodigo(Descripcion);
             if (Producto.Count > 0)
             {
-                int MensajesVisible = 0;
-                MostrarMensajes(MensajesVisible);
+                OcultarMensajes();
                 foreach (Stock item in Producto)
                 {
+                    bool value = true;
+                    idProductoStatic = item.idProducto;
+                    AltaStock_txtMarca.Value = item.NombreMarca;
                     AltaStock_txtCodigoProducto.Value = Descripcion;
                     AltaStock_txtDescripcion.Value = item.Descripcion;
-                    AltaStock_txtMarca.Value = item.NombreMarca;
-                    idProductoStatic = item.idProducto;
 
-                    //CargarComboProveedores();
-                    bool value = true;
                     if (StaticListProducto.Count > 0)
                     {
                         AltaStock_Remito.Disabled = true;
                         AltaStock_FechaFactura.Disabled = true;
-                        //AltaStock_cmbProveedor.Enabled = true;
                         AltaStock_txtMarca.Disabled = true;
                     }
                     else
-                    { HabilitarCampos(value); }
-
+                    {
+                        HabilitarCampos(value);
+                    }
                 }
             }
             else
             {
-                int MensajesVisible = 2;
-                MostrarMensajes(MensajesVisible);
-                lblMensajeError.Text = "Atención: No se encontro ningun producto para el código producto ingresado.";
+                throw new Exception("No hubo resultados para la búsqueda.");
             }
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError("Error buscando producto: " + ex.Message);
         }
     }
+
     protected void btnGuardarStock_Click(object sender, EventArgs e)
     {
         try
@@ -178,23 +176,26 @@ public partial class _StockWF : Page
             }
         }
         catch (Exception ex)
-        { }
+        {
+            MostrarMensajeError("Error al guardar stock: " + ex.Message);
+        }
 
     }
     protected void btnCancelarStock_Click(object sender, EventArgs e)
     {
         try
         {
-            DivGrillaProductos.Visible = false;
-            DivAltaProducto.Visible = false;
+            LimpiarCamposCargaStockCancelar();
+            OcultarMensajes();
+            OcultarGrillas();
+            OcultarFormularios();
             DivAltaStock.Visible = true;
             bool value = false;
             CamposEnableFalse(value);
-            LimpiarCamposCargaStockCancelar();
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError(ex.Message);
         }
     }
     protected void btnVolver_Click(object sender, EventArgs e)
@@ -205,15 +206,15 @@ public partial class _StockWF : Page
             CamposEnableFalse(value);
             LimpiarCamposCargaStockCancelar();
             FuncionListarProductos();
+            OcultarMensajes();
+            OcultarFormularios();
+            OcultarGrillas();
             DivGrillaProductos.Visible = true;
-            DivAltaProducto.Visible = false;
-            DivAltaStock.Visible = false;
-            DivGrillaCargaStock.Visible = false;
             idProductoStatic = 0;
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError(ex.Message);
         }
     }
     protected void btnGenerarCodigo_Click(object sender, EventArgs e)
@@ -225,18 +226,26 @@ public partial class _StockWF : Page
         }
         catch (Exception ex)
         {
-
+            MostrarMensajeError("Error generando código de barra: " + ex.Message);
         }
     }
     protected void btnEditarProducto_Command(object sender, CommandEventArgs e)
     {
-        FuncionVariable = "EDITAR";
-        Productos _productoSeleccionado = new Productos();
-        idProductoSeleccionado = Convert.ToInt32(e.CommandArgument);
-        _productoSeleccionado = ProductoNeg.ListarProductosDisponibles(idProductoSeleccionado);
-        FuncionEditar_HabilitarCampos(_productoSeleccionado);
+        try
+        {
+            FuncionVariable = "EDITAR";
+            Productos _productoSeleccionado = new Productos();
+            idProductoSeleccionado = Convert.ToInt32(e.CommandArgument);
+            _productoSeleccionado = ProductoNeg.ListarProductosDisponibles(idProductoSeleccionado);
+            FuncionEditar_HabilitarCampos(_productoSeleccionado);
+        }
+        catch (Exception ex)
+        {
+            MostrarMensajeError(ex.Message);
+        }
     }
     #endregion
+
     #region Metodos
     public static List<Stock> StaticListProducto = new List<Stock>();
     public static int idProductoStatic = 0;
@@ -256,28 +265,29 @@ public partial class _StockWF : Page
         cmbUnidadesMedicion.Items.FindByValue(productoSeleccionado.idUnidadDeMedicion.ToString()).Selected = true;
         txtDescripción.Value = productoSeleccionado.Descripcion;
         txtPrecio.Value = productoSeleccionado.PrecioDeVenta.ToString();
-        int MensajesVisible = 0;
-        MostrarMensajes(MensajesVisible);
+        OcultarMensajes();
     }
     private Productos CargarEntidad()
     {
+        DateTime fechaActual = DateTime.Now;
         Productos _producto = new Productos();
         _producto.CodigoProducto = txtCodigo.Value;
         _producto.idCategoriaProducto = Convert.ToInt32(cmbMarca.SelectedItem.Value);
         _producto.Descripcion = txtDescripción.Value;
         _producto.idMarca = Convert.ToInt32(cmbMarca.SelectedItem.Value);
         _producto.idUnidadDeMedicion = Convert.ToInt32(cmbMarca.SelectedItem.Value);
-        DateTime fechaActual = DateTime.Now;
         _producto.FechaDeAlta = fechaActual;
         _producto.idUsuario = _usuarioActual.IdUsuario;
         _producto.PrecioDeVenta = decimal.Parse(txtPrecio.Value);
         return _producto;
     }
+
     private void FuncionListarProductos()
     {
         List<Productos> ListaProductos = ProductoNeg.ListarProductosDisponibles();
         RepeaterProductos.DataSource = ListaProductos;
         RepeaterProductos.DataBind();
+        DivGrillaProductos.Visible = true;
     }
     private void CargarCombos()
     {
@@ -329,7 +339,6 @@ public partial class _StockWF : Page
             _producto.MontoTotalPorProducto = _producto.ValorUnitario * _producto.Cantidad;
             _producto.FechaRegistro = DateTime.Now;
             StaticListProducto.Add(_producto);
-
         }
         catch (Exception ex)
         {
@@ -343,35 +352,24 @@ public partial class _StockWF : Page
         {
             if (AltaStock_txtCodigoProducto.Value == String.Empty)
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: El campo Código Producto obligatorios.";
-                throw new Exception();
+                throw new Exception("El campo Código Producto es obligatorio.");
             }
             if (AltaStock_Cantidad.Value == String.Empty)
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: El campo Cantidad obligatorios.";
-                throw new Exception();
+                throw new Exception("El campo Cantidad es obligatorio.");
             }
             if (AltaStock_ValorUnitario.Value == String.Empty)
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: El campo Valor Unitario obligatorios.";
-                throw new Exception();
+                throw new Exception("El campo Valor Unitario es obligatorio.");
             }
             if (AltaStock_cmbSucursal.SelectedItem.Value == "0")
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: El campo Sucursal Unitario obligatorios.";
-                throw new Exception();
+                throw new Exception("El campo Sucursal es obligatorio.");
             }
             if (AltaStock_cmbProveedor.SelectedItem.Value == "0")
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: El campo Proveedor Unitario obligatorios.";
-                throw new Exception();
+                throw new Exception("El campo Proveedor es obligatorio.");
             }
-
         }
         catch (Exception ex)
         {
@@ -386,7 +384,6 @@ public partial class _StockWF : Page
         AltaStock_Cantidad.Disabled = !value;
         AltaStock_ValorUnitario.Disabled = !value;
         AltaStock_FechaFactura.Disabled = !value;
-        // AltaStock_cmbProveedor.Enabled = !value;
     }
     private void CamposEnableFalse(bool value)
     {
@@ -395,8 +392,7 @@ public partial class _StockWF : Page
         AltaStock_Remito.Disabled = !value;
         AltaStock_Cantidad.Disabled = !value;
         AltaStock_ValorUnitario.Disabled = !value;
-        AltaStock_FechaFactura.Disabled = !value;
-        //AltaStock_cmbProveedor.Enabled = value;       
+        AltaStock_FechaFactura.Disabled = !value;    
     }
     private void LimpiarCamposCargaStockExito()
     {
@@ -439,8 +435,6 @@ public partial class _StockWF : Page
         AltaStock_FechaFactura.Disabled = false;
         AltaStock_Remito.Disabled = false;
         DivGrillaCargaStock.Visible = false;
-        //CargarComboProveedores();
-        //CargarComboSucursal();
         AltaStock_cmbSucursal.ClearSelection();
         AltaStock_cmbProveedor.ClearSelection();
         RepeaterCargaStock.DataSource = null;
@@ -448,23 +442,50 @@ public partial class _StockWF : Page
         lblTotalFactura.Text = "0";
         StaticListProducto = new List<Stock>();
         idProductoStatic = 0;
-        DivMensajeExito.Visible = true;
-        lblMensajeExito.Text = "Se registro el ingreso de Stock exitosamente.";
+        MostrarMensajeExito("Se registro el ingreso de Stock exitosamente.");
     }
     private void LimpiarCampos()
     {
         txtCodigo.Value = string.Empty;
         txtDescripción.Value = string.Empty;
         txtPrecio.Value = string.Empty;
-        DivMensajeExito.Visible = true;
-
         cmbMarca.ClearSelection();
         cmbCategoria.ClearSelection();
         cmbUnidadesMedicion.ClearSelection();
-        lblMensajeExito.Text = "Atención: Se género un nuevo producto exitosamente.";
+    }
+    private void OcultarGrillas()
+    {
+        DivGrillaProductos.Visible = false;
+        DivGrillaCargaStock.Visible = false;
+    }
+    private void OcultarFormularios()
+    {
+        DivAltaStock.Visible = false;
+        DivAltaProducto.Visible = false;
+    }
+    private void OcultarMensajes()
+    {
+        DivMensajeExito.Visible = false;
+        DivMensajeError.Visible = false;
+        lblMensajeExito.Text = string.Empty;
+        lblMensajeError.Text = string.Empty;
+    }
+
+    private void MostrarMensajeExito(string mensaje)
+    {
+        OcultarMensajes();
+        DivMensajeExito.Visible = true;
+        lblMensajeExito.Text = mensaje;
+    }
+    private void MostrarMensajeError(string mensaje)
+    {
+        OcultarMensajes();
+        DivMensajeError.Visible = true;
+        lblMensajeError.Text = mensaje;
     }
     private void CargarComboProveedores()
     {
+        AltaStock_cmbProveedor.Items.Clear();
         List<Proveedores> ProveedoresSeleccionada = new List<Proveedores>();
         ProveedoresSeleccionada = ProveedoresNeg.CargarComboProveedores();
         AltaStock_cmbProveedor.Items.Add(new ListItem { Text = "Seleccione", Value = "0", Selected = true });
@@ -475,6 +496,7 @@ public partial class _StockWF : Page
     }
     private void CargarComboSucursal()
     {
+        AltaStock_cmbSucursal.Items.Clear();
         List<Sucursal> SucursalesSeleccionada = new List<Sucursal>();
         SucursalesSeleccionada = SucursalesNeg.CargarComboSucursal();
         AltaStock_cmbSucursal.Items.Add(new ListItem { Text = "Seleccione", Value = "0", Selected = true });
@@ -489,21 +511,15 @@ public partial class _StockWF : Page
         {
             if (cmbCategoria.SelectedValue == "0")
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Para generar un código de barra debe seleccionar un items del campo Categoria.";
-                throw new Exception();
+                throw new Exception("Debe seleccionar un item del campo Categoria.");
             }
             if (cmbMarca.SelectedValue == "0")
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Para generar un código de barra debe seleccionar un items del campo Marca.";
-                throw new Exception();
+                throw new Exception("Debe seleccionar un item del campo Marca.");
             }
             if (cmbUnidadesMedicion.SelectedValue == "0")
             {
-                DivMensajeError.Visible = true;
-                lblMensajeError.Text = "Atención: Para generar un código de barra debe seleccionar un items del campo Unidad de Medición.";
-                throw new Exception();
+                throw new Exception("Debe seleccionar un item del campo Unidad de Medición.");
             }
         }
         catch (Exception ex)
@@ -513,66 +529,52 @@ public partial class _StockWF : Page
     }
     private void GenerarCodigoDeBarra()
     {
-        string InicioCodigo = "999";
-        string ParteCentralCodigo = cmbCategoria.SelectedItem.Value + cmbMarca.SelectedItem.Value + cmbUnidadesMedicion.SelectedItem.Value;
-        string Dia = Convert.ToString(DateTime.Now.Date.Day);
-        string Mes = Convert.ToString(DateTime.Now.Date.Month);
-        string Año = Convert.ToString(DateTime.Now.Date.Year);
-        string Hora = Convert.ToString(DateTime.Now.Hour);
-        string Minutos = Convert.ToString(DateTime.Now.Minute);
-        string Segundos = Convert.ToString(DateTime.Now.Second);
-        string ParteFinalCodigo = Dia + Mes + Año;
-        string CodigoArmado = InicioCodigo + ParteCentralCodigo + ParteFinalCodigo + Hora + Minutos + Segundos;
+        try
+        {
+            string InicioCodigo = "999";
+            string ParteCentralCodigo = cmbCategoria.SelectedItem.Value + cmbMarca.SelectedItem.Value + cmbUnidadesMedicion.SelectedItem.Value;
+            string Dia = Convert.ToString(DateTime.Now.Date.Day);
+            string Mes = Convert.ToString(DateTime.Now.Date.Month);
+            string Año = Convert.ToString(DateTime.Now.Date.Year);
+            string Hora = Convert.ToString(DateTime.Now.Hour);
+            string Minutos = Convert.ToString(DateTime.Now.Minute);
+            string Segundos = Convert.ToString(DateTime.Now.Second);
+            string ParteFinalCodigo = Dia + Mes + Año;
+            string CodigoArmado = InicioCodigo + ParteCentralCodigo + ParteFinalCodigo + Hora + Minutos + Segundos;
 
-        ///// Validamos que el código ya no exista.
-        bool CodigoExistente = StockNeg.ValidarCodigoExistente(CodigoArmado);
-        if (CodigoExistente == false)
-        {
-            string Contenido = CodigoArmado;
-            Barcode codigo = new Barcode();
-            codigo.IncludeLabel = true;
-            codigo.Alignment = AlignmentPositions.CENTER;
-            codigo.LabelFont = new Font(FontFamily.GenericMonospace, 14, FontStyle.Regular);
-            Image img = codigo.Encode(TYPE.CODE128, Contenido, Color.Black, Color.White, 200, 140);
-            codigo.SaveImage(@"C:\Users\Usuario\source\repos\Pulpejitos-Repositorio\VETERINARIA\Img\Codigos_De_Barra\ '" + CodigoArmado + "' .jpg", SaveTypes.JPG);
-            DivMensajeExito.Visible = true;
-            lblMensajeExito.Text = "Atención: Se género un nuevo código de barra exitosamente";
-            txtCodigo.Value = CodigoArmado;
+            ///// Validamos que el código ya no exista.
+            bool CodigoExistente = StockNeg.ValidarCodigoExistente(CodigoArmado);
+            if (CodigoExistente == false)
+            {
+                string Contenido = CodigoArmado;
+                Barcode codigo = new Barcode();
+                codigo.IncludeLabel = true;
+                codigo.Alignment = AlignmentPositions.CENTER;
+                codigo.LabelFont = new Font(FontFamily.GenericMonospace, 14, FontStyle.Regular);
+                Image img = codigo.Encode(TYPE.CODE128, Contenido, Color.Black, Color.White, 200, 140);
+                codigo.SaveImage(@"C:\Users\Usuario\source\repos\Pulpejitos-Repositorio\VETERINARIA\Img\Codigos_De_Barra\ '" + CodigoArmado + "' .jpg", SaveTypes.JPG);
+                DivMensajeExito.Visible = true;
+                lblMensajeExito.Text = "Atención: Se género un nuevo código de barra exitosamente";
+                txtCodigo.Value = CodigoArmado;
+            }
+            else
+            {
+                CodigoArmado = InicioCodigo + ParteCentralCodigo + ParteFinalCodigo + Hora + Minutos + Segundos + 1;
+                string Contenido = CodigoArmado;
+                Barcode codigo = new Barcode();
+                codigo.IncludeLabel = true;
+                codigo.Alignment = AlignmentPositions.CENTER;
+                codigo.LabelFont = new Font(FontFamily.GenericMonospace, 14, FontStyle.Regular);
+                Image img = codigo.Encode(TYPE.CODE128, Contenido, Color.Black, Color.White, 200, 140);
+                codigo.SaveImage(@"C:\Users\Usuario\source\repos\Pulpejitos-Repositorio\VETERINARIA\Img\Codigos_De_Barra\ '" + CodigoArmado + "' .jpg", SaveTypes.JPG);
+                DivMensajeExito.Visible = true;
+                lblMensajeExito.Text = "Atención: Se género un nuevo código de barra exitosamente";
+                txtCodigo.Value = CodigoArmado;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            CodigoArmado = InicioCodigo + ParteCentralCodigo + ParteFinalCodigo + Hora + Minutos + Segundos + 1;
-            string Contenido = CodigoArmado;
-            Barcode codigo = new Barcode();
-            codigo.IncludeLabel = true;
-            codigo.Alignment = AlignmentPositions.CENTER;
-            codigo.LabelFont = new Font(FontFamily.GenericMonospace, 14, FontStyle.Regular);
-            Image img = codigo.Encode(TYPE.CODE128, Contenido, Color.Black, Color.White, 200, 140);
-            codigo.SaveImage(@"C:\Users\Usuario\source\repos\Pulpejitos-Repositorio\VETERINARIA\Img\Codigos_De_Barra\ '" + CodigoArmado + "' .jpg", SaveTypes.JPG);
-            DivMensajeExito.Visible = true;
-            lblMensajeExito.Text = "Atención: Se género un nuevo código de barra exitosamente";
-            txtCodigo.Value = CodigoArmado;
-        }
-    }
-    private void MostrarMensajes(int mensajesVisible)
-    {
-        ///// NADA
-        if (mensajesVisible == 0)
-        {
-            DivMensajeError.Visible = false;
-            DivMensajeExito.Visible = false;
-        }
-        ///// Hay EXITO
-        if (mensajesVisible == 1)
-        {
-            DivMensajeError.Visible = false;
-            DivMensajeExito.Visible = true;
-        }
-        ///// Hay ERROR
-        if (mensajesVisible == 2)
-        {
-            DivMensajeError.Visible = true;
-            DivMensajeExito.Visible = false;
+            throw ex;
         }
     }
     #endregion
