@@ -62,6 +62,7 @@
     <Compile Include="BASEDEDATOS\DaoUsuarios.cs" />
     <Compile Include="BASEDEDATOS\DaoVentas.cs" />
     <Compile Include="BASEDEDATOS\EjemploDAO.cs" />
+    <Compile Include="Clases_Maestras\CrearTicket.cs" />
     <Compile Include="ENTIDADES\Categorias.cs" />
     <Compile Include="ENTIDADES\Class1.cs" />
     <Compile Include="ENTIDADES\Clientes.cs" />
