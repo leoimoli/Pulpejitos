@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using VETERINARIA.MODELO.ENTIDADES;
 using VETERINARIA.REGLAS.NEGOCIO;
@@ -16,6 +13,7 @@ public partial class MascotasWF : System.Web.UI.Page
         {
             if (HttpContext.Current.Session["USUARIO"] == null) Response.Redirect("IngresoWF.aspx");
             Usuarios usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
+            Sucursal sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
 
             if (!IsPostBack)
             {
@@ -30,6 +28,7 @@ public partial class MascotasWF : System.Web.UI.Page
             throw ex;
         }
     }
+
     #region Botones
     protected void btnLimpiar_Click(object sender, EventArgs e)
     {

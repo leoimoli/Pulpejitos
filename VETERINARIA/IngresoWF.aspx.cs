@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using VETERINARIA.MODELO.ENTIDADES;
 using VETERINARIA.REGLAS.NEGOCIO;
@@ -14,6 +12,7 @@ public partial class IngresoWF : System.Web.UI.Page
         if (!IsPostBack)
         {
             HttpContext.Current.Session["USUARIO"] = null;
+            HttpContext.Current.Session["SUCURSAL"] = null;
             MostrarError(string.Empty, false);
             CargarComboSucursal();
         }
@@ -49,6 +48,7 @@ public partial class IngresoWF : System.Web.UI.Page
         lblMensajeError.Text = mensaje;
         DivMensajeError.Visible = mostrar;
     }
+
     private void CargarComboSucursal()
     {
         List<Sucursal> SucursalesSeleccionada = new List<Sucursal>();

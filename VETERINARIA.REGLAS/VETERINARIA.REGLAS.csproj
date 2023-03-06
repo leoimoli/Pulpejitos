@@ -56,6 +56,7 @@
     <Compile Include="NEGOCIO\StockNeg.cs" />
     <Compile Include="NEGOCIO\SucursalesNeg.cs" />
     <Compile Include="NEGOCIO\UnidadMedicionNeg.cs" />
+    <Compile Include="NEGOCIO\PerfilNeg.cs" />
     <Compile Include="NEGOCIO\UsuariosNeg.cs" />
     <Compile Include="NEGOCIO\VentasNeg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

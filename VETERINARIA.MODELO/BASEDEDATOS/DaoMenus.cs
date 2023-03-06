@@ -7,7 +7,7 @@ using VETERINARIA.MODELO.ENTIDADES;
 
 namespace VETERINARIA.MODELO.BASEDEDATOS
 {
-    public class DaoUsuarios
+    public class DaoMenus
     {
         private string _connectionString;
         public string ConnectionString
@@ -20,9 +20,9 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
         }
 
-        public Usuarios BuscarUsuarioLogin(string usuario)
+        public List<Menu> ObtenerMenuPorPerfil(int idPerfil)
         {
-            Usuarios usuarioDB = new Usuarios();
+            List<Menu> menus = new List<Menu>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
                 try
@@ -32,8 +32,8 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = connection;
                     DataTable Tabla = new DataTable();
-                    MySqlParameter[] oParam = { new MySqlParameter("Dni_in", usuario)};
-                    string proceso = "SP_Consultar_BuscarUsuarioParaLogin";
+                    MySqlParameter[] oParam = { new MySqlParameter("IdPerfil_in", idPerfil) };
+                    string proceso = "SP_Consultar_ObtenerMenuPorPerfil";
                     MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
                     dt.SelectCommand.CommandType = CommandType.StoredProcedure;
                     dt.SelectCommand.Parameters.AddRange(oParam);
@@ -42,16 +42,15 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     {
                         foreach (DataRow item in Tabla.Rows)
                         {
-                            usuarioDB.IdUsuario = Convert.ToInt32(item["idUsuario"].ToString());
-                            usuarioDB.Apellido = item["Apellido"].ToString();
-                            usuarioDB.Nombre = item["Nombre"].ToString();
-                            usuarioDB.Dni = item["Dni"].ToString();                            
-                            usuarioDB.FechaDeAlta = Convert.ToDateTime(item["FechaAlta"].ToString());
-                            usuarioDB.FechaUltimaConexion = Convert.ToDateTime(item["FechaUltimaConexion"].ToString());
-                            usuarioDB.Contraseña = item["Contrasenia"].ToString();
-                            usuarioDB.Estado = item["Estado"].ToString();
-                            usuarioDB.idPerfil = Convert.ToInt32(item["idPerfil"].ToString());
-                            usuarioDB.NombrePerfil = item["NombrePerfil"].ToString();
+                            Menu menuDB = new Menu();
+                            menuDB.idMenuPorPerfil = Convert.ToInt32(item["idMenuPorPerfil"].ToString());
+                            menuDB.idPerfil = Convert.ToInt32(item["idPerfil"].ToString());
+                            menuDB.idUsuario = Convert.ToInt32(item["idUsuario"].ToString());
+                            menuDB.NombreMenu = item["NombreMenu"].ToString();
+                            menuDB.Aspx = item["Aspx"].ToString();
+                            menuDB.Icono = item["Icono"].ToString();
+                            menuDB.Activo = string.Empty;
+                            menus.Add(menuDB);
                         }
                     }
                     connection.Close();
@@ -61,7 +60,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     throw ex;
                 }
             }
-            return usuarioDB;
+            return menus;
         }
     }
 }

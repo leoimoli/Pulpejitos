@@ -1,8 +1,8 @@
 /* MaterialDesignIcons.com */
 @font-face {
   font-family: "Material Design Icons";
-  src: url("../fonts/materialdesignicons-webfont.eot?v=3.3.92");
-  src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=3.3.92") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=3.3.92") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=3.3.92") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=3.3.92") format("truetype"), url("../fonts/materialdesignicons-webfont.svg?v=3.3.92#materialdesigniconsregular") format("svg");
+  src: url("../fonts/materialdesignicons-webfont.eot?v=7.1.96");
+  src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=7.1.96") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=7.1.96") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=7.1.96") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=7.1.96") format("truetype"), url("../fonts/materialdesignicons-webfont.svg?v=7.1.96#materialdesigniconsregular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -13588,6 +13588,26 @@
 .mdi-blank:before {
   content: "\F68C";
   visibility: hidden;
+}
+
+.mdi-account-supervisor-circle {
+  content: "\F0A8C";
+}
+
+.mdi-truck-fast {
+  content: "\F0788";
+}
+
+.mdi-cash-100 {
+  content: "\F0115";
+}
+
+.mdi-monitor-dashboard {
+  content: "\F0A07";
+}
+
+.mdi-home-circle {
+  content: "\F07D2";
 }
 
 .mdi-18px.mdi-set, .mdi-18px.mdi:before {

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Security.Principal;
+using System.IO;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VETERINARIA.MODELO.ENTIDADES;
+using VETERINARIA.REGLAS.NEGOCIO;
 
 public partial class SiteMaster : MasterPage
 {
@@ -63,14 +64,24 @@ public partial class SiteMaster : MasterPage
             }
         }
     }
-
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
-
     protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
     {
         Context.GetOwinContext().Authentication.SignOut();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (HttpContext.Current.Session["USUARIO"] == null) Response.Redirect("IngresoWF.aspx");
+        Usuarios _usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
+        Sucursal _sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
+        string pageName = Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath);
+        lblNombreUsuario.Text = _usuarioActual.Nombre + " " + _usuarioActual.Apellido + " ";
+        lblNombrePerfil.Text = _usuarioActual.NombrePerfil;
+        lblNombreSucursal.Text = _sucursalActual.Nombre;
+        var menus = PerfilNeg.ObtenerMenuPorPerfil(_usuarioActual.idPerfil);
+        foreach (var item in menus)
+            if (item.Aspx.Contains(pageName)) item.Activo = " active ";
+        RepeaterMenu.DataSource = menus;
+        RepeaterMenu.DataBind();
     }
 }
