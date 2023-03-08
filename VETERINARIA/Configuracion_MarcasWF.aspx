@@ -75,7 +75,7 @@
                                                 <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
                                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                                     <li class="dropdown-item">
-                                                        <asp:LinkButton Text="ELIMINAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                        <asp:LinkButton Text='<%# (Eval("Estado").ToString() == "Inactivo") ? "ACTIVAR" : "ELIMINAR" %>' CssClass="fa fa-times fa-lg" runat="server"
                                                             CommandArgument='<%# Eval("idMarca") %>' ID="btnEliminarMarca" OnCommand="btnEliminarMarca_Command" />
                                                     </li>
                                                 </ul>
