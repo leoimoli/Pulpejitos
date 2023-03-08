@@ -21,12 +21,16 @@ public partial class _StockWF : Page
     {
         try
         {
+            if (HttpContext.Current.Session["USUARIO"] == null) Response.Redirect("IngresoWF.aspx");
             _usuarioActual = (Usuarios)HttpContext.Current.Session["USUARIO"];
             _sucursalActual = (Sucursal)HttpContext.Current.Session["SUCURSAL"];
+
             if (!IsPostBack)
             {
-                DivAltaProducto.Visible = false;
-                FuncionVariable = string.Empty;
+                OcultarMensajes();
+                OcultarGrillas();
+                OcultarFormularios();
+                LimpiarCampos();
                 CargarCombos();
                 FuncionListarProductos();
             }
@@ -44,21 +48,21 @@ public partial class _StockWF : Page
             Productos _producto = CargarEntidad();
             if (FuncionVariable == "NUEVO")
             {
-
                 ProductoNeg.InsertarProducto(_producto, _sucursalActual.idSucursal);
+                FuncionListarProductos();
                 MostrarMensajeExito("Se registró un nuevo producto.");
             }
             if (FuncionVariable == "EDITAR")
             {
                 ProductoNeg.EditarProducto(_producto, idProductoSeleccionado);
+                FuncionListarPrecios(idProductoSeleccionado);
                 MostrarMensajeExito("Se actualizó el producto seleccionado.");
             }
             LimpiarCampos();
-            FuncionListarProductos();
         }
         catch (Exception ex)
         {
-            MostrarMensajeError("Ha ocurrido un error intentando guardar el producto: " + ex.Message);
+            MostrarMensajeError("Error al guardar el producto: " + ex.Message);
         }
     }
     protected void btnCancelar_Click(object sender, EventArgs e)
@@ -87,6 +91,7 @@ public partial class _StockWF : Page
             LimpiarCampos();
             FuncionVariable = "NUEVO";
             DivAltaProducto.Visible = true;
+            DivGrillaProductos.Visible = true;
         }
         catch (Exception ex)
         {
@@ -113,11 +118,13 @@ public partial class _StockWF : Page
     {
         try
         {
+            OcultarMensajes();
             List<Stock> EntidadStock = CargarEntidadRegistroStock();
             lblTotalFactura.Text = StaticListProducto.Sum(x => x.MontoTotalPorProducto).ToString();
             RepeaterCargaStock.DataSource = StaticListProducto;
             RepeaterCargaStock.DataBind();
             DivGrillaCargaStock.Visible = true;
+            MostrarMensajeExito("Stock registrado.");
             LimpiarCamposCargaStockExito();
         }
         catch (Exception ex)
@@ -161,7 +168,7 @@ public partial class _StockWF : Page
         }
         catch (Exception ex)
         {
-            MostrarMensajeError("Error buscando producto: " + ex.Message);
+            MostrarMensajeError("Error: " + ex.Message);
         }
     }
 
@@ -179,7 +186,7 @@ public partial class _StockWF : Page
         }
         catch (Exception ex)
         {
-            MostrarMensajeError("Error al guardar stock: " + ex.Message);
+            MostrarMensajeError("Error: " + ex.Message);
         }
 
     }
@@ -238,8 +245,9 @@ public partial class _StockWF : Page
             FuncionVariable = "EDITAR";
             Productos _productoSeleccionado = new Productos();
             idProductoSeleccionado = Convert.ToInt32(e.CommandArgument);
-            _productoSeleccionado = ProductoNeg.ListarProductosDisponibles(idProductoSeleccionado);
+            _productoSeleccionado = ProductoNeg.BuscarProductoPorId(idProductoSeleccionado);
             FuncionEditar_HabilitarCampos(_productoSeleccionado);
+            FuncionListarPrecios(idProductoSeleccionado);
         }
         catch (Exception ex)
         {
@@ -295,6 +303,15 @@ public partial class _StockWF : Page
         RepeaterProductos.DataBind();
         DivGrillaProductos.Visible = true;
     }
+
+    private void FuncionListarPrecios(int idProducto)
+    {
+        List<Precios> ListaProductos = ProductoNeg.ListarPrecios(idProducto);
+        RepeaterPrecios.DataSource = ListaProductos;
+        RepeaterPrecios.DataBind();
+        DivGrillaPrecios.Visible = true;
+    }   
+
     private void CargarCombos()
     {
         cmbMarca.Items.Clear();
@@ -463,6 +480,7 @@ public partial class _StockWF : Page
     {
         DivGrillaProductos.Visible = false;
         DivGrillaCargaStock.Visible = false;
+        DivGrillaPrecios.Visible = false;
     }
     private void OcultarFormularios()
     {

@@ -86,8 +86,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
                                 <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -324,6 +324,44 @@
             <div class="form-footer pt-4 pt-5 mt-4 border-top">
                 <asp:Button Text="Guardar" runat="server" OnClick="btnGuardarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
                 <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+            </div>
+        </div>
+    </div>
+    <!-- GRILLA DE HISTORIAL DE PRECIOS X PRODUCTOS -->
+    <div class="row" id="DivGrillaPrecios" runat="server">
+        <div class="col-12">
+
+            <!-- Recent Order Table -->
+            <div class="card card-table-border-none recent-orders" id="recent-orders">
+                <div class="card-header justify-content-between">
+                    <h2 style="color: blueviolet">Historial de Precios</h2>
+                </div>
+                <div class="card-body pt-0 pb-5">
+                    <table class="table card-table table-responsive table-responsive-large" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th class="d-none d-lg-table-cell"><b>Código Producto</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Descripción</b></th>
+                                <th><b>Precio</b></th>
+                                <th><b>Fecha</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <asp:Repeater ID="RepeaterPrecios" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("CodigoProducto") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("Descripcion") %></td>
+                                        <td><%# Eval("Precio") %></td>
+                                        <td><%# Eval("FechaDeAlta") %></td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
