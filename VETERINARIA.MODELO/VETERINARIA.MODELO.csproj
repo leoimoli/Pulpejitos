@@ -53,6 +53,7 @@
     <Compile Include="BASEDEDATOS\DaoEspecies.cs" />
     <Compile Include="BASEDEDATOS\DaoMarcas.cs" />
     <Compile Include="BASEDEDATOS\DaoMascotas.cs" />
+    <Compile Include="BASEDEDATOS\DaoPerfiles.cs" />
     <Compile Include="BASEDEDATOS\DaoPrecios.cs" />
     <Compile Include="BASEDEDATOS\DaoProductos.cs" />
     <Compile Include="BASEDEDATOS\DaoProveedores.cs" />

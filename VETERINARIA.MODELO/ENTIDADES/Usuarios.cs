@@ -9,8 +9,10 @@ namespace VETERINARIA.MODELO.ENTIDADES
     public class Usuarios
     {
         public int IdUsuario { get; set; }
+        public int idUsuarioAlta { get; set; }
         public string Apellido { get; set; }
         public string Nombre { get; set; }
+        public string ApellidoNombre { get; set; }
         public string Dni { get; set; }
         public DateTime FechaDeNacimiento { get; set; }
         public DateTime FechaDeAlta { get; set; }
@@ -19,7 +21,8 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public string Contraseña2 { get; set; }
         public int idPerfil { get; set; }
         public string NombrePerfil { get; set; }
-        public string Estado { get; set; }
+        public int idEstado { get; set; }
+        public string NombreEstado { get; set; }
         public byte[] Foto { get; set; }
         public int NroLote { get; set; }
         public int CantidadVentasDelMes { get; set; }

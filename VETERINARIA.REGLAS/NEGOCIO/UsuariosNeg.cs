@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VETERINARIA.MODELO.BASEDEDATOS;
 using VETERINARIA.MODELO.ENTIDADES;
 
@@ -24,6 +21,36 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                 throw ex;
             }
             return null;
+        }
+
+        public static List<Usuarios> ListarUsuarios()
+        {
+            DaoUsuarios _dao = new DaoUsuarios();
+            List<Usuarios> _listaUsuarios = new List<Usuarios>();
+            try
+            {
+                _listaUsuarios = _dao.ListarUsuarios();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _listaUsuarios;
+        }
+
+        public static Usuarios ListarUsuariosPorId(int idUsuarioSeleccionado)
+        {
+            return ListarUsuarios().Find(x => x.IdUsuario == idUsuarioSeleccionado);
+        }
+
+        public static void InsertarUsuario(Usuarios usuario)
+        {
+            DaoUsuarios _dao = new DaoUsuarios();
+        }
+
+        public static void EditarUsuario(Usuarios usuario, int idClienteSeleccionado)
+        {
+            DaoUsuarios _dao = new DaoUsuarios();
         }
     }
 }
