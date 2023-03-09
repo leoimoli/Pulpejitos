@@ -24,13 +24,13 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             lista = _dao.CargarCombomMarcas();
             return lista;
         }
-        public static bool EliminarMarca(Marcas marca, int idMarcaSeleccionada, int v)
+        public static bool EliminarMarca(Marcas marca, int idMarcaSeleccionada, int Valor)
         {
             bool exito = false;
             DaoMarcas _dao = new DaoMarcas();
             try
             {
-                exito = _dao.EliminarMarca(marca, idMarcaSeleccionada, 0);
+                exito = _dao.EliminarMarca(marca, idMarcaSeleccionada, Valor);
             }
             catch (Exception ex)
             {

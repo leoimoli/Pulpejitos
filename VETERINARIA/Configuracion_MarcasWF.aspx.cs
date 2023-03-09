@@ -75,11 +75,13 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
                 ////// EstadoMarca 1 = a Activo; EstadoMarca 0 = a Inactivo
                 if (EstadoMarca == 1)
                 {
-                    RespuestaExitosa = MarcasNeg.EliminarMarca(_marca, idMarcaSeleccionada, 0);
+                    int Valor = 0;
+                    RespuestaExitosa = MarcasNeg.EliminarMarca(_marca, idMarcaSeleccionada, Valor);
                 }
                 else
                 {
-                    RespuestaExitosa = MarcasNeg.EliminarMarca(_marca, idMarcaSeleccionada, 1);
+                    int Valor = 1;
+                    RespuestaExitosa = MarcasNeg.EliminarMarca(_marca, idMarcaSeleccionada, Valor);
                 }
                 if (RespuestaExitosa == true)
                 {
@@ -246,7 +248,7 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
         txtNombreMarca.Disabled = false;
         int MensajesVisible = 1;
         MostrarMensajes(MensajesVisible);
-        lblMensajeExito.Text = "Atención: Se registro la baja de la marca exitosamente.";
+        lblMensajeExito.Text = "Atención: Se modificó el estado de la marca exitosamente.";
         idMarcaSeleccionada = 0;
         FuncionVariable = "NUEVO";
         divAltaMarcaEncabezado.InnerText = "ALTA MARCA";

@@ -124,7 +124,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     MySqlCommand cmd = new MySqlCommand(Actualizar, connection);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("idMarca_in", idMarcaSeleccionada);
-                    cmd.Parameters.AddWithValue("Estado_in", 0);
+                    cmd.Parameters.AddWithValue("Estado_in", valor);
                     cmd.Parameters.AddWithValue("FechaAlta_in", marca.FechaAlta);
                     cmd.Parameters.AddWithValue("idUsuario_in", marca.idUsuario);
                     cmd.ExecuteNonQuery();
