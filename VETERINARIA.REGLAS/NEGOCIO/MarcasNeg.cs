@@ -38,7 +38,6 @@ namespace VETERINARIA.REGLAS.NEGOCIO
             }
             return exito;
         }
-
         public static bool InsertarMarca(Marcas marca)
         {
             DaoMarcas _dao = new DaoMarcas();

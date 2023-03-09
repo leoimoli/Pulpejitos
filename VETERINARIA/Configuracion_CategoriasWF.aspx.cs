@@ -1,16 +1,13 @@
-﻿using iTextSharp.text;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VETERINARIA.MODELO.ENTIDADES;
 using VETERINARIA.REGLAS.NEGOCIO;
-using Color = iTextSharp.text.Color;
 
-public partial class Configuracion_MarcasWF : System.Web.UI.Page
+public partial class Configuracion_CategoriasWF : System.Web.UI.Page
 {
     private static Usuarios _usuarioActual { set; get; }
     private static Sucursal _sucursalActual { set; get; }
@@ -24,8 +21,8 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
 
             if (!IsPostBack)
             {
-                DivAltaMarca.Visible = false;
-                FuncionListarMarcas();
+                DivAltaCategoria.Visible = false;
+                FuncionListarCategorias();
             }
         }
         catch (Exception ex)
@@ -37,7 +34,7 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
 
 
     #region Botones
-    protected void btnNuevaMarca_Click(object sender, EventArgs e)
+    protected void btnNueva_Click(object sender, EventArgs e)
     {
         try
         {
@@ -54,8 +51,8 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
         {
             if (FuncionVariable == "NUEVO")
             {
-                Marcas _marca = CargarEntidad();
-                bool RespuestaExitosa = MarcasNeg.InsertarMarca(_marca);
+                Categorias _categoria = CargarEntidad();
+                bool RespuestaExitosa = CategoriasNeg.InsertarCategoria(_categoria);
                 if (RespuestaExitosa == true)
                 {
                     LimpiarCampos_ExitoInsert();
@@ -64,24 +61,25 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
                 {
                     int MensajesVisible = 2;
                     MostrarMensajes(MensajesVisible);
-                    lblMensajeError.Text = "Atención: Falló el registro de la nueva marca.";
+                    lblMensajeError.Text = "Atención: Falló el registro de la nueva categoria.";
                     throw new Exception(lblMensajeError.Text);
                 }
             }
             if (FuncionVariable == "ELIMINAR")
             {
                 bool RespuestaExitosa = false;
-                Marcas _marca = CargarEntidad();
-                ////// EstadoMarca 1 = a Activo; EstadoMarca 0 = a Inactivo
-                if (EstadoMarca == 1)
+                Categorias _categoria = CargarEntidad();
+
+                ////// EstadoCategoria 1 = a Activo; EstadoMarca 0 = a Inactivo
+                if (EstadoCategoria == 1)
                 {
                     int Valor = 0;
-                    RespuestaExitosa = MarcasNeg.EliminarMarca(_marca, idMarcaSeleccionada, Valor);
+                    RespuestaExitosa = CategoriasNeg.EliminarCategoria(_categoria, idCategoriaSeleccionada, Valor);
                 }
                 else
                 {
                     int Valor = 1;
-                    RespuestaExitosa = MarcasNeg.EliminarMarca(_marca, idMarcaSeleccionada, Valor);
+                    RespuestaExitosa = CategoriasNeg.EliminarCategoria(_categoria, idCategoriaSeleccionada, Valor);
                 }
                 if (RespuestaExitosa == true)
                 {
@@ -91,7 +89,7 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
                 {
                     int MensajesVisible = 2;
                     MostrarMensajes(MensajesVisible);
-                    lblMensajeError.Text = "Atención: Falló la edición del Cliente.";
+                    lblMensajeError.Text = "Atención: Falló la edición de la Categoria.";
                     throw new Exception(lblMensajeError.Text);
                 }
             }
@@ -118,20 +116,20 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
     {
         try
         {
-            string marca = txtBuscarMarca.Value;
+            string categoria = txtBuscarMarca.Value;
 
-            List<Marcas> _listaMarcas = MarcasNeg.BuscarMarcasPorNombre(marca);
-            if (_listaMarcas.Count > 0)
+            List<Categorias> _listaCategoria = CategoriasNeg.BuscarCategoriaPorNombre(categoria);
+            if (_listaCategoria.Count > 0)
             {
-                DivGrillaMarcas.Visible = true;
-                RepeaterMarcas.DataSource = _listaMarcas;
-                RepeaterMarcas.DataBind();
+                DivGrillaCategoria.Visible = true;
+                RepeaterCategoria.DataSource = _listaCategoria;
+                RepeaterCategoria.DataBind();
                 int MensajesVisible = 0;
                 MostrarMensajes(MensajesVisible);
             }
             else
             {
-                DivGrillaMarcas.Visible = false;
+                DivGrillaCategoria.Visible = false;
                 int MensajesVisible = 2;
                 MostrarMensajes(MensajesVisible);
                 lblMensajeError.Text = "Atención: No se encontraron resultados para la busqueda ingresada.";
@@ -142,23 +140,23 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
             throw ex;
         }
     }
-    public static int idMarcaSeleccionada = 0;
-    protected void btnEliminarMarca_Command(object sender, CommandEventArgs e)
+    public static int idCategoriaSeleccionada = 0;
+    protected void btnEliminarCategoria_Command(object sender, CommandEventArgs e)
     {
         FuncionVariable = "ELIMINAR";
-        Marcas _marcaSeleccionado = new Marcas();
-        idMarcaSeleccionada = Convert.ToInt32(e.CommandArgument);
-        _marcaSeleccionado = MarcasNeg.ListarMarcaPorId(idMarcaSeleccionada);
-        FuncionEliminar_HabilitarCampos(_marcaSeleccionado);
+        Categorias _categoriasSeleccionado = new Categorias();
+        idCategoriaSeleccionada = Convert.ToInt32(e.CommandArgument);
+        _categoriasSeleccionado = CategoriasNeg.ListarCategoriaPorId(idCategoriaSeleccionada);
+        FuncionEliminar_HabilitarCampos(_categoriasSeleccionado);
     }
     #endregion
 
     #region Metodos
-    private void FuncionListarMarcas()
+    private void FuncionListarCategorias()
     {
-        List<Marcas> ListaMarcas = MarcasNeg.ListarMarcas();
-        RepeaterMarcas.DataSource = ListaMarcas;
-        RepeaterMarcas.DataBind();
+        List<Categorias> ListaCategoria = CategoriasNeg.ListarCategoria();
+        RepeaterCategoria.DataSource = ListaCategoria;
+        RepeaterCategoria.DataBind();
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
     }
@@ -186,32 +184,32 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
     public static string FuncionVariable = "";
     private void Funcion_Alta()
     {
-        DivGrillaMarcas.Visible = false;
-        DivAltaMarca.Visible = true;
+        DivGrillaCategoria.Visible = false;
+        DivAltaCategoria.Visible = true;
         FuncionVariable = "NUEVO";
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
-        txtNombreMarca.Disabled = false;
+        txtNombreCategoria.Disabled = false;
     }
     private void LimpiarCampos_ExitoInsert()
     {
-        txtNombreMarca.Value = String.Empty;
+        txtNombreCategoria.Value = String.Empty;
         DivMensajeExito.Visible = true;
-        lblMensajeExito.Text = "Atención: Se registro la marca exitosamente.";
+        lblMensajeExito.Text = "Atención: Se registro la categoria exitosamente.";
         int MensajesVisible = 1;
         MostrarMensajes(MensajesVisible);
     }
-    private Marcas CargarEntidad()
+    private Categorias CargarEntidad()
     {
         try
         {
             ValidarDatosObligatorios();
-            Marcas _marca = new Marcas();
-            _marca.Nombre = txtNombreMarca.Value;
+            Categorias _categoria = new Categorias();
+            _categoria.Nombre = txtNombreCategoria.Value;
             DateTime fechaActual = DateTime.Now;
-            _marca.FechaAlta = fechaActual;
-            _marca.idUsuario = _usuarioActual.IdUsuario;
-            return _marca;
+            _categoria.FechaAlta = fechaActual;
+            _categoria.idUsuario = _usuarioActual.IdUsuario;
+            return _categoria;
         }
         catch (Exception ex)
         { throw ex; }
@@ -220,11 +218,11 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
     {
         try
         {
-            if (String.IsNullOrEmpty(txtNombreMarca.Value))
+            if (String.IsNullOrEmpty(txtNombreCategoria.Value))
             {
                 int MensajesVisible = 2;
                 MostrarMensajes(MensajesVisible);
-                lblMensajeError.Text = "Atención: El campo Nombre Marca es un dato obligatorio.";
+                lblMensajeError.Text = "Atención: El campo Nombre categoria es un dato obligatorio.";
                 throw new Exception(lblMensajeError.Text);
             }
         }
@@ -233,45 +231,45 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
     }
     private void LimpiarCampos_Cancelar()
     {
-        txtNombreMarca.Value = String.Empty;
-        DivGrillaMarcas.Visible = true;
-        DivAltaMarca.Visible = false;
-        FuncionListarMarcas();
+        txtNombreCategoria.Value = String.Empty;
+        DivGrillaCategoria.Visible = true;
+        DivAltaCategoria.Visible = false;
+        FuncionListarCategorias();
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
-        divAltaMarcaEncabezado.InnerText = "ALTA MARCA";
-        txtNombreMarca.Disabled = false;
+        divAltaCategoriaEncabezado.InnerText = "ALTA CATEGORIA";
+        txtNombreCategoria.Disabled = false;
     }
     private void LimpiarCampos_ExitoEliminar()
     {
-        txtNombreMarca.Value = String.Empty;
-        txtNombreMarca.Disabled = false;
+        txtNombreCategoria.Value = String.Empty;
+        txtNombreCategoria.Disabled = false;
         int MensajesVisible = 1;
         MostrarMensajes(MensajesVisible);
-        lblMensajeExito.Text = "Atención: Se modificó el estado de la marca exitosamente.";
-        idMarcaSeleccionada = 0;
+        lblMensajeExito.Text = "Atención: Se modificó el estado de la categoria exitosamente.";
+        idCategoriaSeleccionada = 0;
         FuncionVariable = "NUEVO";
-        divAltaMarcaEncabezado.InnerText = "ALTA MARCA";
+        divAltaCategoriaEncabezado.InnerText = "ALTA CATEGORIA";
     }
-    public static int EstadoMarca = 0;
-    private void FuncionEliminar_HabilitarCampos(Marcas marcaSeleccionado)
+    public static int EstadoCategoria = 0;
+    private void FuncionEliminar_HabilitarCampos(Categorias categoriaSeleccionado)
     {
-        DivGrillaMarcas.Visible = false;
-        DivAltaMarca.Visible = true;
-        txtNombreMarca.Value = marcaSeleccionado.Nombre;
-        txtNombreMarca.Disabled = true;
-        string Estado = marcaSeleccionado.Estado;
+        DivGrillaCategoria.Visible = false;
+        DivAltaCategoria.Visible = true;
+        txtNombreCategoria.Value = categoriaSeleccionado.Nombre;
+        txtNombreCategoria.Disabled = true;
+        string Estado = categoriaSeleccionado.Estado;
         if (Estado == "Activo")
-        { EstadoMarca = 1; }
+        { EstadoCategoria = 1; }
         if (Estado == "Inactivo")
         { EstadoCategoria = 0; }
         FuncionVariable = "ELIMINAR";
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
-        if (EstadoMarca == 1)
-            divAltaMarcaEncabezado.InnerText = "ELIMINAR MARCA";      
-        if (EstadoMarca == 0)
-            divAltaMarcaEncabezado.InnerText = "REACTIVAR MARCA";
+        if (EstadoCategoria == 1)
+            divAltaCategoriaEncabezado.InnerText = "ELIMINAR CATEGORIA";
+        if (EstadoCategoria == 0)
+            divAltaCategoriaEncabezado.InnerText = "REACTIVAR CATEGORIA";
     }
     #endregion
 }
