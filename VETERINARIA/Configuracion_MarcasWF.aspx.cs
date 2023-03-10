@@ -264,7 +264,7 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
         if (Estado == "Activo")
         { EstadoMarca = 1; }
         if (Estado == "Inactivo")
-        { EstadoCategoria = 0; }
+        { EstadoMarca = 0; }
         FuncionVariable = "ELIMINAR";
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);

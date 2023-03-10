@@ -16,7 +16,11 @@ namespace VETERINARIA.MODELO.ENTIDADES
         public string NombreProvincia { get; set; }
         public int idLocalidad { get; set; }
         public string NombreLocalidad { get; set; }
-        public string CodigoPostal { get; set; }      
+        public string CodigoPostal { get; set; }            
+        public string Domicilio { get; set; }
+        public DateTime FechaAlta { get; set; }
         public int idUsuario { get; set; }
+        public string UsuarioApellidoNombre { get; set; }
+        public string Estado { get; set; }
     }
 }

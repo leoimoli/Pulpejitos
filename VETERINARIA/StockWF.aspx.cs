@@ -171,7 +171,6 @@ public partial class _StockWF : Page
             MostrarMensajeError("Error: " + ex.Message);
         }
     }
-
     protected void btnGuardarStock_Click(object sender, EventArgs e)
     {
         try
