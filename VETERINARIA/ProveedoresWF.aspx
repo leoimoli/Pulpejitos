@@ -79,7 +79,7 @@
 
             </div>
             <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                <asp:Button Text="Nuevo Proveedor" runat="server" OnClick="btnNuevoProveedor_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                <asp:Button Text="Nuevo Proveedor" runat="server" OnClick="btnNuevoProveedor_Click" CssClass="btn btn-primary btn-default"  />
             </div>
         </div>
     </div>
@@ -138,8 +138,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
-                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default"  />
+                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default"  />
                             </div>
                         </div>
                         <div class="col-lg-4">

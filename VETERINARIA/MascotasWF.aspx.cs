@@ -68,7 +68,6 @@ public partial class MascotasWF : System.Web.UI.Page
             }
             else
             {
-                //DivGrillaMascotas.Visible = false;
                 int MensajesVisible = 2;
                 MostrarMensajes(MensajesVisible);
                 lblMensajeError.Text = "Atención: No se encontraron resultados para la busqueda ingresada.";
@@ -408,7 +407,6 @@ public partial class MascotasWF : System.Web.UI.Page
         }
         else
         {
-            //DivGrillaMascotas.Visible = false;
             int MensajesVisible = 2;
             MostrarMensajes(MensajesVisible);
             lblMensajeError.Text = "Atención: No se encontraron resultados para la busqueda ingresada.";

@@ -61,7 +61,7 @@ $(document).ready(function() {
             pointBorderWidth: 2,
             backgroundColor: "transparent",
             borderWidth: 2,
-            borderColor: "#4c84ff",
+            borderColor: "blueviolet",
             data: [0, 2, 4.3, 3.8, 5.2, 1.8, 2.2]
           }
         ]
@@ -353,7 +353,7 @@ $(document).ready(function() {
             pointBorderWidth: 2,
             backgroundColor: "transparent",
             borderWidth: 2,
-            borderColor: "#4c84ff",
+            borderColor: "blueviolet",
             data: [0, 2, 6, 5, 8.5, 3, 3.8]
           }
         ]
@@ -851,10 +851,10 @@ $(document).ready(function() {
           {
             label: ["completed", "unpaid", "pending", "canceled"],
             data: [4100, 2500, 1800, 2300],
-            backgroundColor: ["#4c84ff", "#29cc97", "#8061ef", "#fec402"],
+            backgroundColor: ["blueviolet", "#29cc97", "#8061ef", "#fec402"],
             borderWidth: 1
-            // borderColor: ['#4c84ff','#29cc97','#8061ef','#fec402']
-            // hoverBorderColor: ['#4c84ff', '#29cc97', '#8061ef', '#fec402']
+            // borderColor: ['blueviolet','#29cc97','#8061ef','#fec402']
+            // hoverBorderColor: ['blueviolet', '#29cc97', '#8061ef', '#fec402']
           }
         ]
       },
@@ -978,7 +978,7 @@ $(document).ready(function() {
           {
             label: "Current Year",
             backgroundColor: "rgba(76,132,255,0.2)",
-            borderColor: "#4c84ff",
+            borderColor: "blueviolet",
             pointBorderWidth: 2,
             pointRadius: 4,
             pointBorderColor: "rgba(76,132,255,1)",
@@ -1061,7 +1061,7 @@ $(document).ready(function() {
             label: "signup",
             data: [15, 30, 27, 43, 39, 18, 42, 25, 13, 18, 59],
             // data: [2, 3.2, 1.8, 2.1, 1.5, 3.5, 4, 2.3, 2.9, 4.5, 1.8, 3.4, 2.8],
-            backgroundColor: "#4c84ff"
+            backgroundColor: "blueviolet"
           }
         ]
       },
@@ -1419,7 +1419,7 @@ $(document).ready(function() {
           {
             label: "signup",
             data: [18, 13, 9.5],
-            backgroundColor: "#4c84ff"
+            backgroundColor: "blueviolet"
           }
         ]
       },
@@ -1497,7 +1497,7 @@ $(document).ready(function() {
           {
             label: "signup",
             data: [7.5, 4.6, 4],
-            backgroundColor: "#4c84ff"
+            backgroundColor: "blueviolet"
           }
         ]
       },
@@ -1647,7 +1647,7 @@ if (barX !== null) {
           label: "signup",
           data: [5, 6, 4.5, 5.5, 3, 6, 4.5, 6, 8, 3, 5.5, 4],
           // data: [2, 3.2, 1.8, 2.1, 1.5, 3.5, 4, 2.3, 2.9, 4.5, 1.8, 3.4, 2.8],
-          backgroundColor: "#4c84ff"
+          backgroundColor: "blueviolet"
         }
       ]
     },
@@ -1710,7 +1710,7 @@ if (bar1 !== null) {
           label: "signup",
           data: [5, 7.5, 5.5, 6.5, 4, 9],
           // data: [2, 3.2, 1.8, 2.1, 1.5, 3.5, 4, 2.3, 2.9, 4.5, 1.8, 3.4, 2.8],
-          backgroundColor: "#4c84ff"
+          backgroundColor: "blueviolet"
         }
       ]
     },
@@ -2194,7 +2194,7 @@ if (mstat !== null) {
           lineTension: 0,
           backgroundColor: "rgba(76,132,255,0.2)",
           borderWidth: 2.5,
-          borderColor: "#4c84ff",
+          borderColor: "blueviolet",
           data: [2000, 11500, 10000, 14000, 11000, 16800, 14500]
         }
       ]

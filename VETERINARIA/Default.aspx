@@ -98,7 +98,7 @@
                     <div class="col-6">
                         <div class="py-4 px-4">
                             <ul class="d-flex flex-column justify-content-between">
-                                <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #4c84ff"></i>Order Completed</li>
+                                <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: blueviolet"></i>Order Completed</li>
                                 <li><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #80e1c1"></i>Order Unpaid</li>
                             </ul>
                         </div>
@@ -646,7 +646,7 @@
                         <div class="p-4">
                             <ul class="d-flex flex-column justify-content-between">
                                 <li class="mb-2"><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #29cc97"></i>America <span class="float-right">5k</span></li>
-                                <li><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: #4c84ff"></i>Australia <span class="float-right">3k</span></li>
+                                <li><i class="mdi mdi-checkbox-blank-circle-outline mr-2" style="color: blueviolet"></i>Australia <span class="float-right">3k</span></li>
                             </ul>
                         </div>
                     </div>

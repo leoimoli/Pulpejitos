@@ -263,8 +263,8 @@ public partial class Configuracion_MarcasWF : System.Web.UI.Page
         string Estado = marcaSeleccionado.Estado;
         if (Estado == "Activo")
         { EstadoMarca = 1; }
-        if (Estado == "Inactivo")
-        { EstadoCategoria = 0; }
+        //if (Estado == "Inactivo")
+        //{ EstadoCategoria = 0; }
         FuncionVariable = "ELIMINAR";
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
