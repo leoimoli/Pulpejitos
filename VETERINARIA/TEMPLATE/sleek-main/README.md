@@ -13,7 +13,7 @@
 
 </div>
 
-**Sleek Dashboard** - Free Bootstrap 4 Admin Dashboard Template and UI Kit. It is a very powerful _bootstrap_* admin dashboard, which allows you to build products like admin panels, content management systems and CRMs.
+**PULPEJITOS** - Free Bootstrap 4 Admin Dashboard Template and UI Kit. It is a very powerful _bootstrap_* admin dashboard, which allows you to build products like admin panels, content management systems and CRMs.
 [Bootstrap](https://getbootstrap.com/) is the world's most popular front-end component library for developing with HTML, CSS, and JS. It is an open-source, intuitive, and powerful front-end framework for faster and easier web development.
 
 We are very excited to share this dashboard with you and we look forward to hearing your feedback!
@@ -59,7 +59,7 @@ Please visit [Documentation](https://demo.themefisher.com/sleek/quick-start.html
 
 ### Option 2: From NPM
 
-Install **Sleek Dashboard** from npm
+Install **PULPEJITOS** from npm
 
 ```
 npm i sleek-dashboard --save
@@ -67,7 +67,7 @@ npm i sleek-dashboard --save
 
 ### Option 3: Download
 
-You can download ready to use **Sleek Dashboard** admin template from our [Latest Release](https://github.com/themefisher/sleek/releases)
+You can download ready to use **PULPEJITOS** admin template from our [Latest Release](https://github.com/themefisher/sleek/releases)
 
 Please visit [Documentation](https://demo.themefisher.com/sleek/quick-start.html) for more detailed information.
 
@@ -112,7 +112,7 @@ At present, we officially aim to support the following browsers:
 
 ## Reporting Issues
 
-We use GitHub Issues as the official bug tracker for the **Sleek Dashboard**. Please Search [existing issues](https://github.com/themefisher/sleek/issues). It’s possible someone has already reported the same problem.
+We use GitHub Issues as the official bug tracker for the **PULPEJITOS**. Please Search [existing issues](https://github.com/themefisher/sleek/issues). It’s possible someone has already reported the same problem.
 If your problem or idea is not addressed yet, [open a new issue](https://github.com/themefisher/sleek/issues)
 
 ## Technical Support or Questions

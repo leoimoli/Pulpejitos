@@ -82,12 +82,12 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-4">
-                            <asp:Button Text="Generar Código" runat="server" OnClick="btnGenerarCodigo_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
+                            <asp:Button Text="Generar Código" runat="server" OnClick="btnGenerarCodigo_Click" CssClass="btn btn-secondary btn-default"  />
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default"  />
+                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default"  />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -185,8 +185,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Volver" runat="server" OnClick="btnVolver_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
-                                <asp:Button Text="Cargar" runat="server" OnClick="btnCargar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Volver" runat="server" OnClick="btnVolver_Click" CssClass="btn btn-secondary btn-default"  />
+                                <asp:Button Text="Cargar" runat="server" OnClick="btnCargar_Click" CssClass="btn btn-primary btn-default"  />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -256,8 +256,8 @@
 
             </div>
             <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                <asp:Button Text="Nuevo Producto" runat="server" OnClick="btnNuevoProducto_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                <asp:Button Text="Registrar Stock" runat="server" OnClick="btnRegistrarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                <asp:Button Text="Nuevo Producto" runat="server" OnClick="btnNuevoProducto_Click" CssClass="btn btn-primary btn-default"  />
+                <asp:Button Text="Registrar Stock" runat="server" OnClick="btnRegistrarStock_Click" CssClass="btn btn-primary btn-default"  />
             </div>
         </div>
     </div>
@@ -322,8 +322,8 @@
                 </div>
             </div>
             <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                <asp:Button Text="Guardar" runat="server" OnClick="btnGuardarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelarStock_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                <asp:Button Text="Guardar" runat="server" OnClick="btnGuardarStock_Click" CssClass="btn btn-primary btn-default"  />
+                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelarStock_Click" CssClass="btn btn-primary btn-default"  />
             </div>
         </div>
     </div>

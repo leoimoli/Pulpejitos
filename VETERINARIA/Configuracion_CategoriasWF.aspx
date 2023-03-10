@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4" style="margin-top: 30px;">
-                            <asp:Button Text="Buscar" runat="server" OnClick="btnBuscar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                            <asp:Button Text="Buscar" runat="server" OnClick="btnBuscar_Click" CssClass="btn btn-primary btn-default"  />
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                         </tbody>
                     </table>
                     <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                        <asp:Button Text="Nueva Categoria" runat="server" OnClick="btnNueva_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                        <asp:Button Text="Nueva Categoria" runat="server" OnClick="btnNueva_Click" CssClass="btn btn-primary btn-default"  />
                     </div>
                 </div>
             </div>
@@ -124,8 +124,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
-                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default"  />
+                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default"  />
                             </div>
                         </div>
                         <div class="col-lg-4">

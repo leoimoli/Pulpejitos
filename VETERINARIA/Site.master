@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Sleek Dashboard - Free Bootstrap 4 Admin Dashboard Template and UI Kit. It is very powerful bootstrap admin dashboard, which allows you to build products like admin panels, content management systems and CRMs etc." />
+    <meta name="description" content="PULPEJITOS - Free Bootstrap 4 Admin Dashboard Template and UI Kit. It is very powerful bootstrap admin dashboard, which allows you to build products like admin panels, content management systems and CRMs etc." />
     <!-- theme meta -->
     <meta name="theme-name" content="sleek" />
     <!-- FAVICON -->
@@ -68,22 +68,10 @@
         <aside class="left-sidebar bg-sidebar">
             <div id="sidebar" class="sidebar">
                 <!-- Aplication Brand -->
-                <div class="app-brand" style="color:blueviolet">
-                    <a href="/index.html" title="Sleek Dashboard">
-                        <svg
-                            class="brand-icon"
-                            xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="xMidYMid"
-                            width="30"
-                            height="33"
-                            viewBox="0 0 30 33">
-                            <g fill="none" fill-rule="evenodd">
-                                <path class="logo-fill-blue" fill="#7DBCFF" d="M0 4v25l8 4V0zM22 4v25l8 4V0z" />
-                                <path class="logo-fill-white" fill="#FFF" d="M11 4v25l8 4V0z" />
-                            </g>
-                        </svg>
-
-                        <span class="brand-name text-truncate">Pulpejitos</span>
+                <div class="app-brand" style="color: blueviolet">
+                    <a href="/IngresoWF.aspx" title="PULPEJITOS">
+                        <img src="TEMPLATE/sleek-main/theme/assets/img/LOGO.png" width="50" height="50" alt="LOGO.png" />
+                        <span class="brand-name">PULPEJITOS</span>
                     </a>
                 </div>
 
@@ -91,17 +79,17 @@
                 <div class="" data-simplebar style="height: 100%;">
                     <!-- sidebar menu -->
                     <ul class="nav sidebar-inner" id="sidebar-menu">
-                        
-                            <asp:Repeater ID="RepeaterMenu" runat="server">
-                                <ItemTemplate>
-                                    <li class="has-sub <%# Eval("Activo") %> ">
-                                        <a class="sidenav-item-link" href="<%# Eval("Aspx") %>">
-                                            <i class="mdi <%# Eval("Icono") %>"></i>
-                                            <span class="nav-text"><%# Eval("NombreMenu") %></span>
-                                        </a>
-                                    </li>
-                                </ItemTemplate>
-                            </asp:Repeater>
+
+                        <asp:Repeater ID="RepeaterMenu" runat="server">
+                            <ItemTemplate>
+                                <li class="has-sub <%# Eval("Activo") %> ">
+                                    <a class="sidenav-item-link" href="<%# Eval("Aspx") %>">
+                                        <i class="mdi <%# Eval("Icono") %>"></i>
+                                        <span class="nav-text"><%# Eval("NombreMenu") %></span>
+                                    </a>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
                     </ul>
                 </div>
             </div>
@@ -126,7 +114,7 @@
                             <button type="button" name="search" id="search-btn" class="btn btn-flat">
                                 <i class="mdi mdi-magnify"></i>
                             </button>
-                            <input type="text" name="query" id="search-input" class="form-control" placeholder="'button', 'chart' etc."
+                            <input type="text" name="query" id="search-input" class="form-control" placeholder="búsqueda..."
                                 autofocus autocomplete="off" />
                         </div>
                         <div id="search-results-container">
@@ -140,7 +128,7 @@
                             <li class="right-sidebar-2-menu">
                                 <span class="d-none d-lg-inline-block">
                                     <asp:Label ID="lblNombreUsuario" Text="" runat="server" /></span>
-                                    <small class="pt-1">[<asp:Label ID="lblNombrePerfil" Text="" runat="server" />,<asp:Label ID="lblNombreSucursal" Text="" runat="server" />]</small>
+                                <small class="pt-1">[<asp:Label ID="lblNombrePerfil" Text="" runat="server" />,<asp:Label ID="lblNombreSucursal" Text="" runat="server" />]</small>
                             </li>
 
                             <li class="right-sidebar-in right-sidebar-2-menu">
@@ -149,7 +137,7 @@
 
                             <li class="right-sidebar-2-menu">
                                 <a href="IngresoWF.aspx">
-                                <i class="mdi mdi-logout"></i></a>
+                                    <i class="mdi mdi-logout"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -179,17 +167,7 @@
             <!-- PIE DEL SITIO. FOOTER.-->
             <!-- ===================================================================================== -->
             <footer class="footer mt-auto">
-                <div class="copyright bg-white">
-                    <p>
-                        Copyright &copy; <span id="copy-year"></span>a template by <a class="text-primary" href="https://themefisher.com" target="_blank">Themefisher</a>.
-       
-                    </p>
-                </div>
-                <script>
-                    var d = new Date();
-                    var year = d.getFullYear();
-                    document.getElementById("copy-year").innerHTML = year;
-                </script>
+
             </footer>
             <!-- ===================================================================================== -->
             <!-- ===================================================================================== -->

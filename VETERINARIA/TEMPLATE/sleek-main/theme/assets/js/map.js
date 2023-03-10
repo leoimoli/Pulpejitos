@@ -68,10 +68,10 @@ $(function() {
     // Construct the polygon.
     var kansasRact = new google.maps.Polygon({
       paths: ractangleCoords,
-      strokeColor: "#4c84ff",
+      strokeColor: "blueviolet",
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: "#4c84ff",
+      fillColor: "blueviolet",
       fillOpacity: 0.35
     });
     kansasRact.setMap(map);
@@ -95,7 +95,7 @@ $(function() {
     var flightPath = new google.maps.Polyline({
       path: flightPlanCoordinates,
       geodesic: true,
-      strokeColor: "#4c84ff",
+      strokeColor: "blueviolet",
       strokeOpacity: 1.0,
       strokeWeight: 3
     });

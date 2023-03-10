@@ -69,79 +69,65 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Limpiar" runat="server" OnClick="btnLimpiar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
-                                <asp:Button Text="Buscar" runat="server" OnClick="btnBuscar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Limpiar" runat="server" OnClick="btnLimpiar_Click" CssClass="btn btn-secondary btn-default" />
+                                <asp:Button Text="Buscar" runat="server" OnClick="btnBuscar_Click" CssClass="btn btn-primary btn-default" />
+                                <asp:Button Text="Nueva Mascota" runat="server" OnClick="btnNuevoMascota_Click" CssClass="btn btn-primary btn-default" />
                             </div>
                         </div>
                         <div class="col-lg-4">
                         </div>
                     </div>
                 </div>
-                <!-- GRILLA DE CONSULTA -->
-                <div class="row" id="DivGrillaMascotas" runat="server" visible="false">
-                    <div class="col-12">
+            </div>
+        </div>
+    </div>
+    <!-- GRILLA DE CONSULTA -->
+    <div class="row" id="DivGrillaMascotas" runat="server" visible="false">
+        <div class="col-12">
 
-                        <!-- Recent Order Table -->
-                        <div class="card card-table-border-none recent-orders" id="recent-orders">
-                            <div class="card-header justify-content-between">
-                                <h2 style="color: blueviolet">Lista de Mascotas</h2>
-                            </div>
-                            <div class="card-body pt-0 pb-5">
-                                <table class="table card-table table-responsive table-responsive-large" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th><b>id Mascota</b></th>
-                                            <th><b>Nombre</b></th>
-                                            <th class="d-none d-lg-table-cell"><b>Especie</b></th>
-                                            <th class="d-none d-lg-table-cell"><b>Raza</b></th>
-                                            <th class="d-none d-lg-table-cell"><b>Edad</b></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <asp:Repeater ID="RepeaterMascotas" runat="server">
-                                            <ItemTemplate>
-                                                <tr>
-                                                    <td><%# Eval("idMascota") %></td>
-                                                    <td>
-                                                        <%# Eval("Nombre") %>
-                                                    </td>
-                                                    <td class="d-none d-lg-table-cell"><%# Eval("NombreEspecie") %></td>
-                                                    <td class="d-none d-lg-table-cell"><%# Eval("NombreRaza") %></td>
-                                                    <td class="d-none d-lg-table-cell"><%# Eval("EdadMascota") %></td>
-                                                    <td class="text-right">
-                                                        <div class="dropdown show d-inline-block widget-dropdown">
-                                                            <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
-                                                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
-                                                                <li class="dropdown-item">
-                                                                    <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
-                                                                        CommandArgument='<%# Eval("idMascota") %>' ID="btnEditarMascota" OnCommand="btnEditarMascota_Command" />
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Recent Order Table -->
+            <div class="card card-table-border-none recent-orders" id="recent-orders">
+                <div class="card-header justify-content-between">
+                    <h2 style="color: blueviolet">Lista de Mascotas</h2>
                 </div>
-                <div class="row" id="divNuevaMascota" runat="server">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-4">
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                                    <asp:Button Text="Nueva Mascota" runat="server" OnClick="btnNuevoMascota_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-body pt-0 pb-5">
+                    <table class="table card-table table-responsive table-responsive-large" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th><b>id Mascota</b></th>
+                                <th><b>Nombre</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Especie</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Raza</b></th>
+                                <th class="d-none d-lg-table-cell"><b>Edad</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <asp:Repeater ID="RepeaterMascotas" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td><%# Eval("idMascota") %></td>
+                                        <td>
+                                            <%# Eval("Nombre") %>
+                                        </td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("NombreEspecie") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("NombreRaza") %></td>
+                                        <td class="d-none d-lg-table-cell"><%# Eval("EdadMascota") %></td>
+                                        <td class="text-right">
+                                            <div class="dropdown show d-inline-block widget-dropdown">
+                                                <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
+                                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
+                                                    <li class="dropdown-item">
+                                                        <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                            CommandArgument='<%# Eval("idMascota") %>' ID="btnEditarMascota" OnCommand="btnEditarMascota_Command" />
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -224,8 +210,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-footer pt-4 pt-5 mt-4">
-                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" Style="background-color: blueviolet" />
-                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" Style="background-color: blueviolet" />
+                                <asp:Button Text="Cancelar" runat="server" OnClick="btnCancelar_Click" CssClass="btn btn-secondary btn-default" />
+                                <asp:Button Text="Aceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary btn-default" />
                             </div>
                         </div>
                         <div class="col-lg-4">

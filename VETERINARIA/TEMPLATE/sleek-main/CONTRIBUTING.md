@@ -9,7 +9,7 @@ Hi! we are really excited that you are interested in contributing to Sleek. Befo
 
 ## Issue Reporting Guidelines
 
-We use GitHub Issues as the official bug tracker for the Sleek Dashboard. Please Search [existing issues](https://github.com/themefisher/sleek/issues). It’s possible someone has already reported the same problem.
+We use GitHub Issues as the official bug tracker for the PULPEJITOS. Please Search [existing issues](https://github.com/themefisher/sleek/issues). It’s possible someone has already reported the same problem.
 If your problem or idea is not addressed yet, [open a new issue](https://github.com/themefisher/sleek/issues)
 
 ## Pull Request Guidelines
