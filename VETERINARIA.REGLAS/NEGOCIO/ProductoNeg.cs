@@ -73,13 +73,13 @@ namespace VETERINARIA.REGLAS.NEGOCIO
                 throw ex;
             }
         }
-        public static List<Productos> ListarProductosDisponibles()
+        public static List<Productos> ListarProductosDisponibles(int idSucursal)
         {
             List<Productos> _listaProductos = new List<Productos>();
             try
             {
                 DaoProductos _dao = new DaoProductos();
-                _listaProductos = _dao.ListarProductosDisponibles();
+                _listaProductos = _dao.ListarProductosDisponibles(idSucursal);
             }
             catch (Exception ex)
             {

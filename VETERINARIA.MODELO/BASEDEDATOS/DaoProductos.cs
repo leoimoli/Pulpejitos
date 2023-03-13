@@ -145,7 +145,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
             }
             return producto;
         }
-        public List<Productos> ListarProductosDisponibles()
+        public List<Productos> ListarProductosDisponibles(int idSucursal)
         {
             List<Productos> _lista = new List<Productos>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -155,7 +155,7 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                     connection.Close();
                     connection.Open();
                     DataTable Tabla = new DataTable();
-                    MySqlParameter[] oParam = { };
+                    MySqlParameter[] oParam = { new MySqlParameter("idSucursal_in", idSucursal) };
                     string proceso = "SP_Consultar_ListarProductos";
                     MySqlDataAdapter dt = new MySqlDataAdapter(proceso, connection);
                     dt.SelectCommand.CommandType = CommandType.StoredProcedure;

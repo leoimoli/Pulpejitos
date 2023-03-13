@@ -297,7 +297,7 @@ public partial class _StockWF : Page
 
     private void FuncionListarProductos()
     {
-        List<Productos> ListaProductos = ProductoNeg.ListarProductosDisponibles();
+        List<Productos> ListaProductos = ProductoNeg.ListarProductosDisponibles(_sucursalActual.idSucursal);
         RepeaterProductos.DataSource = ListaProductos;
         RepeaterProductos.DataBind();
         DivGrillaProductos.Visible = true;

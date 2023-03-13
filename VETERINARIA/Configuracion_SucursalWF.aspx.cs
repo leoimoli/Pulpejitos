@@ -164,7 +164,7 @@ public partial class Configuracion_SucursalWF : System.Web.UI.Page
         try
         {
             int idLocalidadSeleccionada = Convert.ToInt32(cmbAlta_Localidad.SelectedItem.Value);
-           txtCódigoPostal.Value = SucursalesNeg.ObtenerCodigoPostalPorLocalidad(idLocalidadSeleccionada);
+            txtCódigoPostal.Value = SucursalesNeg.ObtenerCodigoPostalPorLocalidad(idLocalidadSeleccionada);
         }
         catch (Exception ex)
         { }
@@ -211,7 +211,7 @@ public partial class Configuracion_SucursalWF : System.Web.UI.Page
         FuncionVariable = "NUEVO";
         int MensajesVisible = 0;
         MostrarMensajes(MensajesVisible);
-        txtNombreSucursal.Disabled = false;       
+        txtNombreSucursal.Disabled = false;
         txtCalle.Disabled = false;
         txtAltura.Disabled = false;
         txtCódigoPostal.Disabled = false;
@@ -315,7 +315,13 @@ public partial class Configuracion_SucursalWF : System.Web.UI.Page
         txtCalle.Disabled = true;
         txtAltura.Disabled = true;
         txtCódigoPostal.Disabled = true;
-
+        
+        cmbAlta_Provincia.ClearSelection();
+        cmbAlta_Localidad.ClearSelection();
+        cmbAlta_Localidad.Items.Add(new ListItem { Text = sucursalSeleccionado.NombreLocalidad, Value = Convert.ToString(sucursalSeleccionado.idLocalidad), Selected = true });
+        FuncionEliminar_cmbAlta_Provincia(sucursalSeleccionado.idProvincia, sucursalSeleccionado.NombreProvincia);
+        cmbAlta_Provincia.Enabled = false;
+        cmbAlta_Localidad.Enabled = false;
 
         string Estado = sucursalSeleccionado.Estado;
         if (Estado == "Activo")
@@ -329,6 +335,17 @@ public partial class Configuracion_SucursalWF : System.Web.UI.Page
             divAltaSucursalEncabezado.InnerText = "ELIMINAR SUCURSAL";
         if (EstadoSucursal == 0)
             divAltaSucursalEncabezado.InnerText = "REACTIVAR SUCURSAL";
+    }
+    private void FuncionEliminar_cmbAlta_Provincia(int idProvincia, string nombreProvincia)
+    {
+        List<Sucursal> Seleccion = new List<Sucursal>();
+        Seleccion = SucursalesNeg.CargarComboProvincia();
+        cmbAlta_Provincia.Items.Add(new ListItem { Text = nombreProvincia, Value = Convert.ToString(idProvincia), Selected = true });
+        cmbAlta_Provincia.Items.Add(new ListItem { Text = "Seleccione", Value = "0" });
+        foreach (Sucursal item in Seleccion)
+        {
+            cmbAlta_Provincia.Items.Add(new ListItem { Text = item.NombreProvincia, Value = item.idProvincia.ToString() });
+        }
     }
     private void CargarComboProvincias()
     {

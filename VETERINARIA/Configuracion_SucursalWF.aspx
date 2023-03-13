@@ -138,7 +138,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                               <label for="exampleFormControlSelect12" style="color: blueviolet">Localidad</label>
-                                <asp:DropDownList class="form-control" ID="cmbAlta_Localidad" runat="server" OnSelectedIndexChanged="cmbAlta_Localidad_SelectedIndexChanged">
+                                <asp:DropDownList class="form-control" ID="cmbAlta_Localidad" AutoPostBack="true" runat="server" OnSelectedIndexChanged="cmbAlta_Localidad_SelectedIndexChanged">
                                 </asp:DropDownList>
                             </div>
                         </div>

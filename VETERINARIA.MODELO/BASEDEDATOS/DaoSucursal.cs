@@ -329,9 +329,9 @@ namespace VETERINARIA.MODELO.BASEDEDATOS
                             sucursales.Nombre = item["Nombre"].ToString();
                             sucursales.Calle = item["Calle"].ToString();
                             sucursales.Altura = item["Altura"].ToString();
-                            sucursales.Nombre = item["NombreProvincia"].ToString();
-                            sucursales.Calle = item["NombreLocalidad"].ToString();
-                            sucursales.Altura = item["CodigoPostal"].ToString();
+                            sucursales.NombreProvincia = item["NombreProvincia"].ToString();
+                            sucursales.NombreLocalidad = item["NombreLocalidad"].ToString();
+                            sucursales.CodigoPostal = item["CodigoPostal"].ToString();
                             sucursales.FechaAlta = Convert.ToDateTime(item["FechaAlta"].ToString());
                             sucursales.UsuarioApellidoNombre = item["Apellido"].ToString() + ", " + item["NombreUsuario"].ToString();
                             int Estado = Convert.ToInt32(item["Estado"].ToString());
