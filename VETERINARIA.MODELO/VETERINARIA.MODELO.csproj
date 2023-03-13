@@ -83,6 +83,7 @@
     <Compile Include="ENTIDADES\Sucursal.cs" />
     <Compile Include="ENTIDADES\UnidadDeMedicion.cs" />
     <Compile Include="ENTIDADES\Usuarios.cs" />
+    <Compile Include="ENTIDADES\Vacunacion.cs" />
     <Compile Include="ENTIDADES\Ventas.cs" />
     <Compile Include="ENTIDADES\VentasEspejo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

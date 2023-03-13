@@ -9,6 +9,8 @@ public partial class MascotasWF : System.Web.UI.Page
 {
     private Usuarios _usuarioActual { get; set; }
     private Sucursal _sucursalActual { get; set; }
+    private Mascotas _mascotaActual { get; set; }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -141,7 +143,7 @@ public partial class MascotasWF : System.Web.UI.Page
             DivMensajeError.Visible = true;
             lblMensajeError.Text = ex.Message;
         }
-    }   
+    }
     protected void btnCancelar_Click(object sender, EventArgs e)
     {
         try
@@ -200,6 +202,22 @@ public partial class MascotasWF : System.Web.UI.Page
         idClienteTitularMascota = _mascotaSeleccionado.idCliente;
         FuncionEditar_HabilitarCampos(_mascotaSeleccionado);
     }
+    protected void btnVacunacion_Command(object sender, CommandEventArgs e)
+    {
+        Mascotas _mascotaSeleccionado = new Mascotas();
+        idMascotaSeleccionada = Convert.ToInt32(e.CommandArgument);
+        _mascotaSeleccionado = MascotasNeg.ListarMascotaPorId(idMascotaSeleccionada);
+        HttpContext.Current.Session["MASCOTA"] = null;
+        HttpContext.Current.Session["MASCOTA"] = _mascotaSeleccionado;       
+
+       
+        if (HttpContext.Current.Session["MASCOTA"] != null) Response.Redirect("VacunacionWF.aspx");
+       
+    }
+    protected void btnClinica_Command(object sender, CommandEventArgs e)
+    {
+
+    }
     #endregion
 
 
@@ -212,6 +230,7 @@ public partial class MascotasWF : System.Web.UI.Page
     {
         CargarComboEspecies_AltaMascota();
         DivFiltros.Visible = false;
+        DivGrillaMascotas.Visible = false;
         DivAltaMascota.Visible = true;
         FuncionVariable = "NUEVO";
         int MensajesVisible = 0;
@@ -429,6 +448,7 @@ public partial class MascotasWF : System.Web.UI.Page
     private void FuncionEditar_HabilitarCampos(Mascotas mascotaSeleccionado)
     {
         DivFiltros.Visible = false;
+        DivGrillaMascotas.Visible = false;
         DivAltaMascota.Visible = true;
         txtDni.Value = mascotaSeleccionado.DniCliente;
         txtApellido.Value = mascotaSeleccionado.ApellidoCliente;

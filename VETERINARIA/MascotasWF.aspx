@@ -117,8 +117,16 @@
                                                 <a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a>
                                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                                     <li class="dropdown-item">
-                                                        <asp:LinkButton Text="EDITAR" CssClass="fa fa-times fa-lg" runat="server"
+                                                        <asp:LinkButton Text="Editar" CssClass="fa fa-times fa-lg" runat="server"
                                                             CommandArgument='<%# Eval("idMascota") %>' ID="btnEditarMascota" OnCommand="btnEditarMascota_Command" />
+                                                    </li>
+                                                       <li class="dropdown-item">
+                                                        <asp:LinkButton Text="Vacunación" CssClass="fa fa-times fa-lg" runat="server"
+                                                            CommandArgument='<%# Eval("idMascota") %>' ID="btnVacunacion" OnCommand="btnVacunacion_Command" />
+                                                    </li>
+                                                       <li class="dropdown-item">
+                                                        <asp:LinkButton Text="Clínica Veterinaria" CssClass="fa fa-times fa-lg" runat="server"
+                                                            CommandArgument='<%# Eval("idMascota") %>' ID="btnClinica" OnCommand="btnClinica_Command" />
                                                     </li>
                                                 </ul>
                                             </div>
